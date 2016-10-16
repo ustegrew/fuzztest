@@ -18,8 +18,9 @@ package fuzztest.generator.rule.any;
 import fuzztest.generator.rule.VNode;
 
 /**
+ * Generator rule for: Any character. 
+ * 
  * @author peter
- *
  */
 public class TAny extends VNode
 {
