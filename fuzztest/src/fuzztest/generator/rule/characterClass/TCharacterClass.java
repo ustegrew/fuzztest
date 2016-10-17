@@ -21,6 +21,7 @@ import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
+import fuzztest.utils.gen.TGenData;
 
 /**
  * A single character generator. Creates characters that (don't) match a given character class.
@@ -55,71 +56,33 @@ public class TCharacterClass extends VNode
      * @param string
      * @param string2
      */
-    public void AddRange (String loChar, String hiChar, boolean isInverse)
+    public void AddRange (String loChar, String hiChar)
     {
         TCharacterRange         set;
         
-        set = new TCharacterRange (loChar, hiChar, isInverse);
+        set = new TCharacterRange (loChar, hiChar);
         fSets.add (set);
     }
     
     protected String _CreateData (TStrategy s, String head)
     {
-        ERuleAdhesion       ra;
-        boolean             mustBeInSet;
-        String              ret;
-        
-        ra              = s.GetRuleAdhesion ();
-        mustBeInSet     = (ra == ERuleAdhesion.kFollowRule);
-        ret             = head + _CreateChar (mustBeInSet);
-        
-        return ret;
-    }
+        int         n;
+        VCharSet    cs;
+        int         x;
+        String      ret;
 
-    private String _CreateChar (boolean mustBeInSet)
-    {
-        char    c;
-        boolean isMatch;
-        boolean doLoop;
-        String  ret;
-        
-        doLoop = true;
-        do
-        {
-            c           = (char) (0x10000 * Math.random ());
-            ret         = "" + c;
-            isMatch     = _IsInSet (ret);
-            if (mustBeInSet)
-            {
-                doLoop = !isMatch;
-            }
-            else
-            {
-                doLoop = isMatch;
-            }
-        } while (doLoop);
-        
-        return ret;
-    }
-    
-    private boolean _IsInSet (String ch)
-    {
-        int             i;
-        int             n;
-        VCharSet        set;
-        boolean         isMatch;
-        
-        isMatch = false;
-        n       = fSets.size ();
+        n   = fSets.size ();
         if (n >= 1)
         {
-            for (i = 0; i < n; i++)
-            {
-                set     = fSets.get (i);
-                isMatch = isMatch  ||  set.IsMatch (ch);
-            }
+            x       = TGenData.GetInt (n);
+            cs      = fSets.get (x);
+            ret     = head + cs.GetChar (s);
+        }
+        else
+        {
+            ret     = head;
         }
         
-        return isMatch;
+        return ret;
     }
 }

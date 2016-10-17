@@ -15,7 +15,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.choice;
 
+import java.util.ArrayList;
+
+import fuzztest.generator.TRepository;
+import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.utils.gen.TGenData;
 
 /**
  * @author peter
@@ -23,5 +28,50 @@ import fuzztest.generator.rule.VNode;
  */
 public class TChoice extends VNode
 {
+    private ArrayList<VNode>        fBranches;
+    
+    /**
+     * 
+     */
+    public TChoice ()
+    {
+        fBranches = new ArrayList<> ();
+        _SetKey ();
+        TRepository.Add (this);
+    }
+    
+    public void AddNode (VNode node)
+    {
+        fBranches.add (node);
+    }
 
+    /* (non-Javadoc)
+     * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
+     */
+    @Override
+    protected String _CreateData (TStrategy s, String head)
+    {
+        int     i;
+        int     n;
+        VNode   node;
+        String  ret;
+        
+        n = fBranches.size ();
+        if (n >= 1)
+        {
+            i       = TGenData.GetInt (n);
+            node    = fBranches.get (i);
+            ret     = node.CreateData (s, head); 
+        }
+        else
+        {
+            ret = head;
+        }
+        
+        return ret;
+    }
 }
+
+/*
+[100]   We will ignore the ERuleAdhesion.kInjectInvalids directive - it will be honored by relevant sub nodes. 
+*/

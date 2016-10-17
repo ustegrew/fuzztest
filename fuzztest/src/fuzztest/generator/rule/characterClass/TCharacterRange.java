@@ -15,46 +15,80 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.characterClass;
 
+import fuzztest.generator.rule.TStrategy;
+import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
+import fuzztest.utils.gen.TGenData;
+
 /**
  * @author peter
  *
  */
 class TCharacterRange extends VCharSet
 {
-    private String          fHiChar;
-    private String          fLoChar;
-    private String          fRe;
+    private char            fHiChar;
+    private char            fLoChar;
     
-    public TCharacterRange (String loChar, String hiChar, boolean isInverse)
+    public TCharacterRange (String loChar, String hiChar)
     {
-        String loEsc;
-        String hiEsc;
-        
         _AssertOk (loChar, hiChar);
-        fLoChar = loChar;
-        fHiChar = hiChar;
-        
-        loEsc   = _GetEscaped (loChar);
-        hiEsc   = _GetEscaped (hiChar);
-        fRe     = isInverse  ?  
-                    "^[^" + loEsc + "-" + hiEsc + "]$"
-                  : 
-                    "^[" + loEsc + "-" + hiEsc + "]$";
+        fLoChar = loChar.charAt (0);
+        fHiChar = hiChar.charAt (0);
     }
     
     /* (non-Javadoc)
-     * @see fuzztest.generator.rule.characterClass.VCharSet#IsMatch()
+     * @see fuzztest.generator.rule.characterClass.VCharSet#GetChar()
      */
     @Override
-    public boolean IsMatch (String ch)
+    public char GetChar (TStrategy s)
     {
-        boolean ret;
+        ERuleAdhesion   r;
+        boolean         doHead;
+        char            loChar;
+        char            hiChar;
+        char            ret;
         
-        ret = ch.matches (fRe);
+        r = s.GetRuleAdhesion ();
+        if (r == ERuleAdhesion.kFollowRule)
+        {
+            ret = TGenData.GetChar (fLoChar, fHiChar);
+        }
+        else
+        {
+            if (fLoChar == '\u0000'  &&  fHiChar == '\uFFFF')
+            {
+                /* [100] */
+                ret     = TGenData.GetChar ();
+            }
+            else if (fLoChar == '\u0000')
+            {
+                loChar  = (char) (fHiChar + 1);
+                ret     = TGenData.GetChar (loChar, '\uFFFF');
+            }
+            else if (fHiChar == '\uFFFF')
+            {
+                hiChar  = (char) (fLoChar - 1);
+                ret     = TGenData.GetChar ('\u0000', hiChar);
+            }
+            else
+            {
+                doHead = TGenData.GetBoolean ();
+                if (doHead)
+                {
+                    hiChar  = (char) (fLoChar-1);
+                    ret     = TGenData.GetChar ('\u0000', hiChar);
+                }
+                else
+                {
+                    loChar  = (char) (fHiChar + 1);
+                    ret     = TGenData.GetChar (loChar, '\uFFFF');
+                }
+            }
+        }
         
+        // TODO Auto-generated method stub
         return ret;
     }
-    
+
     /**
      * @param loChar
      * @param hiChar
@@ -83,3 +117,8 @@ class TCharacterRange extends VCharSet
         }
     }
 }
+
+/*
+[100]   It's better to provide some data than to throw an exception. Therefore we ignore the rule adhesion and return 
+        a random character.
+ */

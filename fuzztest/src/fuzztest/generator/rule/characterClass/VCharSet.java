@@ -15,24 +15,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.characterClass;
 
+import fuzztest.generator.rule.TStrategy;
+
 /**
  * @author peter
  *
  */
 abstract class VCharSet
 {
-    private static final String kCharsEscape = "[\\[\\]\\^\\-]";
-    
-    public abstract boolean IsMatch (String ch);
-    
-    protected String _GetEscaped (String ch)
-    {
-        boolean     doEsc;
-        String      ret;
-        
-        doEsc = ch.matches (kCharsEscape);
-        ret   = doEsc  ?  "\\" + ch  :  ch;
-        
-        return ret;
-    }
+    public abstract char GetChar (TStrategy s);
 }

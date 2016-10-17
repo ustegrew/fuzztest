@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
 import fuzztest.generator.rule.choice.TChoice;
+import fuzztest.utils.gen.TGenData;
 
 /**
  * @author peter
@@ -108,7 +109,7 @@ public abstract class VNode extends VBrowseable
             hasKey = false;
             do
             {
-                i       = (int) (n * Math.random ());
+                i       = TGenData.GetInt (n);
                 kOther  = refs.get (i);
                 isEqual = kThis.equals (kOther);
                 hasKey  = ! isEqual;

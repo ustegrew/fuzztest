@@ -15,7 +15,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.any;
 
+import fuzztest.generator.TRepository;
+import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
+import fuzztest.utils.gen.TGenData;
 
 /**
  * Generator rule for: Any character. 
@@ -24,5 +28,30 @@ import fuzztest.generator.rule.VNode;
  */
 public class TAny extends VNode
 {
-
+    /**
+     * 
+     */
+    public TAny ()
+    {
+        _SetKey ();
+        TRepository.Add (this);
+    }
+    
+    /* (non-Javadoc)
+     * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
+     */
+    @Override
+    protected String _CreateData (TStrategy s, String head)
+    {
+        String          ret;
+        
+        /* [100] */
+        ret = head + TGenData.GetChar ();
+        
+        return ret;
+    }
 }
+
+/*
+[100]   We just ignore the strategy and always return a character from the entire unicode range.
+ */

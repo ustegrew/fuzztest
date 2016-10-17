@@ -15,29 +15,72 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.characterClass;
 
+import fuzztest.generator.rule.TStrategy;
+import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
+import fuzztest.utils.gen.TGenData;
+
 /**
  * @author peter
  *
  */
 class TCharacterPoint extends VCharSet
 {
-    private String          fChar;
+    private char        fChar;
     
     public TCharacterPoint (String ch)
     {
         _AssertOK (ch);
-        fChar = ch;
+        fChar = ch.charAt (0);
     }
 
     /* (non-Javadoc)
-     * @see fuzztest.generator.rule.characterClass.VCharSet#IsMatch()
+     * @see fuzztest.generator.rule.characterClass.VCharSet#GetChar()
      */
     @Override
-    public boolean IsMatch (String ch)
+    public char GetChar (TStrategy s)
     {
-        boolean ret;
+        ERuleAdhesion       r;
+        boolean             doHead;
+        char                loChar;
+        char                hiChar;
+        char                ret;
         
-        ret = ch.equals (fChar);
+        r = s.GetRuleAdhesion ();
+        if (r == ERuleAdhesion.kFollowRule)
+        {
+            ret = fChar;
+        }
+        else
+        {
+            if (fChar == '\u0000')
+            {
+                loChar  = '\u0001';
+                hiChar  = '\uFFFF'; 
+                ret     = TGenData.GetChar (loChar, hiChar);
+            }
+            else if (fChar == '\uFFFF')
+            {
+                loChar  = '\u0000';
+                hiChar  = '\uFFFE';
+                ret     = TGenData.GetChar (loChar, hiChar);
+            }
+            else
+            {
+                doHead  = TGenData.GetBoolean ();
+                if (doHead)
+                {
+                    loChar  = '\u0000';
+                    hiChar  = (char) (fChar-1);
+                    ret     = TGenData.GetChar (loChar, hiChar);
+                }
+                else
+                {
+                    loChar  = (char) (fChar + 1);
+                    hiChar  = (char) ('\uFFFF');
+                    ret     = TGenData.GetChar (loChar, hiChar);
+                }
+            }
+        }
         
         return ret;
     }
