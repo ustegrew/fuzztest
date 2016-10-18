@@ -16,7 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.literal;
 
 import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.generator.rule.VNode;
 
 /**
@@ -32,6 +31,7 @@ public class TLiteral extends VNode
      */
     public TLiteral (String literal)
     {
+        super ();
         fLiteral = literal;
     }
     
@@ -41,21 +41,11 @@ public class TLiteral extends VNode
     @Override
     protected String _CreateData (TStrategy s, String head)
     {
-        ERuleAdhesion           ra;
-        TLiteral                ref;
+        TLiteral                lit;
         String                  ret;
         
-        ra = s.GetRuleAdhesion ();
-        if (ra == ERuleAdhesion.kFollowRule)
-        {
-            ref = this;
-        }
-        else
-        {
-            ref = (TLiteral) _GetFromOppositeSet ();
-        }
-        
-        ret = head + ref.fLiteral;
+        lit = (TLiteral) _GetFromOppositeSet (s);
+        ret = head + lit.fLiteral;
         
         return ret;
     }

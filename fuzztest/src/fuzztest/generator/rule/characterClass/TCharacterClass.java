@@ -16,11 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.characterClass;
 
 import java.util.ArrayList;
-
-import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -39,9 +36,8 @@ public class TCharacterClass extends VNode
      */
     public TCharacterClass ()
     {
+        super ();
         fSets = new ArrayList<> ();
-        _SetKey ();
-        TRepository.Add (this);
     }
     
     public void AddPoint (String ch)

@@ -17,8 +17,8 @@ package fuzztest.generator.rule.reference;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.rule.TRule;
 
 /**
  * rule
@@ -34,9 +34,8 @@ public class TReference extends VNode
      */
     public TReference (String referred)
     {
+        super ();
         fReferred = referred;
-        _SetKey ();
-        TRepository.Add (this);
     }
     
     /* (non-Javadoc)
@@ -44,22 +43,16 @@ public class TReference extends VNode
      */
     protected String _CreateData (TStrategy s, String head)
     {
-        ERuleAdhesion           ra;
-        VNode                   ref;
+        TRule                   ref;
         String                  ret;
         
-        ra = s.GetRuleAdhesion ();
-        if (ra == ERuleAdhesion.kFollowRule)
-        {
-            ref = (VNode) TRepository.Get (fReferred);
-        }
-        else
-        {
-            ref = (VNode) _GetFromOppositeSet ();
-        }
-        
-        ret = ref.CreateData (s, head);
+        ref = (TRule) TRepository.Get (fReferred);
+        ret = ref.CreateData (s, head);                         /* [100] */
         
         return ret;
     }
 }
+
+/*  
+[100]   We defer getting the actual node (this node or another node of this class) to inside the CreateData method.
+ */

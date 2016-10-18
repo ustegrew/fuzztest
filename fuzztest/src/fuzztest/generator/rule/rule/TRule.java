@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.rule;
 
-import fuzztest.generator.TRepository;
+import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 
 /**
@@ -29,17 +29,34 @@ public class TRule extends VNode
     
     public TRule (String key)
     {
-        SetKey (key);
-        TRepository.Add (this);
+        super (key);
+        fExpression = null;
+    }
+    
+    public void SetExpression (VNode exprN)
+    {
+        if (fExpression != null)
+        {
+            throw new IllegalArgumentException ("Expression already set: Node set: '" + fExpression.GetKey () + "'. Tried to replace with: '" + exprN.GetKey () + "'");
+        }
+
+        fExpression = exprN;
     }
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#CreateData(fuzztest.generator.rule.VNode.EStrategy)
      */
     @Override
-    public String CreateData (EStrategy s)
+    protected String _CreateData (TStrategy s, String head)
     {
-        // TODO Auto-generated method stub
-        return null;
+        TRule       ref;
+        VNode       expr;
+        String      ret;
+        
+        ref     = (TRule) _GetFromOppositeSet (s);
+        expr    = ref.fExpression;
+        ret     = expr.CreateData (s, head);
+        
+        return ret;
     }
 }

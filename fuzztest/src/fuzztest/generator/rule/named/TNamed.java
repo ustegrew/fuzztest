@@ -15,6 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.named;
 
+import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 
 /**
@@ -23,5 +24,50 @@ import fuzztest.generator.rule.VNode;
  */
 public class TNamed extends VNode
 {
+    private VNode                   fExpression;
+    private String                  fLabel;
+    
+    public TNamed ()
+    {
+        super ();
+        fLabel          = null;
+        fExpression     = null;
+    }
+    
+    public String GetLabel ()
+    {
+        return fLabel;
+    }
+    
+    public void SetExpression (VNode exprN)
+    {
+        if (fExpression != null)
+        {
+            throw new IllegalArgumentException ("Expression already set: Node set: '" + fExpression.GetKey () + "'. Tried to replace with: '" + exprN.GetKey () + "'");
+        }
+        
+        fExpression = exprN;
+    }
+    
+    public void SetLabel (String label)
+    {
+        if (fLabel != null)
+        {
+            throw new IllegalArgumentException ("Label already set: Current: '" + fLabel + "'. Tried to replace with: '" + label + "'");
+        }
+        fLabel = label;
+    }
 
+    /* (non-Javadoc)
+     * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
+     */
+    @Override
+    protected String _CreateData (TStrategy s, String head)
+    {
+        String      ret;
+        
+        ret = fExpression.CreateData (s, head);
+        
+        return ret;
+    }
 }

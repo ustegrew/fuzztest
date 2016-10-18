@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
+import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.generator.rule.choice.TChoice;
 import fuzztest.utils.gen.TGenData;
 
@@ -28,6 +29,16 @@ import fuzztest.utils.gen.TGenData;
  */
 public abstract class VNode extends VBrowseable
 {
+    public VNode ()
+    {
+        _Register ();
+    }
+    
+    public VNode (String key)
+    {
+        _Register (key);
+    }
+    
     /**
      * Creates a data fragment and appends it to the given head string. 
      * 
@@ -75,8 +86,8 @@ public abstract class VNode extends VBrowseable
     protected abstract String _CreateData (TStrategy s, String head);
 
     /**
-     * Returns a randomly chosen node different from this one, but of the 
-     * same (concrete) class (i.e. another object of this class). 
+     * Returns either this node or a randomly chosen node different from 
+     * this one, but of the same (concrete) class (i.e. another object of this class). 
      * For example, if this node is a {@linkplain TChoice}, then the chosen 
      * node will be a distinctly other {@linkplain TChoice} object.
      * Object will be retrieved from the {@link TRepository}. 
@@ -84,10 +95,16 @@ public abstract class VNode extends VBrowseable
      * The returned node will be used to randomly mix generation rules 
      * of the same kind.   
      * 
-     * @return  Concrete node of this class, but distinctly different 
-     *          from this node.      
+     * @param       s       The generating strategy. If it's  
+     *                      {@link TStrategy#GetRuleAdhesion()} method
+     *                      returns {@link ERuleAdhesion#kFollowRule} then
+     *                      we will return this node. If the method 
+     *                      returns {@link ERuleAdhesion#kInjectInvalids} then
+     *                      we will return a randomly chosen different node.
+     * @return              Concrete node of this class, either this one or 
+     *                      distinctly different from this node.      
      */
-    protected VNode _GetFromOppositeSet ()
+    protected VNode _GetFromOppositeSet (TStrategy s)
     {
         Class<? extends VNode>          c;
         int                             i;

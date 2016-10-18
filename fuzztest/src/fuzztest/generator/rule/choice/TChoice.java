@@ -17,7 +17,6 @@ package fuzztest.generator.rule.choice;
 
 import java.util.ArrayList;
 
-import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.utils.gen.TGenData;
@@ -35,12 +34,11 @@ public class TChoice extends VNode
      */
     public TChoice ()
     {
+        super ();
         fBranches = new ArrayList<> ();
-        _SetKey ();
-        TRepository.Add (this);
     }
     
-    public void AddNode (VNode node)
+    public void AddExpression (VNode node)
     {
         fBranches.add (node);
     }

@@ -15,10 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.any;
 
-import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -33,8 +31,7 @@ public class TAny extends VNode
      */
     public TAny ()
     {
-        _SetKey ();
-        TRepository.Add (this);
+        super ();
     }
     
     /* (non-Javadoc)
