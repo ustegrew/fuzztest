@@ -18,6 +18,31 @@ package fuzztest.generator.rule.simpleAnd;
 import fuzztest.generator.rule.VNode;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * PrefixedExpression
+ *     = operator:PrefixedOperator __ expression:SuffixedExpression 
+ *     {
+ *         var OPS_TO_PREFIXED_TYPES = 
+ *         {
+ *             "$": "text",
+ *             "&": "simple_and",
+ *             "!": "simple_not"
+ *         };
+ *         
+ *         return 
+ *         {
+ *             type:               OPS_TO_PREFIXED_TYPES[operator],
+ *             expression:         expression,
+ *             location:           location ()
+ *         };
+ *     }
+ *     / SuffixedExpression
+ * </pre>
+ * 
  * @author peter
  *
  */

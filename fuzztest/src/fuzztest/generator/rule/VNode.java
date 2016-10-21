@@ -53,37 +53,7 @@ public abstract class VNode extends VBrowseable
      *                      created fragment.
      * @return      The newly assembled source code fragment.
      */
-    public String CreateData (TStrategy s, String head)
-    {
-        boolean canEnter;
-        String  ret;
-        
-        s.OnNodeEnter ();
-        canEnter = s.CanEnter ();
-        if (canEnter)
-        {
-            ret = _CreateData (s, head);
-        }
-        else
-        {
-            ret = head;
-        }
-        s.OnNodeExit ();
-        
-        return ret;
-    }
-    
-    /**
-     * Creates a data fragment from the concrete grammar artifact and 
-     * appends it to the given head string.
-     * 
-     * Concrete implementations of this class should not call this 
-     * method directly, but should call {@link #CreateData(TStrategy, String)}.
-     * 
-     * @param       s       The fragment creation strategy.
-     * @return              The data fragment for a particular test case.
-     */
-    protected abstract String _CreateData (TStrategy s, String head);
+    public abstract String CreateData (TStrategy s, String head);
 
     /**
      * Returns either this node or a randomly chosen node different from 

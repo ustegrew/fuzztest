@@ -17,12 +17,31 @@ package fuzztest.generator.rule.literal;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.VNodeActive;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * LiteralMatcher "literal"
+ *     = value:StringLiteral ignoreCase:"i"? 
+ *     {
+ *         return 
+ *         {
+ *             type:               "literal",
+ *             value:              value,
+ *             ignoreCase:         ignoreCase !== null,
+ *             location:           location()
+ *         };
+ *     }
+ * </pre>
+ * 
  * @author peter
  *
  */
-public class TLiteral extends VNode
+public class TLiteral extends VNodeActive
 {
     private String          fLiteral;
     

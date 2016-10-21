@@ -15,60 +15,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.labelled;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.primitive.TOnceAssignable;
+import fuzztest.generator.rule.VNodeFallthrough;
+import fuzztest.generator.rule.simpleAnd.TSimpleAnd;
+import fuzztest.generator.rule.simpleNot.TSimpleNot;
+import fuzztest.generator.rule.text.TText;
 
 /**
  * label: expression
  * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * LabeledExpression
+ *     = label:Identifier __ ":" __ expression:PrefixedExpression 
+ *     {
+ *         return 
+ *         {
+ *             type:               "labeled",
+ *             label:              label,
+ *             expression:         expression,
+ *             location:           location ()
+ *         };
+ *     }
+ *     / PrefixedExpression
+ * </pre>
+ * 
  * @author peter
+ * @see    {@link TText}, {@link TSimpleAnd}, {@link TSimpleNot}
  */
-public class TLabelled extends VNode
+public class TLabelled extends VNodeFallthrough
 {
-    private VNode                   fExpression;
-    private String                  fLabel;
+    private TOnceAssignable<String> fLabel;
     
     public TLabelled ()
     {
         super ();
-        fLabel          = null;
-        fExpression     = null;
+        fLabel          = new TOnceAssignable<> ();
     }
     
     public String GetLabel ()
     {
-        return fLabel;
-    }
-    
-    public void SetExpression (VNode exprN)
-    {
-        if (fExpression != null)
-        {
-            throw new IllegalArgumentException ("Expression already set: Node set: '" + fExpression.GetKey () + "'. Tried to replace with: '" + exprN.GetKey () + "'");
-        }
+        String ret;
         
-        fExpression = exprN;
+        ret = fLabel.Get ();
+        
+        return ret;
     }
     
     public void SetLabel (String label)
     {
-        if (fLabel != null)
-        {
-            throw new IllegalArgumentException ("Label already set: Current: '" + fLabel + "'. Tried to replace with: '" + label + "'");
-        }
-        fLabel = label;
-    }
-
-    /* (non-Javadoc)
-     * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
-     */
-    @Override
-    protected String _CreateData (TStrategy s, String head)
-    {
-        String      ret;
-        
-        ret = fExpression.CreateData (s, head);
-        
-        return ret;
+        fLabel.Set (label);
     }
 }

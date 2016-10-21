@@ -15,14 +15,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.text;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.VNodeFallthrough;
+import fuzztest.generator.rule.semanticAnd.TSemanticAnd;
+import fuzztest.generator.rule.simpleNot.TSimpleNot;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * PrefixedExpression
+ *     = operator:PrefixedOperator __ expression:SuffixedExpression 
+ *     {
+ *         var OPS_TO_PREFIXED_TYPES = 
+ *         {
+ *             "$": "text",
+ *             "&": "simple_and",
+ *             "!": "simple_not"
+ *         };
+ *         
+ *         return 
+ *         {
+ *             type:               OPS_TO_PREFIXED_TYPES[operator],
+ *             expression:         expression,
+ *             location:           location ()
+ *         };
+ *     }
+ *     / SuffixedExpression
+ * </pre>
+ * 
  * $expression
  * 
  * @author peter
+ * @see    {@link TSemanticAnd}, {@link TSimpleNot}
  */
-public class TText extends VNode
+public class TText extends VNodeFallthrough
 {
-
 }

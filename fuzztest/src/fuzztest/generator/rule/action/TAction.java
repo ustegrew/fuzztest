@@ -15,12 +15,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.action;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.VNodeFallthrough;
 
 /**
+ * <pre>
+ * ActionExpression
+ *    = expression:SequenceExpression code:(__ CodeBlock)?
+ *    {
+ *        var ret;
+ *        
+ *        if (code !== null)
+ *        {
+ *            ret = 
+ *            {
+ *                type:           "action",
+ *                expression:     expression,
+ *                code:           code[1],
+ *                location:       location ()
+ *            };
+ *        }
+ *        else
+ *        {
+ *            ret = expression;
+ *        }
+ *        
+ *        return ret;
+ *    }
+ * </pre>
  * @author peter
  *
  */
-public class TAction extends VNode
+public class TAction extends VNodeFallthrough
 {
 }

@@ -15,32 +15,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.rule;
 
+import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.named.TNamed;
 
 /**
  * rules = expression
  * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+* Rule
+ *   = name:IdentifierName __ displayName:(StringLiteral __)? "=" __ expression:Expression EOS
+ *     {
+ *         var _ex;
+ *         
+ *         if (displayName !== null)
+ *         {
+ *             _ex = 
+ *             {
+ *                 type:           "named",
+ *                 name:           displayName[0],
+ *                 expression:     expression,
+ *                 location:       location ()
+ *             };
+ *         }
+ *         else
+ *         {
+ *             _ex = expression;
+ *         }
+ *         
+ *         return 
+ *         {
+ *             type:               "rule",
+ *             name:               name,
+ *             expression:         _ex,
+ *             location:           location ()
+ *         };
+ *     }
+ * </pre>
+ * 
  * @author peter
+ * @see    {@link TNamed}
  */
 public class TRule extends VNode
 {
-    private VNode               fExpression;
+    private TOnceAssignable<VNode>  fExpression;
     
     public TRule (String key)
     {
         super (key);
-        fExpression = null;
+        fExpression = new TOnceAssignable<> ();
     }
     
     public void SetExpression (VNode exprN)
     {
-        if (fExpression != null)
-        {
-            throw new IllegalArgumentException ("Expression already set: Node set: '" + fExpression.GetKey () + "'. Tried to replace with: '" + exprN.GetKey () + "'");
-        }
-
-        fExpression = exprN;
+        fExpression.Set (exprN);
     }
     
     /* (non-Javadoc)
@@ -54,7 +85,7 @@ public class TRule extends VNode
         String      ret;
         
         ref     = (TRule) _GetFromOppositeSet (s);
-        expr    = ref.fExpression;
+        expr    = ref.fExpression.Get ();
         ret     = expr.CreateData (s, head);
         
         return ret;

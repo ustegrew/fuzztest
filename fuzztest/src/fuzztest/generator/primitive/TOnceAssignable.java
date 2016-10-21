@@ -13,38 +13,32 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.semanticAnd;
-
-import fuzztest.generator.rule.VNode;
+package fuzztest.generator.primitive;
 
 /**
- * 
- * 
- * Corresponding PEGjs rule:
- * 
- * <pre>
- * SemanticPredicateExpression
- *     = operator:SemanticPredicateOperator __ code:CodeBlock 
- *     {
- *         var OPS_TO_SEMANTIC_PREDICATE_TYPES = 
- *         {
- *             "&": "semantic_and",
- *             "!": "semantic_not"
- *         };
- * 
- *         return 
- *         {
- *             type:               OPS_TO_SEMANTIC_PREDICATE_TYPES[operator],
- *             code:               code,
- *             location:           location ()
- *         };
- *     }
- * </pre>
- * 
  * @author peter
- * @see    {@link TSemanticNot}
+ *
  */
-public class TSemanticAnd extends VNode
+public class TOnceAssignable<T>
 {
-
+    private T               fElement;
+    
+    public TOnceAssignable ()
+    {
+        fElement = null;
+    }
+    
+    public void Set (T element)
+    {
+        if (fElement != null)
+        {
+            throw new IllegalArgumentException ("Element can only be set once.");
+        }
+        fElement = element;
+    }
+    
+    public T Get ()
+    {
+        return fElement;
+    }
 }

@@ -20,6 +20,42 @@ import fuzztest.generator.rule.VNode;
 /**
  * expression1 expression2 ...
  * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * SequenceExpression
+ *     = head:LabeledExpression tail:(__ LabeledExpression)* 
+ *     {
+ *         var _i;
+ *         var _elements;
+ *         var ret;
+ *         
+ *         if (tail.length > 0)
+ *         {
+ *             _elements      = [];
+ *             _elements [0]   = head;
+ *             for (i = 0; i < tail.length; i++)
+ *             {
+ *                 _elements [i+1] = tail [i][1];
+ *             }
+ * 
+ *             ret = 
+ *             {
+ *                 type:           "sequence",
+ *                 elements:       _elements,
+ *                 location:       location ()
+ *             };
+ *         }
+ *         else
+ *         {
+ *             ret = head;
+ *         }
+ *         
+ *         return ret;
+ *     }
+ * </pre>
+ * 
  * @author peter
  */
 public class TSequence extends VNode

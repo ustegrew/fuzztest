@@ -16,10 +16,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.semanticNot;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.semanticAnd.TSemanticAnd;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * SemanticPredicateExpression
+ *     = operator:SemanticPredicateOperator __ code:CodeBlock 
+ *     {
+ *         var OPS_TO_SEMANTIC_PREDICATE_TYPES = 
+ *         {
+ *             "&": "semantic_and",
+ *             "!": "semantic_not"
+ *         };
+ * 
+ *         return 
+ *         {
+ *             type:               OPS_TO_SEMANTIC_PREDICATE_TYPES[operator],
+ *             code:               code,
+ *             location:           location ()
+ *         };
+ *     }
+ * </pre>
+ * 
  * @author peter
- *
+ * @see    {@link TSemanticAnd}
  */
 public class TSemanticNot extends VNode
 {

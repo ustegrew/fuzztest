@@ -16,10 +16,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.simpleNot;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.semanticAnd.TSemanticAnd;
+import fuzztest.generator.rule.text.TText;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * PrefixedExpression
+ *     = operator:PrefixedOperator __ expression:SuffixedExpression 
+ *     {
+ *         var OPS_TO_PREFIXED_TYPES = 
+ *         {
+ *             "$": "text",
+ *             "&": "simple_and",
+ *             "!": "simple_not"
+ *         };
+ *         
+ *         return 
+ *         {
+ *             type:               OPS_TO_PREFIXED_TYPES[operator],
+ *             expression:         expression,
+ *             location:           location ()
+ *         };
+ *     }
+ *     / SuffixedExpression
+ * </pre>
+ * 
  * @author peter
- *
+ * @see    {@link TSemanticAnd}, {@link TText}
  */
 public class TSimpleNot extends VNode
 {

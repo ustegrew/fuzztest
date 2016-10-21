@@ -22,6 +22,43 @@ import fuzztest.generator.rule.VNode;
 import fuzztest.utils.gen.TGenData;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * ChoiceExpression
+ *     = head:ActionExpression tail:(__ "/" __ ActionExpression)*
+ *     {
+ *         var _alternatives;
+ *         var _i;
+ *         var ret;
+ *         
+ *         if (tail.length > 0)
+ *         {
+ *             _alternatives      = [];
+ *             _alternatives [0]  = head;
+ *             for (i = 0; i < tail.length; i++)
+ *             {
+ *                 _alternatives [i+1] = tail [i][3];
+ *             }
+ * 
+ *             ret =
+ *             {
+ *                 type:           "choice",
+ *                 alternatives:   _alternatives,
+ *                 location:       location ()
+ *             };
+ *         }
+ *         else
+ *         {
+ *             ret = head;
+ *         }
+ *         
+ *         return ret;
+ *     }
+ * </pre>
+ * 
  * @author peter
  *
  */

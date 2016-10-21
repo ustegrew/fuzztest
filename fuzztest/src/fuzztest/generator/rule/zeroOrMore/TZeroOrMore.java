@@ -16,10 +16,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.zeroOrMore;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.optional.TOptional;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * SuffixedExpression
+ *     = expression:PrimaryExpression __ operator:SuffixedOperator 
+ *     {
+ *         var OPS_TO_SUFFIXED_TYPES = 
+ *         {
+ *             "?": "optional",
+ *             "*": "zero_or_more",
+ *             "+": "one_or_more"
+ *         };
+ * 
+ *         return 
+ *         {
+ *             type:               OPS_TO_SUFFIXED_TYPES[operator],
+ *             expression:         expression,
+ *             location:           location ()
+ *         };
+ *     }
+ *     / PrimaryExpression
+ * </pre>
+ * 
  * @author peter
- *
+ * @see    {@link TOptional}, {@link TOneOrMore}
  */
 public class TZeroOrMore extends VNode
 {

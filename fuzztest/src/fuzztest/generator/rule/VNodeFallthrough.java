@@ -13,56 +13,49 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.any;
+package fuzztest.generator.rule;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNodeActive;
-import fuzztest.utils.gen.TGenData;
+import fuzztest.generator.primitive.TOnceAssignable;
 
 /**
- * Generator rule for: Any character. 
- *
- * Corresponding PEGjs rule:
- * 
- * <pre>
- * AnyMatcher
- *     = "." 
- *     {
- *         return
- *         {
- *             type:               "any",
- *             location:           location() 
- *         }; 
- *     }
- * </pre>
- * 
  * @author peter
+ *
  */
-public class TAny extends VNodeActive
+public class VNodeFallthrough extends VNode
 {
+    private TOnceAssignable<VNode>      fExpression;
+    
     /**
      * 
      */
-    public TAny ()
+    public VNodeFallthrough ()
     {
         super ();
+        fExpression = new TOnceAssignable<> ();
+    }
+    
+    public VNodeFallthrough (String key)
+    {
+        super (key);
+    }
+    
+    public void SetExpression (VNode e)
+    {
+        fExpression.Set (e);
     }
     
     /* (non-Javadoc)
-     * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
+     * @see fuzztest.generator.rule.VNode#CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    public String CreateData (TStrategy s, String head)
     {
-        String          ret;
+        VNode       e;
+        String      ret;
         
-        /* [100] */
-        ret = head + TGenData.GetChar ();
+        e   = fExpression.Get ();
+        ret = e.CreateData (s, head);
         
         return ret;
     }
 }
-
-/*
-[100]   We just ignore the strategy and always return a character from the entire unicode range.
- */

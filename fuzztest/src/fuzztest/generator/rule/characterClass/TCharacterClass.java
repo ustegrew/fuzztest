@@ -17,7 +17,7 @@ package fuzztest.generator.rule.characterClass;
 
 import java.util.ArrayList;
 import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.VNodeActive;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -25,9 +25,64 @@ import fuzztest.utils.gen.TGenData;
  * The character class can have multiple character ranges or character points, such as
  * <code>[0-9]</code> or <code>[a-z][0-9]_</code>.
  * 
+ * Corresponding PEGjs rules:
+ * 
+ * <pre>
+ * CharacterClassMatcher "character class"
+ *   = "[" inverted:"^"? parts:(ClassCharacterRange / ClassCharacter)* "]" ignoreCase:"i"?
+ *     {
+ *         var _i;
+ *         var _parts;
+ *         var _filteredEmptyStrings;
+ *         
+ *         _parts = [];
+ *         if (parts.length >= 1)
+ *         {
+ *             for (i = 0; i < parts.length; i++)
+ *             {
+ *                 if (parts [i] !== "")
+ *                 {
+ *                     _parts.push (parts[i]);
+ *                 }
+ *             }
+ *         }
+ *         
+ *         return 
+ *         {
+ *             type:               "class",
+ *             parts:              _parts,
+ *             inverted:           inverted !== null,
+ *             ignoreCase:         ignoreCase !== null,
+ *             location:           location()
+ *         };
+ *     }
+ * 
+ * ClassCharacterRange
+ *     = begin:ClassCharacter "-" end:ClassCharacter 
+ *     {
+ *         if (begin.charCodeAt(0) > end.charCodeAt(0)) 
+ *         {
+ *             error ("Invalid character range: " + text() + ".");
+ *         }
+ * 
+ *         return [begin, end];
+ *     }
+ * 
+ * ClassCharacter
+ *     = !("]" / "\\" / LineTerminator) SourceCharacter 
+ *     {
+ *         return text ();
+ *     }
+ *     / "\\" sequence:EscapeSequence 
+ *     {
+ *         return sequence;
+ *     }
+ *     / LineContinuation
+ * </pre>
+ * 
  * @author peter
  */
-public class TCharacterClass extends VNode
+public class TCharacterClass extends VNodeActive
 {
     private ArrayList<VCharSet>     fSets;
     
