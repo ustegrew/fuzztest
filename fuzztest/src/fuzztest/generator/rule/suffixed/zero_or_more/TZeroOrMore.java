@@ -13,9 +13,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.simpleAnd;
+package fuzztest.generator.rule.suffixed.zero_or_more;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.suffixed.VSuffixed;
+import fuzztest.generator.rule.suffixed.optional.TOptional;
 
 /**
  * 
@@ -23,30 +25,33 @@ import fuzztest.generator.rule.VNode;
  * Corresponding PEGjs rule:
  * 
  * <pre>
- * PrefixedExpression
- *     = operator:PrefixedOperator __ expression:SuffixedExpression 
+ * SuffixedExpression
+ *     = expression:PrimaryExpression __ operator:SuffixedOperator 
  *     {
- *         var OPS_TO_PREFIXED_TYPES = 
+ *         var OPS_TO_SUFFIXED_TYPES = 
  *         {
- *             "$": "text",
- *             "&": "simple_and",
- *             "!": "simple_not"
+ *             "?": "optional",
+ *             "*": "zero_or_more",
+ *             "+": "one_or_more"
  *         };
- *         
+ * 
  *         return 
  *         {
- *             type:               OPS_TO_PREFIXED_TYPES[operator],
+ *             type:               OPS_TO_SUFFIXED_TYPES[operator],
  *             expression:         expression,
  *             location:           location ()
  *         };
  *     }
- *     / SuffixedExpression
+ *     / PrimaryExpression
  * </pre>
  * 
  * @author peter
- *
+ * @see    {@link TOptional}, {@link TOneOrMore}
  */
-public class TSimpleAnd extends VNode
+public class TZeroOrMore extends VSuffixed
 {
-
+    public TZeroOrMore ()
+    {
+        super (true, true);
+    }
 }

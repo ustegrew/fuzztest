@@ -16,8 +16,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest;
 
 import fuzztest.generator.rule.TStrategy;
+import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
-import fuzztest.generator.rule.characterClass.TCharacterClass;
+import fuzztest.generator.rule.cClass.TCharacterClass;
 
 /**
  * @author peter
@@ -35,22 +36,24 @@ public class TMain
         String              p;
         
         cc = new TCharacterClass ();
-        cc.AddRange ("a", "z", false);
-        cc.AddRange ("A", "Z", false);
+        cc.AddRange ("a", "z");
+        cc.AddRange ("0", "9");
         cc.AddPoint ("_");
         
-        s  = new TStrategy (5, ERuleAdhesion.kFollowRule);
+        VNode.ClearVisitCounters ();
+        s  = new TStrategy (9, ERuleAdhesion.kFollowRule, 10);
         for (int i = 1; i <= 50; i++)
         {
-            p = cc.CreateData (s, "data: ");
+            p = cc.CreateData (s, "");
             System.out.print (p);
         }
         System.out.println ();
 
-        s  = new TStrategy (5, ERuleAdhesion.kInjectInvalids);
+        VNode.ClearVisitCounters ();
+        s  = new TStrategy (9, ERuleAdhesion.kInjectInvalids, 10);
         for (int i = 1; i <= 50; i++)
         {
-            p = cc.CreateData (s, "dataNoFollow: ");
+            p = cc.CreateData (s, "");
             System.out.print (p);
         }
         System.out.println ();

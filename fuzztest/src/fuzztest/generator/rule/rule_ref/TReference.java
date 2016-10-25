@@ -13,20 +13,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.reference;
+package fuzztest.generator.rule.rule_ref;
 
-import fuzztest.generator.rule.VNodeFallthrough;
+import fuzztest.generator.rule.VNode;
 
 /**
  * rule reference. 
  * 
- * A plain fallthrough node. Note:
- * In case the strategy is to inject invalids, we will defer
- * same class node swap to the CreateData method of the 
- * next active VNode down the callchain.  
- * 
  * Corresponding PEGjs rule:
- * 
  * <pre>
  * RuleReferenceExpression
  *     = name:IdentifierName !(__ (StringLiteral __)? "=") 
@@ -42,7 +36,7 @@ import fuzztest.generator.rule.VNodeFallthrough;
  * 
  * @author peter
  */
-public class TReference extends VNodeFallthrough
+public class TReference extends VNode
 {
 }
 

@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.named;
 
 import fuzztest.generator.primitive.TOnceAssignable;
-import fuzztest.generator.rule.VNodeFallthrough;
+import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.rule.TRule;
 
 /**
@@ -58,7 +58,7 @@ import fuzztest.generator.rule.rule.TRule;
  * @author peter
  * @see    {@link TRule}
  */
-public class TNamed extends VNodeFallthrough
+public class TNamed extends VNode
 {
     private TOnceAssignable<String> fName;
     
@@ -68,7 +68,7 @@ public class TNamed extends VNodeFallthrough
         fName          = new TOnceAssignable<> ();
     }
     
-    public String GetLabel ()
+    public String GetName ()
     {
         String ret;
         
@@ -77,8 +77,8 @@ public class TNamed extends VNodeFallthrough
         return ret;
     }
     
-    public void SetLabel (String label)
+    public void SetName (String name)
     {
-        fName.Set (label);
+        fName.Set (name);
     }
 }

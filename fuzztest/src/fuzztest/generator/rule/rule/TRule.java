@@ -80,13 +80,23 @@ public class TRule extends VNode
     @Override
     protected String _CreateData (TStrategy s, String head)
     {
+        boolean     doFollow;
         TRule       ref;
         VNode       expr;
         String      ret;
         
-        ref     = (TRule) _GetFromOppositeSet (s);
-        expr    = ref.fExpression.Get ();
-        ret     = expr.CreateData (s, head);
+        doFollow    = VNode.DoFollowRule (s);
+        if (doFollow)
+        {
+            ref = this;
+        }
+        else
+        {
+            ref = (TRule) _GetFromOppositeSet ();
+        }
+        
+        expr        = ref.fExpression.Get ();
+        ret         = expr.CreateData (s, head);
         
         return ret;
     }

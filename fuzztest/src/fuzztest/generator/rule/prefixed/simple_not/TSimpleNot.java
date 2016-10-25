@@ -13,11 +13,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.text;
+package fuzztest.generator.rule.prefixed.simple_not;
 
-import fuzztest.generator.rule.VNodeFallthrough;
-import fuzztest.generator.rule.semanticAnd.TSemanticAnd;
-import fuzztest.generator.rule.simpleNot.TSimpleNot;
+import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.prefixed.text.TText;
+import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
 
 /**
  * 
@@ -45,11 +45,10 @@ import fuzztest.generator.rule.simpleNot.TSimpleNot;
  *     / SuffixedExpression
  * </pre>
  * 
- * $expression
- * 
  * @author peter
- * @see    {@link TSemanticAnd}, {@link TSimpleNot}
+ * @see    {@link TSemanticAnd}, {@link TText}
  */
-public class TText extends VNodeFallthrough
+public class TSimpleNot extends VNode
 {
+
 }

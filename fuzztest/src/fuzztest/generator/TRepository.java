@@ -58,7 +58,23 @@ public class TRepository
         ArrayList<String>       ret;
         
         _CreateRepository ();
-        ret = gRepository._GetKeys (c);
+        ret = gRepository._GetKeys (c, true);
+        
+        return ret;
+    }
+    
+    /**
+     * Returns a list of keys of objects that are of the given class.
+     * 
+     * @param   c   The class of objects queried.
+     * @return      A list of keys of objects that are of the given class.
+     */
+    public static ArrayList<String> GetKeys (Class<? extends VBrowseable> c, boolean isStrict)
+    {
+        ArrayList<String>       ret;
+        
+        _CreateRepository ();
+        ret = gRepository._GetKeys (c, isStrict);
         
         return ret;
     }
@@ -145,21 +161,22 @@ public class TRepository
     private ArrayList<VBrowseable>          fObjectsList;
     private HashMap<String, VBrowseable>    fObjectsMap;
     
+
     private TRepository ()
     {
-        fObjectsList    = new ArrayList<> ();
-        fObjectsMap     = new HashMap<> ();
+        fObjectsList            = new ArrayList<> ();
+        fObjectsMap             = new HashMap<> ();
     }
     
     private String _Add (VBrowseable b)
     {
-        String key;
+        String      key;
         
         key = b.GetKey ();
         _AssertKeyOK (key, true);
         fObjectsList.add (b);
         fObjectsMap.put (key, b);
-        
+
         return key;
     }
     
@@ -239,12 +256,14 @@ public class TRepository
         return ret;
     }
     
-    private ArrayList<String> _GetKeys (Class<? extends VBrowseable> c)
+    private ArrayList<String> _GetKeys (Class<? extends VBrowseable> c, boolean isStrict)
     {
         int                             n;
         int                             i;
         VBrowseable                     obj;
         Class<? extends VBrowseable>    c0;
+        String                          cname;
+        String                          cname0;
         boolean                         isClass;
         String                          key;
         ArrayList<String>               ret;
@@ -257,7 +276,17 @@ public class TRepository
             {
                 obj     = fObjectsList.get (i);
                 c0      = obj.getClass ();
-                isClass = c0.equals (c);
+                if (isStrict)
+                {
+                    cname   = c.getCanonicalName ();
+                    cname0  = c0.getCanonicalName ();
+                    isClass = cname.equals (cname0);
+                }
+                else
+                {
+                    isClass = c.isAssignableFrom (c0); 
+                }
+
                 if (isClass)
                 {
                     key = obj.GetKey ();

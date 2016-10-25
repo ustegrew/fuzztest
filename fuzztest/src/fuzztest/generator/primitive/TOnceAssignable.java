@@ -39,6 +39,11 @@ public class TOnceAssignable<T>
     
     public T Get ()
     {
+        if (fElement == null)
+        {
+            throw new IllegalStateException ("Cannot retrieve unset element.");
+        }
+        
         return fElement;
     }
 }

@@ -28,7 +28,6 @@ public abstract class VBrowseable
     private String          fClassID;
     private String          fKey;
     
-    
     /**
      * cTor. 
      */

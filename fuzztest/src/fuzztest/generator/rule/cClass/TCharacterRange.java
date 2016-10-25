@@ -13,9 +13,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.characterClass;
+package fuzztest.generator.rule.cClass;
 
 import fuzztest.generator.rule.TStrategy;
+import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.utils.gen.TGenData;
 
@@ -36,19 +37,19 @@ class TCharacterRange extends VCharSet
     }
     
     /* (non-Javadoc)
-     * @see fuzztest.generator.rule.characterClass.VCharSet#GetChar()
+     * @see fuzztest.generator.rule.cClass.VCharSet#GetChar()
      */
     @Override
     public char GetChar (TStrategy s)
     {
-        ERuleAdhesion   r;
+        boolean         doFollow;
         boolean         doHead;
         char            loChar;
         char            hiChar;
         char            ret;
-        
-        r = s.GetRuleAdhesion ();
-        if (r == ERuleAdhesion.kFollowRule)
+
+        doFollow = VNode.DoFollowRule (s);
+        if (doFollow)
         {
             ret = TGenData.GetChar (fLoChar, fHiChar);
         }

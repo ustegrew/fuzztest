@@ -29,18 +29,26 @@ public class TStrategy
     public static enum ERuleAdhesion
     {
         kFollowRule,            /* Strictly follow the grammar rule, i.e. generate fragment that matches the rule.  */
-        kInjectInvalids         /* Randomly inject fragments that that don't match the grammar rule                 */
+        kInjectInvalids,        /* Randomly inject fragments that that don't match the current grammar rule.        */
+        kFollowOpposite         /* Only use fragments that don't match the current grammar rule                     */
     }
 
     private int                     fRecursionCounter;
     private int                     fRecursionMax;
     private ERuleAdhesion           fRuleAdhesion;
+    private int                     fRepeatMax;
     
-    public TStrategy (int recursionMax, ERuleAdhesion ruleAdhesion)
+    public TStrategy 
+    (
+        int             recursionMax, 
+        ERuleAdhesion   ruleAdhesion,
+        int             repeatMax
+    )
     {
+        _AssertParamsOK (recursionMax, ruleAdhesion, repeatMax);
         fRecursionMax       = recursionMax;
-        fRecursionCounter   = 0;
         fRuleAdhesion       = ruleAdhesion;
+        fRepeatMax          = repeatMax;
     }
     
     /**
@@ -59,22 +67,24 @@ public class TStrategy
     {
         return fRuleAdhesion;
     }
-
-    /**
-     * 
-     */
-    public void OnNodeEnter ()
+    
+    public int GetNumRepeatsMax ()
     {
-        fRecursionCounter++;
-    }
-
-    /**
-     * 
-     */
-    public void OnNodeExit ()
-    {
-        fRecursionCounter--;
+        return fRepeatMax;
     }
     
-
+    public int GetNumVisitsMax ()
+    {
+        return fRecursionMax;
+    }
+    
+    private void _AssertParamsOK
+    (
+        int             recursionMax, 
+        ERuleAdhesion   ruleAdhesion,
+        int             repeatMax
+    )
+    {
+        System.out.println ("Warning: TStrategy::_AssertParamsOK(...): Must implement.");
+    }
 }

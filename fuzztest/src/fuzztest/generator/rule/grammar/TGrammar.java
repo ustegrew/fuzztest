@@ -13,48 +13,69 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.any;
+package fuzztest.generator.rule.grammar;
 
+import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
-import fuzztest.utils.gen.TGenData;
+import fuzztest.generator.rule.rule.TRule;
 
 /**
- * Generator rule for: Any character. 
+ * Generator rule for: Whole grammar. 
  *
  * Corresponding PEGjs rule:
- * 
  * <pre>
- * AnyMatcher
- *     = "." 
+ * Grammar
+ *     = __ initializer:(Initializer __)? rules:(Rule __)+ 
  *     {
- *         return
+ *         var _init;
+ *         var _i;
+ *         var _extractedRules;
+ *         
+ *         if (initializer)
  *         {
- *             type:               "any",
- *             location:           location() 
- *         }; 
+ *             _init = initializer [0];
+ *         }
+ *         else
+ *         {
+ *             _init = null;
+ *         }
+ *         
+ *         _extractedRules = new Array (rules.length);
+ *         for (_i = 0; _i < rules.length; _i++)
+ *         {
+ *             _extractedRules[_i] = rules[_i][0];
+ *         }
+ *         
+ *         return 
+ *         {
+ *             type:               "grammar",
+ *             initializer:        _init,
+ *             rules:              _extractedRules,
+ *             location:           location ()
+ *         };
  *     }
  * </pre>
  * 
  * @author peter
  */
-public class TAny extends VNode
+public class TGrammar extends VNode
 {
+    private static final String         kKeyStart   = "start";
+    
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
     protected String _CreateData (TStrategy s, String head)
     {
+        TRule           rStart;
         String          ret;
         
-        /* [100] */
-        ret = head + TGenData.GetChar ();
+        rStart  = (TRule) TRepository.Get (kKeyStart);
+        ret     = rStart.CreateData (s, head);
         
         return ret;
     }
+    
 }
-
-/*
-[100]   We just ignore the strategy and always return a character from the entire unicode range.
- */

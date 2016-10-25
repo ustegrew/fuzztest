@@ -13,11 +13,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.characterClass;
+package fuzztest.generator.rule.cClass;
 
 import java.util.ArrayList;
+
 import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNodeActive;
+import fuzztest.generator.rule.VNode;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -82,7 +83,7 @@ import fuzztest.utils.gen.TGenData;
  * 
  * @author peter
  */
-public class TCharacterClass extends VNodeActive
+public class TCharacterClass extends VNode
 {
     private ArrayList<VCharSet>     fSets;
     

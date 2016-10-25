@@ -17,7 +17,6 @@ package fuzztest.generator.rule.literal;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
-import fuzztest.generator.rule.VNodeActive;
 
 /**
  * 
@@ -41,7 +40,7 @@ import fuzztest.generator.rule.VNodeActive;
  * @author peter
  *
  */
-public class TLiteral extends VNodeActive
+public class TLiteral extends VNode
 {
     private String          fLiteral;
     
@@ -60,10 +59,20 @@ public class TLiteral extends VNodeActive
     @Override
     protected String _CreateData (TStrategy s, String head)
     {
+        boolean                 doFollow;
         TLiteral                lit;
         String                  ret;
         
-        lit = (TLiteral) _GetFromOppositeSet (s);
+        doFollow = VNode.DoFollowRule (s);
+        if (doFollow)
+        {
+            lit = this;
+        }
+        else
+        {
+            lit = (TLiteral) _GetFromOppositeSet ();
+        }
+        
         ret = head + lit.fLiteral;
         
         return ret;

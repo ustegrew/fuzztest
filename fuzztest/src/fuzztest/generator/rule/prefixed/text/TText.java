@@ -13,58 +13,43 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.labelled;
+package fuzztest.generator.rule.prefixed.text;
 
-import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.VNode;
-import fuzztest.generator.rule.prefixed.simple_and.TSimpleAnd;
 import fuzztest.generator.rule.prefixed.simple_not.TSimpleNot;
-import fuzztest.generator.rule.prefixed.text.TText;
+import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
 
 /**
- * label: expression
+ * 
  * 
  * Corresponding PEGjs rule:
  * 
  * <pre>
- * LabeledExpression
- *     = label:Identifier __ ":" __ expression:PrefixedExpression 
+ * PrefixedExpression
+ *     = operator:PrefixedOperator __ expression:SuffixedExpression 
  *     {
+ *         var OPS_TO_PREFIXED_TYPES = 
+ *         {
+ *             "$": "text",
+ *             "&": "simple_and",
+ *             "!": "simple_not"
+ *         };
+ *         
  *         return 
  *         {
- *             type:               "labeled",
- *             label:              label,
+ *             type:               OPS_TO_PREFIXED_TYPES[operator],
  *             expression:         expression,
  *             location:           location ()
  *         };
  *     }
- *     / PrefixedExpression
+ *     / SuffixedExpression
  * </pre>
  * 
+ * $expression
+ * 
  * @author peter
- * @see    {@link TText}, {@link TSimpleAnd}, {@link TSimpleNot}
+ * @see    {@link TSemanticAnd}, {@link TSimpleNot}
  */
-public class TLabelled extends VNode
+public class TText extends VNode
 {
-    private TOnceAssignable<String> fLabel;
-    
-    public TLabelled ()
-    {
-        super ();
-        fLabel          = new TOnceAssignable<> ();
-    }
-    
-    public String GetLabel ()
-    {
-        String ret;
-        
-        ret = fLabel.Get ();
-        
-        return ret;
-    }
-    
-    public void SetLabel (String label)
-    {
-        fLabel.Set (label);
-    }
 }

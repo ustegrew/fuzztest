@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.action;
 
-import fuzztest.generator.rule.VNodeFallthrough;
+import fuzztest.generator.rule.VNode;
 
 /**
  * <pre>
@@ -45,6 +45,6 @@ import fuzztest.generator.rule.VNodeFallthrough;
  * @author peter
  *
  */
-public class TAction extends VNodeFallthrough
+public class TAction extends VNode
 {
 }

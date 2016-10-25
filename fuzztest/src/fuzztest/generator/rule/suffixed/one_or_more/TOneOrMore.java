@@ -13,38 +13,39 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.semanticAnd;
+package fuzztest.generator.rule.suffixed.one_or_more;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule.suffixed.VSuffixed;
+import fuzztest.generator.rule.suffixed.optional.TOptional;
+import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
 
 /**
- * 
- * 
- * Corresponding PEGjs rule:
- * 
- * <pre>
- * SemanticPredicateExpression
- *     = operator:SemanticPredicateOperator __ code:CodeBlock 
+ * SuffixedExpression
+ *     = expression:PrimaryExpression __ operator:SuffixedOperator 
  *     {
- *         var OPS_TO_SEMANTIC_PREDICATE_TYPES = 
+ *         var OPS_TO_SUFFIXED_TYPES = 
  *         {
- *             "&": "semantic_and",
- *             "!": "semantic_not"
+ *             "?": "optional",
+ *             "*": "zero_or_more",
+ *             "+": "one_or_more"
  *         };
  * 
  *         return 
  *         {
- *             type:               OPS_TO_SEMANTIC_PREDICATE_TYPES[operator],
- *             code:               code,
+ *             type:               OPS_TO_SUFFIXED_TYPES[operator],
+ *             expression:         expression,
  *             location:           location ()
  *         };
  *     }
- * </pre>
- * 
+ *     / PrimaryExpression
+ *     
  * @author peter
- * @see    {@link TSemanticNot}
+ * @see    {@link TZeroOrMore}, {@link TOptional}
  */
-public class TSemanticAnd extends VNode
+public class TOneOrMore extends VSuffixed
 {
-
+    public TOneOrMore ()
+    {
+        super (false, true);
+    }
 }

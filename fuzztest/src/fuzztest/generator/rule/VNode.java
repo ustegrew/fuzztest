@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
+import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.generator.rule.choice.TChoice;
 import fuzztest.utils.gen.TGenData;
@@ -29,14 +30,68 @@ import fuzztest.utils.gen.TGenData;
  */
 public abstract class VNode extends VBrowseable
 {
+    public static void ClearVisitCounters ()
+    {
+        int                 i;
+        int                 n;
+        String              k;
+        VNode               nd;
+        ArrayList<String>   keys;
+        
+        keys = TRepository.GetKeys (VNode.class, false);
+        n    = keys.size ();
+        if (n >= 1)
+        {
+            for (i = 0; i < n; i++)
+            {
+                k   = keys.get (i);
+                nd  = (VNode) TRepository.Get (k);
+                nd.ClearVisitCounter ();
+            }
+        }
+    }
+    
+    public static boolean DoFollowRule (TStrategy s)
+    {
+        ERuleAdhesion       r;
+        boolean             ret;
+        
+        r = s.GetRuleAdhesion ();
+        if (r == ERuleAdhesion.kFollowRule)
+        {
+            ret = true;
+        }
+        else if (r == ERuleAdhesion.kFollowOpposite)
+        {
+            ret = false;
+        }
+        else
+        {
+            ret = TGenData.GetBoolean ();
+        }
+        
+        return ret;
+    }
+    
+    private TOnceAssignable<VNode>      fExpression;
+    private int                         fNumVisits;
+    
     public VNode ()
     {
+        fNumVisits  = 0;
+        fExpression = new TOnceAssignable<> ();
         _Register ();
     }
     
     public VNode (String key)
     {
+        fNumVisits = 0;
         _Register (key);
+    }
+    
+    public void ClearVisitCounter ()
+    {
+        fNumVisits = 0;
     }
     
     /**
@@ -53,7 +108,63 @@ public abstract class VNode extends VBrowseable
      *                      created fragment.
      * @return      The newly assembled source code fragment.
      */
-    public abstract String CreateData (TStrategy s, String head);
+    public String CreateData (TStrategy s, String head)
+    {
+        int     nVisitsMax;
+        String  ret;
+        
+        nVisitsMax = s.GetNumVisitsMax ();
+        if (fNumVisits <= nVisitsMax)
+        {
+            fNumVisits++;
+            ret = _CreateData (s, head);
+        }
+        else
+        {
+            ret = head;
+        }
+        
+        return ret;
+    }
+    
+    public void SetExpression (VNode node)
+    {
+        fExpression.Set (node);
+    }
+    
+    /**
+     * Creates a data fragment from the concrete grammar artifact and 
+     * appends it to the given head string.
+     * 
+     * This is a default method, meant to be overridden by nodes that generate 
+     * their own data. Nodes that don't generate data won't need to override
+     * this method.
+     *  
+     * Concrete implementations of this class should not call this 
+     * method directly, but should call {@link #CreateData(TStrategy, String)}.
+     * 
+     * @param       s       The fragment creation strategy.
+     * @return              The data fragment for a particular test case.
+     */
+    protected String _CreateData (TStrategy s, String head)
+    {
+        VNode  ex;
+        String ret;
+        
+        ex  = fExpression.Get ();
+        ret = ex.CreateData (s, head);
+        
+        return ret;
+    }
+
+    protected VNode _GetExpression ()
+    {
+        VNode ret;
+        
+        ret = fExpression.Get ();
+        
+        return ret;
+    }
 
     /**
      * Returns either this node or a randomly chosen node different from 
@@ -74,7 +185,7 @@ public abstract class VNode extends VBrowseable
      * @return              Concrete node of this class, either this one or 
      *                      distinctly different from this node.      
      */
-    protected VNode _GetFromOppositeSet (TStrategy s)
+    protected VNode _GetFromOppositeSet ()
     {
         Class<? extends VNode>          c;
         int                             i;
