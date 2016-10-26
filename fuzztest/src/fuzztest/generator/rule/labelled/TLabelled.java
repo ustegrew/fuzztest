@@ -25,7 +25,6 @@ import fuzztest.generator.rule.prefixed.text.TText;
  * label: expression
  * 
  * Corresponding PEGjs rule:
- * 
  * <pre>
  * LabeledExpression
  *     = label:Identifier __ ":" __ expression:PrefixedExpression 

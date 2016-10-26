@@ -15,6 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.sequence;
 
+import java.util.ArrayList;
+
+import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 
 /**
@@ -60,5 +63,40 @@ import fuzztest.generator.rule.VNode;
  */
 public class TSequence extends VNode
 {
+    private ArrayList<VNode>        fElements;
+    
+    public TSequence ()
+    {
+        fElements = new ArrayList<> ();
+    }
+    
+    public void Add (VNode element)
+    {
+        fElements.add (element);
+    }
 
+    /* (non-Javadoc)
+     * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
+     */
+    @Override
+    protected String _CreateData (TStrategy s, String head)
+    {
+        int     i;
+        int     n;
+        VNode   e;
+        String  ret;
+        
+        ret = head;
+        n   = fElements.size ();
+        if (n >= 1)
+        {
+            for (i = 0; i < n; i++)
+            {
+                e   = fElements.get (i);
+                ret = ret + e.CreateData (s, "");
+            }
+        }
+        
+        return ret;
+    }
 }
