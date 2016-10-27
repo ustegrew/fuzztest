@@ -13,22 +13,40 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest;
+package fuzztest.generator.rule.prefixed.simple_and;
 
-import static jsweet.dom.Globals.console;
+import fuzztest.generator.rule.VNode;
 
 /**
+ * 
+ * 
+ * Corresponding PEGjs rule:
+ * 
+ * <pre>
+ * PrefixedExpression
+ *     = operator:PrefixedOperator __ expression:SuffixedExpression 
+ *     {
+ *         var OPS_TO_PREFIXED_TYPES = 
+ *         {
+ *             "$": "text",
+ *             "&": "simple_and",
+ *             "!": "simple_not"
+ *         };
+ *         
+ *         return 
+ *         {
+ *             type:               OPS_TO_PREFIXED_TYPES[operator],
+ *             expression:         expression,
+ *             location:           location ()
+ *         };
+ *     }
+ *     / SuffixedExpression
+ * </pre>
+ * 
  * @author peter
  *
  */
-public class TestMain
+public class TSimpleAnd extends VNode
 {
 
-    /**
-     * @param args
-     */
-    public static void main (String[] args)
-    {
-        console.log ("Hello World");
-    }
 }
