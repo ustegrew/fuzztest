@@ -1,0 +1,590 @@
+Apache Maven 3.0.5
+Maven home: /usr/share/maven
+Java version: 1.8.0_111, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-8-oracle/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.13.0-100-generic", arch: "amd64", family: "unix"
+[INFO] Error stacktraces are turned on.
+[DEBUG] Reading global settings from /usr/share/maven/conf/settings.xml
+[DEBUG] Reading user settings from /home/peter/.m2/settings.xml
+[DEBUG] Using local repository at /home/peter/.m2/repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10 for /home/peter/.m2/repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project fuzztest:fuzztest:jar:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecyle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: fuzztest:fuzztest:jar:0.0.1-SNAPSHOT
+[DEBUG] Tasks:   [generate-sources]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building fuzztest 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Could not find metadata org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT/maven-metadata.xml in local (/home/peter/.m2/repository)
+[DEBUG] Failure to find org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-release has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       fuzztest:fuzztest:0.0.1-SNAPSHOT
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): []
+[DEBUG] Repositories (dependencies): [jsweet-central (http://repository.jsweet.org/artifactory/libs-release-local, releases+snapshots), jsweet-snapshots (http://repository.jsweet.org/artifactory/libs-snapshot-local, releases+snapshots), central (http://repo.maven.apache.org/maven2, releases)]
+[DEBUG] Repositories (plugins)     : [jsweet-plugins-release (http://repository.jsweet.org/artifactory/plugins-release-local, releases+snapshots), jsweet-plugins-snapshots (http://repository.jsweet.org/artifactory/plugins-snapshot-local, releases+snapshots), central (http://repo.maven.apache.org/maven2, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT:jsweet (generate-js)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <bundle>true</bundle>
+  <candiesJsOut>target/candies/js</candiesJsOut>
+  <declaration default-value="false"/>
+  <definitions default-value="false"/>
+  <disableJavaAddons default-value="false"/>
+  <enableAssertions default-value="false"/>
+  <encoding default-value="UTF-8"/>
+  <jdkHome default-value="${java.home}"/>
+  <localRepository default-value="${localRepository}"/>
+  <module default-value="none"/>
+  <noRootDirectories default-value="false"/>
+  <outDir>target/js</outDir>
+  <remoteRepositories default-value="${project.remoteArtifactRepositories}"/>
+  <sourceMap default-value="false"/>
+  <targetVersion default-value="ES3">ES3</targetVersion>
+  <tsOnly default-value="tsOnly"/>
+  <tsOut>target/ts</tsOut>
+  <verbose default-value="false">true</verbose>
+</configuration>
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] --- jsweet-maven-plugin:1.2.0-SNAPSHOT:jsweet (generate-js) @ fuzztest ---
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.version < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.* < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.repository < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.impl < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.collection < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.metadata < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.spi < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.graph < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.installation < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.transfer < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.deployment < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.sonatype.aether.resolution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG] Populating class realm maven.api
+[DEBUG] Could not find metadata org.jsweet:jsweet-transpiler:1.2.0-SNAPSHOT/maven-metadata.xml in local (/home/peter/.m2/repository)
+[DEBUG] Failure to find org.jsweet:jsweet-transpiler:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-release has elapsed or updates are forced
+[DEBUG] Failure to find org.jsweet:jsweet-transpiler:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-snapshot-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-snapshots has elapsed or updates are forced
+[DEBUG] Failure to find org.jsweet:jsweet-transpiler:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-release has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet:jsweet-transpiler:1.2.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG] Could not find metadata org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml in local (/home/peter/.m2/repository)
+[DEBUG] Failure to find org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-release has elapsed or updates are forced
+[DEBUG] Failure to find org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-snapshot-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-snapshots has elapsed or updates are forced
+[DEBUG] Failure to find org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-release has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG] Failure to find org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-central has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG] Failure to find org.jsweet.candies:es6-promise:0.0.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/ext-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-external has elapsed or updates are forced
+[DEBUG] Could not find metadata org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in local (/home/peter/.m2/repository)
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-release has elapsed or updates are forced
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/plugins-snapshot-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-plugins-snapshots has elapsed or updates are forced
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-release has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-central has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/ext-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-external has elapsed or updates are forced
+[DEBUG] org.jsweet:jsweet-maven-plugin:jar:1.2.0-20161011.023012-13:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:3.3.3:compile
+[DEBUG]       org.apache.maven:maven-model:jar:3.3.3:compile
+[DEBUG]       org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.0:compile
+[DEBUG]          javax.enterprise:cdi-api:jar:1.0:compile
+[DEBUG]             javax.annotation:jsr250-api:jar:1.0:compile
+[DEBUG]             javax.inject:javax.inject:jar:1:compile
+[DEBUG]          org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.3.0:compile
+[DEBUG]          org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile
+[DEBUG]          org.codehaus.plexus:plexus-classworlds:jar:2.5.2:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.2.1:compile
+[DEBUG]          org.apache.maven:maven-repository-metadata:jar:2.2.1:compile
+[DEBUG]          backport-util-concurrent:backport-util-concurrent:jar:3.1:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.2.1:compile
+[DEBUG]       org.codehaus.plexus:plexus-interpolation:jar:1.11:compile
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:1.5.15:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.1:compile
+[DEBUG]          classworlds:classworlds:jar:1.1-alpha-2:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0:compile
+[DEBUG]    org.jsweet:jsweet-transpiler:jar:1.2.0-SNAPSHOT:compile
+[DEBUG]       edu.princeton.cup:java-cup:jar:10k:compile
+[DEBUG]       de.jflex:jflex:jar:1.3.5:compile
+[DEBUG]       org.apache.commons:commons-lang3:jar:3.3.2:compile
+[DEBUG]       commons-io:commons-io:jar:2.4:compile
+[DEBUG]       log4j:log4j:jar:1.2.17:compile
+[DEBUG]       com.google.code.gson:gson:jar:2.2.4:compile
+[DEBUG]       com.martiansoftware:jsap:jar:2.1:compile
+[DEBUG]       org.javassist:javassist:jar:3.20.0-GA:compile
+[DEBUG]       org.jsweet.candies:es6-promise:jar:0.0.0-SNAPSHOT:compile
+[DEBUG]          org.jsweet.candies:jsweet-core:jar:1.2.0-SNAPSHOT:compile
+[DEBUG] Created new class realm plugin>org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT
+[DEBUG] Importing foreign packages into class realm plugin>org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT
+[DEBUG]   Included: org.jsweet:jsweet-maven-plugin:jar:1.2.0-SNAPSHOT
+[DEBUG]   Included: org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.0
+[DEBUG]   Included: javax.enterprise:cdi-api:jar:1.0
+[DEBUG]   Included: javax.annotation:jsr250-api:jar:1.0
+[DEBUG]   Included: javax.inject:javax.inject:jar:1
+[DEBUG]   Included: org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.3.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-component-annotations:jar:1.5.5
+[DEBUG]   Included: backport-util-concurrent:backport-util-concurrent:jar:3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.11
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:1.5.15
+[DEBUG]   Included: junit:junit:jar:3.8.1
+[DEBUG]   Included: org.jsweet:jsweet-transpiler:jar:1.2.0-SNAPSHOT
+[DEBUG]   Included: edu.princeton.cup:java-cup:jar:10k
+[DEBUG]   Included: de.jflex:jflex:jar:1.3.5
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.3.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.4
+[DEBUG]   Included: log4j:log4j:jar:1.2.17
+[DEBUG]   Included: com.google.code.gson:gson:jar:2.2.4
+[DEBUG]   Included: com.martiansoftware:jsap:jar:2.1
+[DEBUG]   Included: org.javassist:javassist:jar:3.20.0-GA
+[DEBUG]   Included: org.jsweet.candies:es6-promise:jar:0.0.0-SNAPSHOT
+[DEBUG]   Included: org.jsweet.candies:jsweet-core:jar:1.2.0-SNAPSHOT
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-api:jar:3.3.3
+[DEBUG]   Excluded: org.apache.maven:maven-model:jar:3.3.3
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-classworlds:jar:2.5.2
+[DEBUG]   Excluded: org.apache.maven:maven-project:jar:2.2.1
+[DEBUG]   Excluded: org.apache.maven:maven-settings:jar:2.2.1
+[DEBUG]   Excluded: org.apache.maven:maven-profile:jar:2.2.1
+[DEBUG]   Excluded: org.apache.maven:maven-artifact-manager:jar:2.2.1
+[DEBUG]   Excluded: org.apache.maven:maven-repository-metadata:jar:2.2.1
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-registry:jar:2.2.1
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1
+[DEBUG]   Excluded: classworlds:classworlds:jar:1.1-alpha-2
+[DEBUG]   Excluded: org.apache.maven:maven-artifact:jar:2.0
+[DEBUG] Configuring mojo org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT:jsweet from plugin realm ClassRealm[plugin>org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT, parent: sun.misc.Launcher$AppClassLoader@33909752]
+[DEBUG] Configuring mojo 'org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT:jsweet' with basic configurator -->
+[DEBUG]   (f) bundle = true
+[DEBUG]   (f) candiesJsOut = /home/peter/git/fuzztest/target/candies/js
+[DEBUG]   (f) declaration = false
+[DEBUG]   (f) definitions = false
+[DEBUG]   (f) disableJavaAddons = false
+[DEBUG]   (f) enableAssertions = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) jdkHome = /usr/lib/jvm/java-8-oracle/jre
+[DEBUG]   (f) localRepository =        id: local
+      url: file:///home/peter/.m2/repository/
+   layout: none
+
+[DEBUG]   (f) module = none
+[DEBUG]   (f) noRootDirectories = false
+[DEBUG]   (f) outDir = target/js
+[DEBUG]   (f) remoteRepositories = [       id: jsweet-central
+      url: http://repository.jsweet.org/artifactory/libs-release-local
+   layout: default
+snapshots: [enabled => true, update => daily]
+ releases: [enabled => true, update => daily]
+,        id: jsweet-snapshots
+      url: http://repository.jsweet.org/artifactory/libs-snapshot-local
+   layout: default
+snapshots: [enabled => true, update => daily]
+ releases: [enabled => true, update => daily]
+,        id: central
+      url: http://repo.maven.apache.org/maven2
+   layout: default
+snapshots: [enabled => false, update => daily]
+ releases: [enabled => true, update => daily]
+]
+[DEBUG]   (f) sourceMap = false
+[DEBUG]   (f) targetVersion = ES3
+[DEBUG]   (f) tsOnly = false
+[DEBUG]   (f) tsOut = target/ts
+[DEBUG]   (f) verbose = true
+[DEBUG] -- end configuration --
+[INFO] JSweet transpiler version 1.2.0-SNAPSHOT (build date: 2016-10-25 10:30:09)
+[INFO] dependencies=[Dependency {groupId=org.jsweet.candies, artifactId=jsweet-core, version=1.2.0-SNAPSHOT, type=jar}]
+[INFO] candies detection: add project dependency Dependency {groupId=org.jsweet.candies, artifactId=jsweet-core, version=1.2.0-SNAPSHOT, type=jar} => org.jsweet.candies:jsweet-core:jar:1.2.0-SNAPSHOT:compile
+[DEBUG] fuzztest:fuzztest:jar:0.0.1-SNAPSHOT (selected for null)
+[DEBUG] Could not find metadata org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in local (/home/peter/.m2/repository)
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-central has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[DEBUG]   org.jsweet.candies:jsweet-core:jar:1.2.0-SNAPSHOT:compile (selected for compile)
+[DEBUG] Could not find metadata org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in local (/home/peter/.m2/repository)
+[DEBUG] Failure to find org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml in http://repository.jsweet.org/artifactory/libs-release-local was cached in the local repository, resolution will not be reattempted until the update interval of jsweet-central has elapsed or updates are forced
+[DEBUG] Skipped remote update check for org.jsweet.candies:jsweet-core:1.2.0-SNAPSHOT/maven-metadata.xml, locally cached metadata up-to-date.
+[INFO] all candies artifacts: [org.jsweet.candies:jsweet-core:jar:1.2.0-SNAPSHOT:compile (1; enabled)]
+[INFO] candies jars: [/home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar]
+[INFO] classpath from maven: /home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar
+[INFO] jsOut: /home/peter/git/fuzztest/target/js
+[INFO] bundle: true
+[INFO] tsOut: /home/peter/git/fuzztest/target/ts
+[INFO] tsOnly: false
+[INFO] declarations: false
+[INFO] definitions: false
+[INFO] disableJavaAddons: false
+[INFO] declarationOutDir: null
+[INFO] candiesJsOutDir: /home/peter/git/fuzztest/target/candies/js
+[INFO] ecmaTargetVersion: ES3
+[INFO] moduleKind: none
+[INFO] sourceMap: false
+[INFO] verbose: true
+[INFO] jdkHome: /usr/lib/jvm/java-8-oracle/jre
+2016-10-27 08:49:09.009 DEBUG JSweetConfig:88 - tools.jar already in classpath
+2016-10-27 08:49:09.009 INFO  JSweetTranspiler:221 - creating transpiler version 1.2.0-SNAPSHOT (build date: 2016-10-25 10:30:09)
+2016-10-27 08:49:09.009 INFO  JSweetTranspiler:222 - curent dir: /home/peter/git/fuzztest/.
+2016-10-27 08:49:09.009 INFO  JSweetTranspiler:223 - tsOut: /home/peter/git/fuzztest/target/ts - /home/peter/git/fuzztest/target/ts
+2016-10-27 08:49:09.009 INFO  JSweetTranspiler:224 - jsOut: /home/peter/git/fuzztest/target/js - /home/peter/git/fuzztest/target/js
+2016-10-27 08:49:09.009 INFO  JSweetTranspiler:225 - candyJsOut: /home/peter/git/fuzztest/target/candies/js
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:226 - compile classpath: /home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:227 - runtime classpath: /usr/share/maven/boot/plexus-classworlds-2.x.jar
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:115 - candies processor classpath: /home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar
+2016-10-27 08:49:09.009 DEBUG CandiesProcessor:120 - processed classes dir: .jsweet/candies/processed - /home/peter/git/fuzztest/.jsweet/candies/processed
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:131 - extracted candies directory: /home/peter/git/fuzztest/target/candies/js
+[INFO] source includes: {}
+[INFO] source excludes: {}
+[INFO] sources paths: [/home/peter/git/fuzztest/src]
+[INFO] sourceFiles=[/home/peter/git/fuzztest/src/fuzztest/TMain.java, /home/peter/git/fuzztest/src/fuzztest/utils/store/TArrayList.java, /home/peter/git/fuzztest/src/fuzztest/utils/store/THashMap.java, /home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java, /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java, /home/peter/git/fuzztest/src/fuzztest/generator/primitive/TOnceAssignable.java, /home/peter/git/fuzztest/src/fuzztest/generator/VBrowseable.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_not/TSemanticNot.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_and/TSemanticAnd.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule_ref/TReference.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterPoint.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_not/TSimpleNot.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/text/TText.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_and/TSimpleAnd.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/sequence/TSequence.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/expression/TExpression.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/grammar/TGrammar.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/initializer/TInitializer.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/action/TAction.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/named/TNamed.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/group/TGroup.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/TStrategy.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule/TRule.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/any/TAny.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/one_or_more/TOneOrMore.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/optional/TOptional.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomShuffle.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomApp.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranmar.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranecu.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomJava.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java]
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:241 - extra path: null
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:205 - 1 candies found in classpath
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:164 - candies changed, processing candies: CandiesStore=[(jsweet-core-1.2.0-SNAPSHOT,t=1477177150000)]
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:263 - extract candy: /home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar javaOutputDirectory=.jsweet/candies/src/jsweet-core-1.2.0-SNAPSHOT tsDefOutputDirectory=.jsweet/candies/typings classesOutputDirectory=.jsweet/candies/processed jsOutputDir=/home/peter/git/fuzztest/target/candies/js/jsweet-core-1.2.0-SNAPSHOT
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:180 - merging candies
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:101 - new candies merger
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:102 - targetDir: /home/peter/git/fuzztest/.jsweet/candies/processed
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:103 - candies classpath entries: [/home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar]
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:113 - classloader URLs: [file:/home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar]
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:129 - candies class pools: {/home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar=[class path: java.util.jar.JarFile@6cfcd46d:]}
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:167 - mixin classes: []
+2016-10-27 08:49:09.009 DEBUG CandiesMerger:179 - mixins to be merged: {}
+2016-10-27 08:49:09.009 INFO  CandiesMerger:197 - 1 classes found for jsweet.util.StringTypes
+2016-10-27 08:49:09.009 INFO  CandiesProcessor:304 - extract sources for: []
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:676 - updated classpath: .jsweet/candies/processed:/home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:316 - classpath: .jsweet/candies/processed:/home/peter/.m2/repository/org/jsweet/candies/jsweet-core/1.2.0-SNAPSHOT/jsweet-core-1.2.0-SNAPSHOT.jar
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:317 - bootclasspath: null
+2016-10-27 08:49:09.009 DEBUG JSweetTranspiler:318 - strict mode: false
+2016-10-27 08:49:09.009 INFO  JSweetTranspiler:614 - parsing: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/TMain.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/utils/store/TArrayList.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/utils/store/THashMap.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/primitive/TOnceAssignable.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/VBrowseable.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_not/TSemanticNot.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_and/TSemanticAnd.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/rule_ref/TReference.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterPoint.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_not/TSimpleNot.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/text/TText.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_and/TSimpleAnd.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/sequence/TSequence.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/expression/TExpression.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/grammar/TGrammar.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/initializer/TInitializer.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/action/TAction.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/named/TNamed.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/group/TGroup.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/TStrategy.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/rule/TRule.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/any/TAny.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/one_or_more/TOneOrMore.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/optional/TOptional.java],RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomShuffle.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomApp.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranmar.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranecu.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomJava.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java],RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java]
+2016-10-27 08:49:10.010 INFO  JSweetTranspiler:619 - attribution phase
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:158 - adding static initializer dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_not/TSemanticNot.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_and/TSemanticAnd.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/rule_ref/TReference.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterPoint.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_not/TSimpleNot.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/text/TText.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_and/TSimpleAnd.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/sequence/TSequence.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/expression/TExpression.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/grammar/TGrammar.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/initializer/TInitializer.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/action/TAction.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/VBrowseable.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/named/TNamed.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/group/TGroup.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/rule/TRule.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/any/TAny.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/one_or_more/TOneOrMore.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/optional/TOptional.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java] -> RegularFileObject[/home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomShuffle.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranmar.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranecu.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomJava.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java]
+2016-10-27 08:49:10.010 DEBUG StaticInitilializerAnalyzer:129 - adding inheritance dependency: RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java] -> RegularFileObject[/home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java]
+2016-10-27 08:49:10.010 DEBUG JSweetTranspiler:799 - ordered compilation units: [/home/peter/git/fuzztest/src/fuzztest/TMain.java, /home/peter/git/fuzztest/src/fuzztest/utils/store/TArrayList.java, /home/peter/git/fuzztest/src/fuzztest/utils/store/THashMap.java, /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java, /home/peter/git/fuzztest/src/fuzztest/generator/primitive/TOnceAssignable.java, /home/peter/git/fuzztest/src/fuzztest/generator/VBrowseable.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/TStrategy.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomApp.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterPoint.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomShuffle.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomJava.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_not/TSemanticNot.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_and/TSemanticAnd.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule_ref/TReference.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_not/TSimpleNot.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/text/TText.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_and/TSimpleAnd.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/sequence/TSequence.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/expression/TExpression.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/grammar/TGrammar.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/initializer/TInitializer.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/action/TAction.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/named/TNamed.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/group/TGroup.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule/TRule.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/any/TAny.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranmar.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranecu.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/one_or_more/TOneOrMore.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/optional/TOptional.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java, /home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java]
+2016-10-27 08:49:10.010 DEBUG JSweetTranspiler:802 - count: 45 (initial), 45 (ordered)
+2016-10-27 08:49:10.010 DEBUG JSweetTranspiler:809 - permutation: 0=0;1=1;2=2;3=4;4=5;5=6;6=14;7=28;8=36;9=40;10=24;11=11;12=12;13=35;14=38;15=42;16=43;17=7;18=8;19=9;20=10;21=13;22=15;23=16;24=17;25=18;26=19;27=20;28=21;29=22;30=23;31=25;32=26;33=27;34=29;35=30;36=32;37=37;38=39;39=41;40=44;41=31;42=33;43=34;44=3;
+2016-10-27 08:49:10.010 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/TMain.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/utils/store/TArrayList.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/utils/store/THashMap.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/primitive/TOnceAssignable.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/VBrowseable.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/TStrategy.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomApp.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterPoint.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomShuffle.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java...
+WARN: local variable name 'in' is not allowed and is automatically generated to '__in' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java(116)
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomJava.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_not/TSemanticNot.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_and/TSemanticAnd.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule_ref/TReference.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_not/TSimpleNot.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/text/TText.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_and/TSimpleAnd.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/sequence/TSequence.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/expression/TExpression.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/grammar/TGrammar.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/initializer/TInitializer.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/action/TAction.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/named/TNamed.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/group/TGroup.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule/TRule.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/any/TAny.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranmar.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranecu.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/one_or_more/TOneOrMore.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/optional/TOptional.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:818 - scanning /home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java...
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:837 - creating bundle file: /home/peter/git/fuzztest/target/ts/bundle.ts
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:852 - created /home/peter/git/fuzztest/target/ts/bundle.ts
+2016-10-27 08:49:11.011 DEBUG JSweetTranspiler:964 - ts2js: [/home/peter/git/fuzztest/src/fuzztest/TMain.java, /home/peter/git/fuzztest/src/fuzztest/utils/store/TArrayList.java, /home/peter/git/fuzztest/src/fuzztest/utils/store/THashMap.java, /home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java, /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java, /home/peter/git/fuzztest/src/fuzztest/generator/primitive/TOnceAssignable.java, /home/peter/git/fuzztest/src/fuzztest/generator/VBrowseable.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_not/TSemanticNot.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/semanticPredicate/semantic_and/TSemanticAnd.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule_ref/TReference.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterPoint.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/VCharSet.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_not/TSimpleNot.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/text/TText.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/prefixed/simple_and/TSimpleAnd.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/sequence/TSequence.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/expression/TExpression.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/grammar/TGrammar.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/initializer/TInitializer.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/action/TAction.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/VNode.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/named/TNamed.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/group/TGroup.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/TStrategy.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/rule/TRule.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/any/TAny.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/one_or_more/TOneOrMore.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/optional/TOptional.java, /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomShuffle.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomApp.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranmar.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranecu.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomJava.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomSeedable.java, /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java]
+2016-10-27 08:49:11.011 INFO  JSweetTranspiler:1034 - launching tsc...
+2016-10-27 08:49:11.011 DEBUG ProcessUtil:181 - run command: /home/peter/.jsweet-node_modules/bin/tsc --target ES3 --rootDir /home/peter/git/fuzztest/target/ts --outDir /home/peter/git/fuzztest/target/js .tsc-rootfile.ts bundle.ts
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(19,58): error TS2304: Cannot find name 'TStrategy'.
+ERROR: cannot find name 'TStrategy' at /home/peter/git/fuzztest/src/fuzztest/TMain.java(50)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(22,17): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/TMain.java(55)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(26,58): error TS2304: Cannot find name 'TStrategy'.
+ERROR: cannot find name 'TStrategy' at /home/peter/git/fuzztest/src/fuzztest/TMain.java(59)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(29,17): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(29)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(181,44): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(122)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(189,51): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(139)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(263,152): error TS2339: Property 'getCanonicalName' does not exist on type 'typeof TRepository'.
+ERROR: property 'getCanonicalName' does not exist on type 'typeof TRepository' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(239)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(288,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(264)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(293,31): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(269)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(297,31): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(275)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(320,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/TRepository.java(307)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(412,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(412)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(419,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/TStrategy.java(22)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(459,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(459)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(627,43): error TS2339: Property 'intern' does not exist on type 'string'.
+ERROR: property 'intern' does not exist on type 'string' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomApp.java(240)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(638,32): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java(58)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(651,34): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java(61)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(672,25): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java(108)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(716,13): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java(173)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(747,52): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RandomElement.java(209)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(878,37): error TS2339: Property 'doubleValue' does not exist on type 'number'.
+ERROR: property 'doubleValue' does not exist on type 'number' at bundle.ts(878)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(925,20): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterRange.java(84)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1175,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java(53)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1178,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java(60)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1181,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/labelled/TLabelled.java(62)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1244,27): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/cClass/TCharacterClass.java(126)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1354,111): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/literal/TLiteral.java(18)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1434,35): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java(91)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1438,35): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/choice/TChoice.java(97)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1537,44): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java(60)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1555,49): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/VSuffixed.java(89)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1785,25): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java(126)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1792,36): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java(126)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1980,29): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java(313)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(1984,40): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/Ranlux.java(320)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2290,29): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java(140)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2297,40): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at /home/peter/git/fuzztest/src/edu/cornell/lassp/houle/RngPack/RanMT.java(151)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2408,18): error TS2415: Class 'TRule' incorrectly extends base class 'VNode'.
+ERROR: class 'TRule' incorrectly extends base class 'VNode' at /home/peter/git/fuzztest/src/fuzztest/generator/rule/suffixed/zero_or_more/TZeroOrMore.java(53)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 -   Types have separate declarations of a private property 'fExpression'.
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2429,23): error TS2352: Neither type 'VNode' nor type 'TRule' is assignable to the other.
+ERROR: neither type 'VNode' nor type 'TRule' is assignable to the other at /home/peter/git/fuzztest/src/fuzztest/utils/gen/TGenData.java(39)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 -   Types have separate declarations of a private property 'fExpression'.
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2562,91): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at bundle.ts(2562)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2604,44): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(2604)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2855,91): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at bundle.ts(2855)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2929,91): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(2929)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2948,78): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(2948)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2992,63): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(2992)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(2994,55): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(2994)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3014,88): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3014)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3058,73): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3058)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3272,91): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at bundle.ts(3272)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3310,53): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(3310)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3318,62): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3318)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3319,61): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3319)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3329,52): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3329)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3330,51): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3330)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3398,53): error TS2304: Cannot find name 'javaemul'.
+ERROR: cannot find name 'javaemul' at bundle.ts(3398)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3461,90): error TS2503: Cannot find namespace 'java'.
+ERROR: cannot find namespace 'java' at bundle.ts(3461)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:1045 - bundle.ts(3483,44): error TS2304: Cannot find name 'java'.
+ERROR: cannot find name 'java' at bundle.ts(3483)
+2016-10-27 08:49:14.014 INFO  JSweetTranspiler:690 - transpilation process finished in 5155 ms
+[ERROR] transpilation failed
+org.apache.maven.plugin.MojoFailureException: transpilation failed with 57 error(s) and 1 warning(s)
+	at org.jsweet.AbstractJSweetMojo.transpile(AbstractJSweetMojo.java:324)
+	at org.jsweet.JSweetMojo.execute(JSweetMojo.java:41)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:101)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:209)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:320)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:156)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:537)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:196)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 6.668s
+[INFO] Finished at: Thu Oct 27 08:49:14 BST 2016
+[INFO] Final Memory: 13M/132M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT:jsweet (generate-js) on project fuzztest: transpilation failed: transpilation failed with 57 error(s) and 1 warning(s) -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.jsweet:jsweet-maven-plugin:1.2.0-SNAPSHOT:jsweet (generate-js) on project fuzztest: transpilation failed
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:217)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:320)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:156)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:537)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:196)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+Caused by: org.apache.maven.plugin.MojoExecutionException: transpilation failed
+	at org.jsweet.AbstractJSweetMojo.transpile(AbstractJSweetMojo.java:338)
+	at org.jsweet.JSweetMojo.execute(JSweetMojo.java:41)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:101)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:209)
+	... 19 more
+Caused by: org.apache.maven.plugin.MojoFailureException: transpilation failed with 57 error(s) and 1 warning(s)
+	at org.jsweet.AbstractJSweetMojo.transpile(AbstractJSweetMojo.java:324)
+	... 22 more
+[ERROR] 
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
