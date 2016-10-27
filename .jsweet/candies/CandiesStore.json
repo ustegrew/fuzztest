@@ -1,0 +1,14 @@
+{
+  "candies": [
+    {
+      "name": "jsweet-core",
+      "version": "1.2.0-SNAPSHOT",
+      "lastUpdateTimestamp": 1477177150000,
+      "modelVersion": "unknown",
+      "transpilerVersion": "1.2.0",
+      "jsOutputDirPath": "/home/peter/git/fuzztest",
+      "jsDirPath": "META-INF/resources/webjars/jsweet-core/1.2.0-SNAPSHOT",
+      "jsFilesPaths": []
+    }
+  ]
+}
