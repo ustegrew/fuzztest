@@ -24,14 +24,14 @@ var fuzztest;
             cc.AddRange("0", "9");
             cc.AddPoint("_");
             fuzztest.generator.rule.VNode.ClearVisitCounters();
-            s = new fuzztest.generator.rule.TStrategy(9, TStrategy.ERuleAdhesion.kFollowRule, 10);
+            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kFollowRule, 10);
             for (var i = 1; i <= 50; i++) {
                 p = cc.CreateData(s, "");
                 java.lang.System.out.print(p);
             }
             console.info();
             fuzztest.generator.rule.VNode.ClearVisitCounters();
-            s = new fuzztest.generator.rule.TStrategy(9, TStrategy.ERuleAdhesion.kInjectInvalids, 10);
+            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kInjectInvalids, 10);
             for (var i = 1; i <= 50; i++) {
                 p = cc.CreateData(s, "");
                 java.lang.System.out.print(p);
@@ -63,8 +63,8 @@ var fuzztest;
                     this.fElements = (new Array());
                     this.fNumElements = 0;
                 }
-                TArrayList.prototype.Add = function (value) {
-                    this.fElements.push(value);
+                TArrayList.prototype.Add = function (obj) {
+                    this.fElements.push(obj);
                     this.fNumElements++;
                 };
                 TArrayList.prototype.Get = function (i) {
@@ -77,10 +77,8 @@ var fuzztest;
                     return this.fNumElements;
                 };
                 TArrayList.prototype._AssertIndexOK = function (i) {
-                    var msg;
                     if (i < 0 || i >= this.fNumElements) {
-                        msg = "Index out of bounds. Must be in [0, " + this.fNumElements + "[. Given: " + i;
-                        throw new Error(msg);
+                        throw new Error("Index out of bounds. Must be in [0, " + this.fNumElements + "[. Given: " + i);
                     }
                 };
                 return TArrayList;
@@ -111,15 +109,9 @@ var fuzztest;
                     this.fNumElements = 0;
                 }
                 THashMap.prototype.Get = function (key) {
-                    var hasElement;
                     var ret;
-                    hasElement = this.fElements.hasOwnProperty(key);
-                    if (hasElement) {
-                        ret = this.fElements[key];
-                    }
-                    else {
-                        ret = null;
-                    }
+                    this._AssertHasElement(key, false);
+                    ret = this.fElements[key];
                     return ret;
                 };
                 THashMap.prototype.GetNumElements = function () {
@@ -130,14 +122,86 @@ var fuzztest;
                     ret = this.fElements.hasOwnProperty(key);
                     return ret;
                 };
-                THashMap.prototype.Set = function (key, value) {
-                    this.fElements[key] = value;
+                THashMap.prototype.Set = function (key, obj) {
+                    this._AssertHasElement(key, true);
+                    this.fElements[key] = obj;
                     this.fNumElements++;
+                };
+                THashMap.prototype._AssertHasElement = function (key, doInverse) {
+                    var hasElement;
+                    hasElement = this.fElements.hasOwnProperty(key);
+                    if (doInverse) {
+                        if (hasElement) {
+                            throw new Error("Duplicate key: \'" + key + "\'");
+                        }
+                    }
+                    else {
+                        if (!hasElement) {
+                            throw new Error("Unknown key: \'" + key + "\'");
+                        }
+                    }
                 };
                 return THashMap;
             }());
             store.THashMap = THashMap;
             THashMap["__classname"] = "fuzztest.utils.store.THashMap";
+        })(store = utils.store || (utils.store = {}));
+    })(utils = fuzztest.utils || (fuzztest.utils = {}));
+})(fuzztest || (fuzztest = {}));
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+var fuzztest;
+(function (fuzztest) {
+    var utils;
+    (function (utils) {
+        var store;
+        (function (store) {
+            /**
+             * @author peter
+             */
+            var TArrayMap = (function () {
+                function TArrayMap() {
+                    this.fHashMap = (new fuzztest.utils.store.THashMap());
+                    this.fArrayList = (new fuzztest.utils.store.TArrayList());
+                }
+                TArrayMap.prototype.Add = function (key, obj) {
+                    this.fHashMap.Set(key, obj);
+                    this.fArrayList.Add(obj);
+                };
+                TArrayMap.prototype.Get = function (key) {
+                    var _this = this;
+                    if (((typeof key === 'string') || key === null)) {
+                        var __args = Array.prototype.slice.call(arguments);
+                        return (function () {
+                            var ret;
+                            ret = _this.fHashMap.Get(key);
+                            return ret;
+                        })();
+                    }
+                    else if (((typeof key === 'number') || key === null)) {
+                        return this.Get$int(key);
+                    }
+                    else
+                        throw new Error('invalid overload');
+                };
+                TArrayMap.prototype.Get$int = function (i) {
+                    var ret;
+                    ret = this.fArrayList.Get(i);
+                    return ret;
+                };
+                TArrayMap.prototype.GetNumElements = function () {
+                    var ret;
+                    ret = this.fArrayList.GetNumElements();
+                    return ret;
+                };
+                TArrayMap.prototype.HasElement = function (key) {
+                    var ret;
+                    ret = this.fHashMap.HasElement(key);
+                    return ret;
+                };
+                return TArrayMap;
+            }());
+            store.TArrayMap = TArrayMap;
+            TArrayMap["__classname"] = "fuzztest.utils.store.TArrayMap";
         })(store = utils.store || (utils.store = {}));
     })(utils = fuzztest.utils || (fuzztest.utils = {}));
 })(fuzztest || (fuzztest = {}));
@@ -157,8 +221,7 @@ var fuzztest;
          */
         var TRepository = (function () {
             function TRepository() {
-                this.fObjectsList = (new fuzztest.utils.store.TArrayList());
-                this.fObjectsMap = (new fuzztest.utils.store.THashMap());
+                this.fRepository = (new fuzztest.utils.store.TArrayMap());
             }
             /**
              * Adds an object to the repository. The object must have it's key property set prior to adding.
@@ -173,40 +236,6 @@ var fuzztest;
                 TRepository._CreateRepository();
                 ret = TRepository.gRepository._Add(b);
                 return ret;
-            };
-            /**
-             * Returns a list of keys of objects that are of the given class.
-             *
-             * @param   c   The class of objects queried.
-             * @return      A list of keys of objects that are of the given class.
-             */
-            TRepository.GetKeys$java_lang_Class = function (c) {
-                var ret;
-                TRepository._CreateRepository();
-                ret = TRepository.gRepository._GetKeys(c, true);
-                return ret;
-            };
-            /**
-             * Returns a list of keys of objects that are of the given class.
-             *
-             * @param   c   The class of objects queried.
-             * @return      A list of keys of objects that are of the given class.
-             */
-            TRepository.GetKeys = function (c, isStrict) {
-                if (((c != null && c instanceof java.lang.Class) || c === null) && ((typeof isStrict === 'boolean') || isStrict === null)) {
-                    var __args = Array.prototype.slice.call(arguments);
-                    return (function () {
-                        var ret;
-                        TRepository._CreateRepository();
-                        ret = TRepository.gRepository._GetKeys(c, isStrict);
-                        return ret;
-                    })();
-                }
-                else if (((c != null && c instanceof java.lang.Class) || c === null) && isStrict === undefined) {
-                    return fuzztest.generator.TRepository.GetKeys$java_lang_Class(c);
-                }
-                else
-                    throw new Error('invalid overload');
             };
             /**
              * Returns the object with the given index.
@@ -246,6 +275,44 @@ var fuzztest;
                     throw new Error('invalid overload');
             };
             /**
+             * Returns a list of keys of objects that are of the same class as the given {@link VBrowseable}.
+             *
+             * @param   b   The {@link VBrowseable} whose class we are querying.
+             * @return      A list of keys of objects that are of the given class.
+             */
+            TRepository.GetKeys$fuzztest_generator_classing_TClass = function (c) {
+                var ret;
+                TRepository._CreateRepository();
+                ret = TRepository.gRepository._GetKeys(c, true);
+                return ret;
+            };
+            /**
+             * Returns a list of keys of objects that are of the same or parent class as the given {@link VBrowseable}.
+             *
+             * @param   b           The {@link VBrowseable} whose class we are querying.
+             * @param   isStrict    If <code>true</code>, we filter for objects that have <i>exactly</i>
+             * the same class as the given {@link VBrowseable}. If <code>false</code>,
+             * we also accept objects of a class that is in the given object's parent
+             * chain.
+             * @return              A list of keys of objects that are of the given class, or a parent class thereof.
+             */
+            TRepository.GetKeys = function (c, isStrict) {
+                if (((c != null && c instanceof fuzztest.generator.classing.TClass) || c === null) && ((typeof isStrict === 'boolean') || isStrict === null)) {
+                    var __args = Array.prototype.slice.call(arguments);
+                    return (function () {
+                        var ret;
+                        TRepository._CreateRepository();
+                        ret = TRepository.gRepository._GetKeys(c, isStrict);
+                        return ret;
+                    })();
+                }
+                else if (((c != null && c instanceof fuzztest.generator.classing.TClass) || c === null) && isStrict === undefined) {
+                    return fuzztest.generator.TRepository.GetKeys$fuzztest_generator_classing_TClass(c);
+                }
+                else
+                    throw new Error('invalid overload');
+            };
+            /**
              * @return  The number of objects stored in the repository.
              */
             TRepository.GetNumElements = function () {
@@ -275,60 +342,15 @@ var fuzztest;
                     TRepository.gRepository = new TRepository();
                 }
             };
-            TRepository.kClassName_$LI$ = function () { if (TRepository.kClassName == null)
-                TRepository.kClassName = TRepository.getCanonicalName(); return TRepository.kClassName; };
-            ;
             TRepository.prototype._Add = function (b) {
                 var key;
                 key = b.GetKey();
-                this._AssertKeyOK(key, true);
-                this.fObjectsList.Add(b);
-                this.fObjectsMap.Set(key, b);
+                this.fRepository.Add(key, b);
                 return key;
-            };
-            TRepository.prototype._AssertKeyOK = function (key, isInverse) {
-                var hasElement;
-                if (key == null) {
-                    throw new java.lang.IllegalArgumentException("No null keys allowed");
-                }
-                hasElement = this.fObjectsMap.HasElement(key);
-                if (isInverse) {
-                    if (hasElement) {
-                        throw new java.lang.IllegalArgumentException("Duplicate object: \'" + key + "\'");
-                    }
-                }
-                else {
-                    if (!hasElement) {
-                        throw new java.lang.IllegalArgumentException("No such object: \'" + key + "\'");
-                    }
-                }
-            };
-            TRepository.prototype._AssertInRange = function (i) {
-                var kMethod = "_AssertInRange";
-                var hasErr;
-                var postamble;
-                var errMsg;
-                var n;
-                hasErr = false;
-                n = this.fObjectsList.GetNumElements();
-                postamble = "Index must be in [0, " + n + "[. Given: " + i;
-                errMsg = null;
-                if (i < 0) {
-                    hasErr = true;
-                    errMsg = this.GetErrMsg("Index too small. " + postamble, kMethod);
-                }
-                else if (i >= n) {
-                    hasErr = true;
-                    errMsg = this.GetErrMsg("Index too large. " + postamble, kMethod);
-                }
-                if (hasErr) {
-                    throw new java.lang.IndexOutOfBoundsException(errMsg);
-                }
             };
             TRepository.prototype._GetElement$int = function (i) {
                 var ret;
-                this._AssertInRange(i);
-                ret = this.fObjectsList.Get(i);
+                ret = this.fRepository.Get(i);
                 return ret;
             };
             TRepository.prototype._GetElement = function (key) {
@@ -337,8 +359,7 @@ var fuzztest;
                     var __args = Array.prototype.slice.call(arguments);
                     return (function () {
                         var ret;
-                        _this._AssertKeyOK(key, false);
-                        ret = _this.fObjectsMap.Get(key);
+                        ret = _this.fRepository.Get(key);
                         return ret;
                     })();
                 }
@@ -349,31 +370,22 @@ var fuzztest;
                     throw new Error('invalid overload');
             };
             TRepository.prototype._GetKeys = function (c, isStrict) {
-                var n;
                 var i;
-                var obj;
+                var n;
+                var b0;
                 var c0;
-                var cname;
-                var cname0;
                 var isClass;
                 var key;
                 var ret;
                 ret = (new fuzztest.utils.store.TArrayList());
-                n = this.fObjectsList.GetNumElements();
+                n = this.fRepository.GetNumElements();
                 if (n >= 1) {
                     for (i = 0; i < n; i++) {
-                        obj = this.fObjectsList.Get(i);
-                        c0 = obj.constructor;
-                        if (isStrict) {
-                            cname = c.getCanonicalName();
-                            cname0 = c0.getCanonicalName();
-                            isClass = (cname === cname0);
-                        }
-                        else {
-                            isClass = c.isAssignableFrom(c0);
-                        }
+                        b0 = this.fRepository.Get(i);
+                        c0 = b0.GetClass();
+                        isClass = isStrict ? c.IsEqualTo(c0) : c.IsEqualToOrDerivedFrom(c0);
                         if (isClass) {
-                            key = obj.GetKey();
+                            key = b0.GetKey();
                             ret.Add(key);
                         }
                     }
@@ -382,17 +394,12 @@ var fuzztest;
             };
             TRepository.prototype._GetNumElements = function () {
                 var ret;
-                ret = this.fObjectsList.GetNumElements();
+                ret = this.fRepository.GetNumElements();
                 return ret;
             };
             TRepository.prototype._HasElement = function (key) {
                 var ret;
-                ret = this.fObjectsMap.HasElement(key);
-                return ret;
-            };
-            TRepository.prototype.GetErrMsg = function (details, method) {
-                var ret;
-                ret = TRepository.kClassName_$LI$() + "::" + method + ": " + details;
+                ret = this.fRepository.HasElement(key);
                 return ret;
             };
             TRepository.gRepository = null;
@@ -451,9 +458,12 @@ var fuzztest;
              * cTor.
              */
             function VBrowseable() {
-                this.fClassID = this.constructor.getCanonicalName();
+                this.fClass = fuzztest.generator.classing.TClass.Create(this);
                 this.fKey = null;
             }
+            VBrowseable.prototype.GetClass = function () {
+                return this.fClass;
+            };
             /**
              * @return      The key associated with this object.
              */
@@ -463,12 +473,14 @@ var fuzztest;
             VBrowseable.prototype._Register = function (key, doAutoKey) {
                 if (key === void 0) { key = null; }
                 if (doAutoKey === void 0) { doAutoKey = true; }
+                var k;
                 if (this.fKey != null) {
                     throw new java.lang.IllegalArgumentException("Key is already assigned.");
                 }
                 if (doAutoKey) {
+                    k = this.fClass.GetName();
                     VBrowseable.gCounter++;
-                    this.fKey = this.fClassID + "_" + VBrowseable.gCounter;
+                    this.fKey = k + "_" + VBrowseable.gCounter;
                 }
                 else {
                     this.fKey = key;
@@ -480,6 +492,184 @@ var fuzztest;
         }());
         generator.VBrowseable = VBrowseable;
         VBrowseable["__classname"] = "fuzztest.generator.VBrowseable";
+    })(generator = fuzztest.generator || (fuzztest.generator = {}));
+})(fuzztest || (fuzztest = {}));
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+var fuzztest;
+(function (fuzztest) {
+    var generator;
+    (function (generator) {
+        var classing;
+        (function (classing) {
+            /**
+             * @author peter
+             */
+            var TInheritChain = (function () {
+                function TInheritChain(obj) {
+                    this.fChain = (new fuzztest.utils.store.TArrayMap());
+                    this._Build(obj);
+                }
+                TInheritChain.prototype.GetAsString = function () {
+                    var i;
+                    var n;
+                    var c;
+                    var ret;
+                    ret = "";
+                    n = this.fChain.GetNumElements();
+                    if (n >= 1) {
+                        for (i = 0; i < n; i++) {
+                            c = this.fChain.Get(i);
+                            ret += c.GetName();
+                            if (i < n - 1) {
+                                ret += TInheritChain.kPathSeparator;
+                            }
+                        }
+                    }
+                    return ret;
+                };
+                /**
+                 * Returns the i-th parent in this inheritance chain.
+                 *
+                 * @param   i   The number of generations above. Zero is the first parent generation, 1 the one above etc.
+                 * @return      The parent class that it i generations above the class hosting this chain.
+                 */
+                TInheritChain.prototype.GetLink = function (i) {
+                    var ret;
+                    ret = this.fChain.Get(i);
+                    return ret;
+                };
+                TInheritChain.prototype.GetNumLinks = function () {
+                    var ret;
+                    ret = this.fChain.GetNumElements();
+                    return ret;
+                };
+                TInheritChain.prototype.IsLink = function (c) {
+                    var i;
+                    var n;
+                    var c0;
+                    var cID;
+                    var cID0;
+                    var ret;
+                    ret = false;
+                    n = this.fChain.GetNumElements();
+                    if (n >= 1) {
+                        for (i = 0; i < n; i++) {
+                            c0 = this.fChain.Get(i);
+                            cID = c.GetName();
+                            cID0 = c0.GetName();
+                            ret = ret || (cID === cID0);
+                        }
+                    }
+                    return ret;
+                };
+                TInheritChain.prototype._Build = function (obj) {
+                    var cls;
+                    var instance;
+                    var key;
+                    instance = obj;
+                    while ((instance != null)) {
+                        instance = instance["__proto__"];
+                        cls = new fuzztest.generator.classing.TClass(instance);
+                        key = cls.GetName();
+                        this.fChain.Add(key, cls);
+                    }
+                    ;
+                };
+                TInheritChain.kPathSeparator = ".";
+                return TInheritChain;
+            }());
+            classing.TInheritChain = TInheritChain;
+            TInheritChain["__classname"] = "fuzztest.generator.classing.TInheritChain";
+        })(classing = generator.classing || (generator.classing = {}));
+    })(generator = fuzztest.generator || (fuzztest.generator = {}));
+})(fuzztest || (fuzztest = {}));
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+var fuzztest;
+(function (fuzztest) {
+    var generator;
+    (function (generator) {
+        var classing;
+        (function (classing) {
+            /**
+             * @author peter
+             */
+            var TClass = (function () {
+                function TClass(obj) {
+                    this._Init(obj);
+                }
+                TClass.Create = function (obj) {
+                    var obj0;
+                    var ret;
+                    obj0 = obj;
+                    ret = new TClass(obj0);
+                    return ret;
+                };
+                TClass.prototype.GetName = function () {
+                    return this.fName;
+                };
+                TClass.prototype.GetParent = function () {
+                    var nLinks;
+                    var ret;
+                    nLinks = this.fInherits.GetNumLinks();
+                    ret = null;
+                    if (nLinks >= 1) {
+                        ret = this.fInherits.GetLink(0);
+                    }
+                    return ret;
+                };
+                TClass.prototype.IsEqualTo = function (other) {
+                    var ret;
+                    ret = this._IsEqualTo(other);
+                    return ret;
+                };
+                TClass.prototype.IsEqualToOrDerivedFrom = function (other) {
+                    var isEq;
+                    var isDer;
+                    var ret;
+                    isEq = this._IsEqualTo(other);
+                    isDer = this.fInherits.IsLink(other);
+                    ret = isEq || isDer;
+                    return ret;
+                };
+                TClass.prototype._IsEqualTo = function (other) {
+                    var path0;
+                    var path1;
+                    var ret;
+                    path0 = this._GetCanonicalName();
+                    path1 = other._GetCanonicalName();
+                    ret = (path0 === path1);
+                    return ret;
+                };
+                /**
+                 * @return
+                 */
+                TClass.prototype._GetCanonicalName = function () {
+                    var n;
+                    var ret;
+                    n = this.fInherits.GetNumLinks();
+                    if (n >= 1) {
+                        ret = this.fInherits.GetAsString();
+                        ret += fuzztest.generator.classing.TInheritChain.kPathSeparator;
+                        ret += this.fName;
+                    }
+                    else {
+                        ret = this.fName;
+                    }
+                    return ret;
+                };
+                TClass.prototype._Init = function (obj) {
+                    var p;
+                    var c;
+                    p = obj["__proto__"];
+                    c = p["constructor"];
+                    this.fName = c["name"];
+                    this.fInherits = new fuzztest.generator.classing.TInheritChain(obj);
+                };
+                return TClass;
+            }());
+            classing.TClass = TClass;
+            TClass["__classname"] = "fuzztest.generator.classing.TClass";
+        })(classing = generator.classing || (generator.classing = {}));
     })(generator = fuzztest.generator || (fuzztest.generator = {}));
 })(fuzztest || (fuzztest = {}));
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -502,6 +692,27 @@ var fuzztest;
                 cClass.VCharSet = VCharSet;
                 VCharSet["__classname"] = "fuzztest.generator.rule.cClass.VCharSet";
             })(cClass = rule.cClass || (rule.cClass = {}));
+        })(rule = generator.rule || (generator.rule = {}));
+    })(generator = fuzztest.generator || (fuzztest.generator = {}));
+})(fuzztest || (fuzztest = {}));
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+var fuzztest;
+(function (fuzztest) {
+    var generator;
+    (function (generator) {
+        var rule;
+        (function (rule) {
+            /**
+             * Code generation strategies.
+             *
+             * @author peter
+             */
+            (function (ERuleAdhesion) {
+                ERuleAdhesion[ERuleAdhesion["kFollowRule"] = 0] = "kFollowRule";
+                ERuleAdhesion[ERuleAdhesion["kInjectInvalids"] = 1] = "kInjectInvalids";
+                ERuleAdhesion[ERuleAdhesion["kFollowOpposite"] = 2] = "kFollowOpposite";
+            })(rule.ERuleAdhesion || (rule.ERuleAdhesion = {}));
+            var ERuleAdhesion = rule.ERuleAdhesion;
         })(rule = generator.rule || (generator.rule = {}));
     })(generator = fuzztest.generator || (fuzztest.generator = {}));
 })(fuzztest || (fuzztest = {}));
@@ -549,231 +760,9 @@ var fuzztest;
             }());
             rule.TStrategy = TStrategy;
             TStrategy["__classname"] = "fuzztest.generator.rule.TStrategy";
-            var TStrategy;
-            (function (TStrategy) {
-                /**
-                 * Code generation strategies.
-                 *
-                 * @author peter
-                 */
-                (function (ERuleAdhesion) {
-                    ERuleAdhesion[ERuleAdhesion["kFollowRule"] = 0] = "kFollowRule";
-                    ERuleAdhesion[ERuleAdhesion["kInjectInvalids"] = 1] = "kInjectInvalids";
-                    ERuleAdhesion[ERuleAdhesion["kFollowOpposite"] = 2] = "kFollowOpposite";
-                })(TStrategy.ERuleAdhesion || (TStrategy.ERuleAdhesion = {}));
-                var ERuleAdhesion = TStrategy.ERuleAdhesion;
-            })(TStrategy = rule.TStrategy || (rule.TStrategy = {}));
         })(rule = generator.rule || (generator.rule = {}));
     })(generator = fuzztest.generator || (fuzztest.generator = {}));
 })(fuzztest || (fuzztest = {}));
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-var edu;
-(function (edu) {
-    var cornell;
-    (function (cornell) {
-        var lassp;
-        (function (lassp) {
-            var houle;
-            (function (houle) {
-                var RngPack;
-                (function (RngPack) {
-                    /**
-                     *
-                     *
-                     * RandomApp is a simple application that demonstrates the use of RngPack.
-                     * RandomApp generates random numbers and writes them to the standard output.
-                     * This is very useful on Unix systems since the output can be piped to another
-                     * application. See <A HREF="../RandomApp.txt">RandomApp</A> documentation for
-                     * how to run it.
-                     *
-                     *
-                     *
-                     * <P>
-                     * <A HREF="/RngPack/src/edu/cornell/lassp/houle/RngPack/RandomApp.java"> Source
-                     * code </A> is available.
-                     *
-                     * @author <A HREF="http://www.honeylocust.com/"> Paul Houle </A> (E-mail:
-                     * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
-                     * @version 1.1a
-                     *
-                     * @see RandomJava
-                     * @see RandomShuffle
-                     */
-                    var RandomApp = (function () {
-                        function RandomApp() {
-                        }
-                        RandomApp.generators_$LI$ = function () { if (RandomApp.generators == null)
-                            RandomApp.generators = ["ranmar", "ranecu", "ranlux", "randomjava", "null", "ranmt"]; return RandomApp.generators; };
-                        ;
-                        RandomApp.distributions_$LI$ = function () { if (RandomApp.distributions == null)
-                            RandomApp.distributions = ["flat", "gaussian", "choose1", "choose2", "coin1", "coin2"]; return RandomApp.distributions; };
-                        ;
-                        RandomApp.main = function (args) {
-                            var a;
-                            var e;
-                            var i;
-                            var j;
-                            var generator;
-                            var distribution;
-                            var n;
-                            var luxury;
-                            var x;
-                            var seed;
-                            var hi;
-                            var lo;
-                            var seeded = false;
-                            var gselected = false;
-                            var dselected = false;
-                            var noprint = false;
-                            var numbered = false;
-                            var luxuryset = false;
-                            generator = RandomApp.RANMAR;
-                            distribution = RandomApp.FLAT;
-                            seed = edu.cornell.lassp.houle.RngPack.RandomSeedable.ClockSeed();
-                            luxury = edu.cornell.lassp.houle.RngPack.Ranlux.lxdflt;
-                            n = 100;
-                            parse_loop: for (i = 0; i < args.length; i++) {
-                                a = args[i].toLowerCase().intern();
-                                if (a === "noprint") {
-                                    noprint = true;
-                                    continue;
-                                }
-                                if (a === "seed") {
-                                    if (seeded)
-                                        RandomApp.die("RandomApp: only one seed can be passed");
-                                    if (i === args.length - 1)
-                                        RandomApp.die("RandomApp: missing seed.");
-                                    i++;
-                                    a = new String(args[i]);
-                                    try {
-                                        seed = javaemul.internal.LongHelper.parseLong(a);
-                                    }
-                                    catch (ex) {
-                                        RandomApp.die("RandomApp: seed is not a valid number.");
-                                    }
-                                    ;
-                                    seeded = true;
-                                    continue;
-                                }
-                                if (a === "luxury") {
-                                    if (luxuryset)
-                                        RandomApp.die("RandomApp: only one luxury level can be passed");
-                                    if (i === args.length - 1)
-                                        RandomApp.die("RandomApp: missing luxury level.");
-                                    i++;
-                                    a = new String(args[i]);
-                                    try {
-                                        luxury = javaemul.internal.IntegerHelper.parseInt(a);
-                                    }
-                                    catch (ex) {
-                                        RandomApp.die("RandomApp: luxury level is not a valid number.");
-                                    }
-                                    ;
-                                    luxuryset = true;
-                                    if (luxury < 0 || luxury > edu.cornell.lassp.houle.RngPack.Ranlux.maxlev)
-                                        RandomApp.die("RandomApp: luxury level must be between 0 and " + edu.cornell.lassp.houle.RngPack.Ranlux.maxlev);
-                                    continue;
-                                }
-                                for (j = 0; j < RandomApp.generators_$LI$().length; j++)
-                                    if (a === RandomApp.generators_$LI$()[j]) {
-                                        if (gselected)
-                                            RandomApp.die("RandomApp: only one generator can be selected.");
-                                        generator = j;
-                                        gselected = true;
-                                        continue parse_loop;
-                                    }
-                                for (j = 0; j < RandomApp.distributions_$LI$().length; j++)
-                                    if (a === RandomApp.distributions_$LI$()[j]) {
-                                        if (dselected)
-                                            RandomApp.die("RandomApp: only one distribution can be selected.");
-                                        distribution = j;
-                                        dselected = true;
-                                        continue parse_loop;
-                                    }
-                                try {
-                                    n = javaemul.internal.IntegerHelper.parseInt(a);
-                                    if (numbered)
-                                        RandomApp.die("RandomApp: only one number of random numbers can be selected.");
-                                    numbered = true;
-                                }
-                                catch (ex) {
-                                    RandomApp.die("RandomApp: syntax error <" + a + ">");
-                                }
-                                ;
-                            }
-                            e = null;
-                            if (generator === RandomApp.RANMAR) {
-                                e = new edu.cornell.lassp.houle.RngPack.Ranmar(seed);
-                            }
-                            else if (generator === RandomApp.RANECU) {
-                                e = new edu.cornell.lassp.houle.RngPack.Ranecu(seed);
-                            }
-                            else if (generator === RandomApp.RANLUX) {
-                                e = new edu.cornell.lassp.houle.RngPack.Ranlux(luxury, seed);
-                            }
-                            else if (generator === RandomApp.RANJAVA) {
-                                e = new edu.cornell.lassp.houle.RngPack.RandomJava();
-                            }
-                            else if (generator === RandomApp.RANMT) {
-                                e = new edu.cornell.lassp.houle.RngPack.RanMT(seed);
-                            }
-                            for (i = 1; i <= n; i++) {
-                                x = 0.0;
-                                if (generator !== RandomApp.NULL) {
-                                    if (distribution === RandomApp.FLAT) {
-                                        x = e.raw();
-                                    }
-                                    else if (distribution === RandomApp.GAUSSIAN) {
-                                        x = e.gaussian();
-                                    }
-                                    else if (distribution === RandomApp.CHOOSE1) {
-                                        x = e.choose(5);
-                                    }
-                                    else if (distribution === RandomApp.CHOOSE2) {
-                                        x = e.choose(7, 10);
-                                    }
-                                    else if (distribution === RandomApp.COIN1) {
-                                        x = e.coin() ? 1.0 : 0.0;
-                                    }
-                                    else if (distribution === RandomApp.COIN2) {
-                                        x = e.coin(0.7) ? 1.0 : 0.0;
-                                    }
-                                    else {
-                                        RandomApp.die("Invalid distribution: " + distribution);
-                                    }
-                                }
-                                if (!noprint)
-                                    console.info(x);
-                            }
-                        };
-                        RandomApp.die = function (s) {
-                            console.error(s);
-                            java.lang.System.exit(-1);
-                        };
-                        RandomApp.nullgen = function () {
-                            return 0.0;
-                        };
-                        RandomApp.RANMAR = 0;
-                        RandomApp.RANECU = 1;
-                        RandomApp.RANLUX = 2;
-                        RandomApp.RANJAVA = 3;
-                        RandomApp.NULL = 4;
-                        RandomApp.RANMT = 5;
-                        RandomApp.FLAT = 0;
-                        RandomApp.GAUSSIAN = 1;
-                        RandomApp.CHOOSE1 = 2;
-                        RandomApp.CHOOSE2 = 3;
-                        RandomApp.COIN1 = 4;
-                        RandomApp.COIN2 = 5;
-                        return RandomApp;
-                    }());
-                    RngPack.RandomApp = RandomApp;
-                    RandomApp["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomApp";
-                })(RngPack = houle.RngPack || (houle.RngPack = {}));
-            })(houle = lassp.houle || (lassp.houle = {}));
-        })(lassp = cornell.lassp || (cornell.lassp = {}));
-    })(cornell = edu.cornell || (edu.cornell = {}));
-})(edu || (edu = {}));
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 var edu;
 (function (edu) {
@@ -806,7 +795,6 @@ var edu;
                      */
                     var RandomElement = (function () {
                         function RandomElement() {
-                            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
                         }
                         /**
                          * The abstract method that must be defined to make a working RandomElement.
@@ -930,54 +918,6 @@ var edu;
                             return (lo + (hi - lo) * this.raw());
                         };
                         /**
-                         * gaussian() uses the Box-Muller algorithm to transform raw()'s into
-                         * gaussian deviates.
-                         *
-                         * @return a random real with a gaussian distribution, standard deviation
-                         *
-                         */
-                        RandomElement.prototype.gaussian$ = function () {
-                            var out;
-                            var x;
-                            var y;
-                            var r;
-                            var z;
-                            if (this.BMoutput != null) {
-                                out = this.BMoutput.doubleValue();
-                                this.BMoutput = null;
-                                return (out);
-                            }
-                            do {
-                                x = this.uniform(-1, 1);
-                                y = this.uniform(-1, 1);
-                                r = x * x + y * y;
-                            } while ((r >= 1.0));
-                            z = Math.sqrt(-2.0 * Math.log(r) / r);
-                            this.BMoutput = new Number(x * z);
-                            return (y * z);
-                        };
-                        /**
-                         *
-                         * @param sd
-                         * standard deviation
-                         * @return a gaussian distributed random real with standard deviation
-                         * <STRONG>sd</STRONG>
-                         */
-                        RandomElement.prototype.gaussian = function (sd) {
-                            var _this = this;
-                            if (((typeof sd === 'number') || sd === null)) {
-                                var __args = Array.prototype.slice.call(arguments);
-                                return (function () {
-                                    return (_this.gaussian() * sd);
-                                })();
-                            }
-                            else if (sd === undefined) {
-                                return this.gaussian$();
-                            }
-                            else
-                                throw new Error('invalid overload');
-                        };
-                        /**
                          *
                          * generate a power-law distribution with exponent <CODE>alpha</CODE> and
                          * lower cutoff <CODE>cut</CODE> <CENTER> </CENTER>
@@ -989,9 +929,6 @@ var edu;
                          */
                         RandomElement.prototype.powlaw = function (alpha, cut) {
                             return cut * Math.pow(this.raw(), 1.0 / (alpha + 1.0));
-                        };
-                        RandomElement.prototype.clone = function () {
-                            return javaemul.internal.ObjectHelper.clone(this);
                         };
                         return RandomElement;
                     }());
@@ -1043,8 +980,14 @@ var fuzztest;
                     var n;
                     var k;
                     var nd;
+                    var ns;
+                    var clVNodeS;
+                    var clVNode;
                     var keys;
-                    keys = fuzztest.generator.TRepository.GetKeys(VNode, false);
+                    ns = new fuzztest.generator.rule.TNodeSurrogate();
+                    clVNodeS = ns.GetClass();
+                    clVNode = clVNodeS.GetParent();
+                    keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
                     n = keys.GetNumElements();
                     if (n >= 1) {
                         for (i = 0; i < n; i++) {
@@ -1058,10 +1001,10 @@ var fuzztest;
                     var r;
                     var ret;
                     r = s.GetRuleAdhesion();
-                    if (r === rule.TStrategy.ERuleAdhesion.kFollowRule) {
+                    if (r === fuzztest.generator.rule.ERuleAdhesion.kFollowRule) {
                         ret = true;
                     }
-                    else if (r === rule.TStrategy.ERuleAdhesion.kFollowOpposite) {
+                    else if (r === fuzztest.generator.rule.ERuleAdhesion.kFollowOpposite) {
                         ret = false;
                     }
                     else {
@@ -1158,7 +1101,7 @@ var fuzztest;
                     var refs;
                     var ret;
                     kThis = this.GetKey();
-                    c = this.constructor;
+                    c = this.GetClass();
                     refs = fuzztest.generator.TRepository.GetKeys(c);
                     n = refs.GetNumElements();
                     ret = null;
@@ -1399,7 +1342,6 @@ var edu;
                          */
                         function RandomShuffle(ga, gb, ds) {
                             _super.call(this);
-                            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
                             this.decksize = 0;
                             this.generatorA = ga;
                             this.generatorB = gb;
@@ -1446,134 +1388,6 @@ var edu;
                 var RngPack;
                 (function (RngPack) {
                     /**
-                     * RandomSynchronized is a wrapper class that makes a random number generator
-                     * safe for multi-threaded operation by serializing access in time. For
-                     * high-performance applications, it is better for each thread to have it's own
-                     * random number generator.
-                     *
-                     * Note this class is declared serializable, but serialization won't be
-                     * successful if it's wrapping a non-serializable generator.
-                     * <P>
-                     * <A HREF=
-                     * "/RngPack/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java">
-                     * Source code </A> is available.
-                     *
-                     * @author <A HREF="http://www.honeylocust.com/"> Paul Houle </A> (E-mail:
-                     * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
-                     * @version 1.1a
-                     *
-                     * @see RandomElement
-                     */
-                    var RandomSynchronized = (function (_super) {
-                        __extends(RandomSynchronized, _super);
-                        function RandomSynchronized(rng) {
-                            _super.call(this);
-                            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
-                            this.rng = rng;
-                        }
-                        /**
-                         * Synchronized the raw() method, which is generally not threadsafe.
-                         *
-                         * @see RandomJava
-                         *
-                         * @return a random double in the range [0,1]
-                         */
-                        RandomSynchronized.prototype.raw$ = function () {
-                            return this.rng.raw();
-                        };
-                        /**
-                         * This method probably isn't threadsafe in implementations, so it's
-                         * synchronized
-                         *
-                         *
-                         * @param d
-                         * array to be filled with doubles
-                         * @param n
-                         * number of doubles to generate
-                         */
-                        RandomSynchronized.prototype.raw = function (d, n) {
-                            var _this = this;
-                            if (((d != null && d instanceof Array) || d === null) && ((typeof n === 'number') || n === null)) {
-                                var __args = Array.prototype.slice.call(arguments);
-                                return (function () {
-                                    _this.rng.raw(d, n);
-                                })();
-                            }
-                            else if (((d != null && d instanceof Array) || d === null) && n === undefined) {
-                                return this.raw$double_A(d);
-                            }
-                            else if (d === undefined && n === undefined) {
-                                return this.raw$();
-                            }
-                            else
-                                throw new Error('invalid overload');
-                        };
-                        /**
-                         *
-                         * Wrapped so generators can override.
-                         *
-                         * @param lo
-                         * lower limit of range
-                         * @param hi
-                         * upper limit of range
-                         * @return a random integer in the range <STRONG>lo</STRONG>,
-                         * <STRONG>lo</STRONG>+1, ... ,<STRONG>hi</STRONG>
-                         */
-                        RandomSynchronized.prototype.choose = function (lo, hi) {
-                            var _this = this;
-                            if (((typeof lo === 'number') || lo === null) && ((typeof hi === 'number') || hi === null)) {
-                                var __args = Array.prototype.slice.call(arguments);
-                                return (function () {
-                                    return _this.rng.choose(lo, hi);
-                                })();
-                            }
-                            else if (((typeof lo === 'number') || lo === null) && hi === undefined) {
-                                return this.choose$int(lo);
-                            }
-                            else
-                                throw new Error('invalid overload');
-                        };
-                        /**
-                         *
-                         * Must be synchronized because state is stored in BMoutput
-                         *
-                         * @return a random real with a gaussian distribution, standard deviation
-                         */
-                        RandomSynchronized.prototype.gaussian$ = function () {
-                            return this.rng.gaussian();
-                        };
-                        /**
-                         *
-                         * We wouldn't want some sneaky person to serialize this in the middle of
-                         * generating a number
-                         */
-                        RandomSynchronized.prototype.writeObject = function (out) {
-                            out.defaultWriteObject();
-                        };
-                        RandomSynchronized.prototype.readObject = function (__in) {
-                            __in.defaultReadObject();
-                        };
-                        return RandomSynchronized;
-                    }(edu.cornell.lassp.houle.RngPack.RandomElement));
-                    RngPack.RandomSynchronized = RandomSynchronized;
-                    RandomSynchronized["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomSynchronized";
-                })(RngPack = houle.RngPack || (houle.RngPack = {}));
-            })(houle = lassp.houle || (lassp.houle = {}));
-        })(lassp = cornell.lassp || (cornell.lassp = {}));
-    })(cornell = edu.cornell || (edu.cornell = {}));
-})(edu || (edu = {}));
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-var edu;
-(function (edu) {
-    var cornell;
-    (function (cornell) {
-        var lassp;
-        (function (lassp) {
-            var houle;
-            (function (houle) {
-                var RngPack;
-                (function (RngPack) {
-                    /**
                      * RandomJava is a class wrapper for the <CODE>Math.random()</CODE> generator
                      * that comes with Java. I know nothing about the quality of
                      * <CODE>Math.random()</CODE>, but I will warn the reader that system-supplied
@@ -1599,8 +1413,7 @@ var edu;
                     var RandomJava = (function (_super) {
                         __extends(RandomJava, _super);
                         function RandomJava() {
-                            _super.call(this);
-                            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
+                            _super.apply(this, arguments);
                         }
                         /**
                          * Wrapper for <CODE>Math.random().</CODE>
@@ -1670,8 +1483,7 @@ var edu;
                     var RandomSeedable = (function (_super) {
                         __extends(RandomSeedable, _super);
                         function RandomSeedable() {
-                            _super.call(this);
-                            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
+                            _super.apply(this, arguments);
                         }
                         /**
                          *
@@ -2436,6 +2248,30 @@ var fuzztest;
     (function (generator) {
         var rule;
         (function (rule) {
+            /**
+             * A dummy class which allows us to create a concrete VNode.
+             *
+             * @author peter
+             */
+            var TNodeSurrogate = (function (_super) {
+                __extends(TNodeSurrogate, _super);
+                function TNodeSurrogate() {
+                    _super.apply(this, arguments);
+                }
+                return TNodeSurrogate;
+            }(fuzztest.generator.rule.VNode));
+            rule.TNodeSurrogate = TNodeSurrogate;
+            TNodeSurrogate["__classname"] = "fuzztest.generator.rule.TNodeSurrogate";
+        })(rule = generator.rule || (generator.rule = {}));
+    })(generator = fuzztest.generator || (fuzztest.generator = {}));
+})(fuzztest || (fuzztest = {}));
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+var fuzztest;
+(function (fuzztest) {
+    var generator;
+    (function (generator) {
+        var rule;
+        (function (rule) {
             var literal;
             (function (literal_1) {
                 /**
@@ -2913,7 +2749,7 @@ var fuzztest;
                         var ret;
                         doBreakRule = true;
                         r = s.GetRuleAdhesion();
-                        if (r === rule.TStrategy.ERuleAdhesion.kFollowRule) {
+                        if (r === fuzztest.generator.rule.ERuleAdhesion.kFollowRule) {
                             doBreakRule = false;
                         }
                         else {
@@ -3012,7 +2848,6 @@ var edu;
                             if (((d != null && d instanceof java.util.Date) || d === null)) {
                                 var __args = Array.prototype.slice.call(arguments);
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.c = 0;
                                 this.cd = 0;
                                 this.cm = 0;
@@ -3026,7 +2861,6 @@ var edu;
                                 var __args = Array.prototype.slice.call(arguments);
                                 var ijkl_1 = __args[0];
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.c = 0;
                                 this.cd = 0;
                                 this.cm = 0;
@@ -3040,7 +2874,6 @@ var edu;
                                 var __args = Array.prototype.slice.call(arguments);
                                 var ijkl_2 = __args[0];
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.c = 0;
                                 this.cd = 0;
                                 this.cm = 0;
@@ -3053,7 +2886,6 @@ var edu;
                             else if (d === undefined) {
                                 var __args = Array.prototype.slice.call(arguments);
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.c = 0;
                                 this.cd = 0;
                                 this.cm = 0;
@@ -3335,7 +3167,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3358,7 +3189,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3381,7 +3211,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3404,7 +3233,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3427,7 +3255,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3450,7 +3277,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3472,7 +3298,6 @@ var edu;
                                 this.j24 = 10;
                                 this.carry = 0.0;
                                 this.diagOn = false;
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.nskip = 0;
                                 this.inseed = 0;
                                 this.jseed = 0;
@@ -3739,7 +3564,6 @@ var edu;
                             if (((typeof s1 === 'number') || s1 === null) && ((typeof s2 === 'number') || s2 === null)) {
                                 var __args = Array.prototype.slice.call(arguments);
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.iseed1 = 0;
                                 this.iseed2 = 0;
                                 (function () {
@@ -3751,7 +3575,6 @@ var edu;
                                 var __args = Array.prototype.slice.call(arguments);
                                 var d_2 = __args[0];
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.iseed1 = 0;
                                 this.iseed2 = 0;
                                 (function () {
@@ -3763,7 +3586,6 @@ var edu;
                                 var __args = Array.prototype.slice.call(arguments);
                                 var l_1 = __args[0];
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.iseed1 = 0;
                                 this.iseed2 = 0;
                                 (function () {
@@ -3774,7 +3596,6 @@ var edu;
                             else if (s1 === undefined && s2 === undefined) {
                                 var __args = Array.prototype.slice.call(arguments);
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.iseed1 = 0;
                                 this.iseed2 = 0;
                                 (function () {
@@ -3939,7 +3760,6 @@ var edu;
                             if (((d != null && d instanceof java.util.Date) || d === null)) {
                                 var __args = Array.prototype.slice.call(arguments);
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.mti = 0;
                                 (function () {
                                     _this.setSeed(d.getTime());
@@ -3949,7 +3769,6 @@ var edu;
                                 var __args = Array.prototype.slice.call(arguments);
                                 var array_1 = __args[0];
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.mti = 0;
                                 (function () {
                                     _this.setSeed(array_1);
@@ -3959,7 +3778,6 @@ var edu;
                                 var __args = Array.prototype.slice.call(arguments);
                                 var seed_1 = __args[0];
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.mti = 0;
                                 (function () {
                                     _this.setSeed(seed_1);
@@ -3968,7 +3786,6 @@ var edu;
                             else if (d === undefined) {
                                 var __args = Array.prototype.slice.call(arguments);
                                 _super.call(this);
-                                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable", "java.io.Serializable"] });
                                 this.mti = 0;
                                 (function () {
                                     _this.setSeed(4357);
@@ -4353,8 +4170,4 @@ var fuzztest;
 fuzztest.utils.gen.TGenData.gRndGen_$LI$();
 edu.cornell.lassp.houle.RngPack.Ranlux.ndskip_$LI$();
 edu.cornell.lassp.houle.RngPack.Ranlux.itwo24_$LI$();
-edu.cornell.lassp.houle.RngPack.RandomApp.distributions_$LI$();
-edu.cornell.lassp.houle.RngPack.RandomApp.generators_$LI$();
-fuzztest.generator.TRepository.kClassName_$LI$();
 fuzztest.TMain.main(null);
-edu.cornell.lassp.houle.RngPack.RandomApp.main(null);

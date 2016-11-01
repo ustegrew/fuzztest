@@ -33,7 +33,7 @@ import java.util.Date;
  * @version 1.1a
  */
 
-public class Ranmar extends RandomSeedable implements Serializable
+public class Ranmar extends RandomSeedable
 {
 
     double            c, cd, cm, u[], uvec[];

@@ -13,39 +13,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.prefixed.simple_and;
-
-import fuzztest.generator.rule.VNode;
+package fuzztest.generator.rule;
 
 /**
- * 
- * 
- * Corresponding PEGjs rule:
- * 
- * <pre>
- * PrefixedExpression
- *     = operator:PrefixedOperator __ expression:SuffixedExpression 
- *     {
- *         var OPS_TO_PREFIXED_TYPES = 
- *         {
- *             "$": "text",
- *             "&": "simple_and",
- *             "!": "simple_not"
- *         };
- *         
- *         return 
- *         {
- *             type:               OPS_TO_PREFIXED_TYPES[operator],
- *             expression:         expression,
- *             location:           location ()
- *         };
- *     }
- *     / SuffixedExpression
- * </pre>
+ * A dummy class which allows us to create a concrete VNode. 
  * 
  * @author peter
  *
  */
-public class TSimpleAnd extends VNode
+class TNodeSurrogate extends VNode
 {
+
 }

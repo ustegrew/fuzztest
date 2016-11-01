@@ -29,7 +29,7 @@ import java.util.Date;
  * @version 1.1a
  */
 
-public class Ranecu extends RandomSeedable implements Serializable
+public class Ranecu extends RandomSeedable
 {
 
     int               iseed1, iseed2;

@@ -50,5 +50,4 @@ import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
  */
 public class TSimpleNot extends VNode
 {
-
 }

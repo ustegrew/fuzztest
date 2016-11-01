@@ -13,39 +13,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.prefixed.simple_and;
-
-import fuzztest.generator.rule.VNode;
+package fuzztest.generator.rule;
 
 /**
- * 
- * 
- * Corresponding PEGjs rule:
- * 
- * <pre>
- * PrefixedExpression
- *     = operator:PrefixedOperator __ expression:SuffixedExpression 
- *     {
- *         var OPS_TO_PREFIXED_TYPES = 
- *         {
- *             "$": "text",
- *             "&": "simple_and",
- *             "!": "simple_not"
- *         };
- *         
- *         return 
- *         {
- *             type:               OPS_TO_PREFIXED_TYPES[operator],
- *             expression:         expression,
- *             location:           location ()
- *         };
- *     }
- *     / SuffixedExpression
- * </pre>
+ * Code generation strategies.
  * 
  * @author peter
- *
  */
-public class TSimpleAnd extends VNode
+public enum ERuleAdhesion
 {
+    kFollowRule,            /* Strictly follow the grammar rule, i.e. generate fragment that matches the rule.  */
+    kInjectInvalids,        /* Randomly inject fragments that that don't match the current grammar rule.        */
+    kFollowOpposite         /* Only use fragments that don't match the current grammar rule                     */
 }

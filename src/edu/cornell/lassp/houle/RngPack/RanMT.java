@@ -64,7 +64,7 @@ import java.util.Date;
  * @version 1.1a
  */
 
-public class RanMT extends RandomSeedable implements Serializable
+public class RanMT extends RandomSeedable
 {
 
     private static final int N                = 624;

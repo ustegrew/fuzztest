@@ -77,5 +77,4 @@ public class TGrammar extends VNode
         
         return ret;
     }
-    
 }

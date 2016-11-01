@@ -38,9 +38,9 @@ public class TArrayList<T>
     }
     
     @SuppressWarnings ("unchecked")
-    public void Add (T value)
+    public void Add (T obj)
     {
-        fElements.push (value);
+        fElements.push (obj);
         fNumElements++;
     }
     
@@ -61,12 +61,9 @@ public class TArrayList<T>
     
     private void _AssertIndexOK (int i)
     {
-        String msg;
-        
         if (i < 0  ||  i >= fNumElements)
         {
-            msg = "Index out of bounds. Must be in [0, " + fNumElements + "[. Given: " + i;
-            throw new Error (msg);
+            throw new Error ("Index out of bounds. Must be in [0, " + fNumElements + "[. Given: " + i);
         }
     }
 }

@@ -16,14 +16,14 @@ namespace fuzztest {
             cc.AddRange("0", "9");
             cc.AddPoint("_");
             fuzztest.generator.rule.VNode.ClearVisitCounters();
-            s = new fuzztest.generator.rule.TStrategy(9, TStrategy.ERuleAdhesion.kFollowRule, 10);
+            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kFollowRule, 10);
             for(let i : number = 1; i <= 50; i++) {
                 p = cc.CreateData(s, "");
                 java.lang.System.out.print(p);
             }
             console.info();
             fuzztest.generator.rule.VNode.ClearVisitCounters();
-            s = new fuzztest.generator.rule.TStrategy(9, TStrategy.ERuleAdhesion.kInjectInvalids, 10);
+            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kInjectInvalids, 10);
             for(let i : number = 1; i <= 50; i++) {
                 p = cc.CreateData(s, "");
                 java.lang.System.out.print(p);
@@ -54,8 +54,8 @@ namespace fuzztest.utils.store {
             this.fNumElements = 0;
         }
 
-        public Add(value : T) {
-            this.fElements.push(value);
+        public Add(obj : T) {
+            this.fElements.push(obj);
             this.fNumElements++;
         }
 
@@ -71,10 +71,8 @@ namespace fuzztest.utils.store {
         }
 
         private _AssertIndexOK(i : number) {
-            let msg : string;
             if(i < 0 || i >= this.fNumElements) {
-                msg = "Index out of bounds. Must be in [0, " + this.fNumElements + "[. Given: " + i;
-                throw new Error(msg);
+                throw new Error("Index out of bounds. Must be in [0, " + this.fNumElements + "[. Given: " + i);
             }
         }
     }
@@ -102,14 +100,9 @@ namespace fuzztest.utils.store {
         }
 
         public Get(key : string) : T {
-            let hasElement : boolean;
             let ret : T;
-            hasElement = this.fElements.hasOwnProperty(key);
-            if(hasElement) {
-                ret = <T>this.fElements[key];
-            } else {
-                ret = null;
-            }
+            this._AssertHasElement(key, false);
+            ret = <T>this.fElements[key];
             return ret;
         }
 
@@ -123,12 +116,81 @@ namespace fuzztest.utils.store {
             return ret;
         }
 
-        public Set(key : string, value : T) {
-            this.fElements[key] = value;
+        public Set(key : string, obj : T) {
+            this._AssertHasElement(key, true);
+            this.fElements[key] = obj;
             this.fNumElements++;
+        }
+
+        private _AssertHasElement(key : string, doInverse : boolean) {
+            let hasElement : boolean;
+            hasElement = this.fElements.hasOwnProperty(key);
+            if(doInverse) {
+                if(hasElement) {
+                    throw new Error("Duplicate key: \'" + key + "\'");
+                }
+            } else {
+                if(!hasElement) {
+                    throw new Error("Unknown key: \'" + key + "\'");
+                }
+            }
         }
     }
     THashMap["__classname"] = "fuzztest.utils.store.THashMap";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.utils.store {
+    /**
+     * @author peter
+     */
+    export class TArrayMap<T> {
+        private fHashMap : fuzztest.utils.store.THashMap<T>;
+
+        private fArrayList : fuzztest.utils.store.TArrayList<T>;
+
+        public constructor() {
+            this.fHashMap = <any>(new fuzztest.utils.store.THashMap<any>());
+            this.fArrayList = <any>(new fuzztest.utils.store.TArrayList<any>());
+        }
+
+        public Add(key : string, obj : T) {
+            this.fHashMap.Set(key, obj);
+            this.fArrayList.Add(obj);
+        }
+
+        public Get(key? : any) : any {
+            if(((typeof key === 'string') || key === null)) {
+                let __args = Array.prototype.slice.call(arguments);
+                return <any>(() => {
+                    let ret : T;
+                    ret = this.fHashMap.Get(key);
+                    return ret;
+                })();
+            } else if(((typeof key === 'number') || key === null)) {
+                return <any>this.Get$int(key);
+            } else throw new Error('invalid overload');
+        }
+
+        public Get$int(i : number) : T {
+            let ret : T;
+            ret = this.fArrayList.Get(i);
+            return ret;
+        }
+
+        public GetNumElements() : number {
+            let ret : number;
+            ret = this.fArrayList.GetNumElements();
+            return ret;
+        }
+
+        public HasElement(key : string) : boolean {
+            let ret : boolean;
+            ret = this.fHashMap.HasElement(key);
+            return ret;
+        }
+    }
+    TArrayMap["__classname"] = "fuzztest.utils.store.TArrayMap";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -143,6 +205,8 @@ namespace fuzztest.generator {
      * @author peter
      */
     export class TRepository {
+        static gRepository : TRepository = null;
+
         /**
          * Adds an object to the repository. The object must have it's key property set prior to adding.
          * 
@@ -156,39 +220,6 @@ namespace fuzztest.generator {
             TRepository._CreateRepository();
             ret = TRepository.gRepository._Add(b);
             return ret;
-        }
-
-        /**
-         * Returns a list of keys of objects that are of the given class.
-         * 
-         * @param   c   The class of objects queried.
-         * @return      A list of keys of objects that are of the given class.
-         */
-        public static GetKeys$java_lang_Class(c : any) : fuzztest.utils.store.TArrayList<string> {
-            let ret : fuzztest.utils.store.TArrayList<string>;
-            TRepository._CreateRepository();
-            ret = TRepository.gRepository._GetKeys(c, true);
-            return ret;
-        }
-
-        /**
-         * Returns a list of keys of objects that are of the given class.
-         * 
-         * @param   c   The class of objects queried.
-         * @return      A list of keys of objects that are of the given class.
-         */
-        public static GetKeys(c? : any, isStrict? : any) : any {
-            if(((c != null && c instanceof java.lang.Class) || c === null) && ((typeof isStrict === 'boolean') || isStrict === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    let ret : fuzztest.utils.store.TArrayList<string>;
-                    TRepository._CreateRepository();
-                    ret = TRepository.gRepository._GetKeys(c, isStrict);
-                    return ret;
-                })();
-            } else if(((c != null && c instanceof java.lang.Class) || c === null) && isStrict === undefined) {
-                return <any>fuzztest.generator.TRepository.GetKeys$java_lang_Class(c);
-            } else throw new Error('invalid overload');
         }
 
         /**
@@ -228,6 +259,43 @@ namespace fuzztest.generator {
         }
 
         /**
+         * Returns a list of keys of objects that are of the same class as the given {@link VBrowseable}.
+         * 
+         * @param   b   The {@link VBrowseable} whose class we are querying.
+         * @return      A list of keys of objects that are of the given class.
+         */
+        public static GetKeys$fuzztest_generator_classing_TClass(c : fuzztest.generator.classing.TClass) : fuzztest.utils.store.TArrayList<string> {
+            let ret : fuzztest.utils.store.TArrayList<string>;
+            TRepository._CreateRepository();
+            ret = TRepository.gRepository._GetKeys(c, true);
+            return ret;
+        }
+
+        /**
+         * Returns a list of keys of objects that are of the same or parent class as the given {@link VBrowseable}.
+         * 
+         * @param   b           The {@link VBrowseable} whose class we are querying.
+         * @param   isStrict    If <code>true</code>, we filter for objects that have <i>exactly</i>
+         * the same class as the given {@link VBrowseable}. If <code>false</code>,
+         * we also accept objects of a class that is in the given object's parent
+         * chain.
+         * @return              A list of keys of objects that are of the given class, or a parent class thereof.
+         */
+        public static GetKeys(c? : any, isStrict? : any) : any {
+            if(((c != null && c instanceof fuzztest.generator.classing.TClass) || c === null) && ((typeof isStrict === 'boolean') || isStrict === null)) {
+                let __args = Array.prototype.slice.call(arguments);
+                return <any>(() => {
+                    let ret : fuzztest.utils.store.TArrayList<string>;
+                    TRepository._CreateRepository();
+                    ret = TRepository.gRepository._GetKeys(c, isStrict);
+                    return ret;
+                })();
+            } else if(((c != null && c instanceof fuzztest.generator.classing.TClass) || c === null) && isStrict === undefined) {
+                return <any>fuzztest.generator.TRepository.GetKeys$fuzztest_generator_classing_TClass(c);
+            } else throw new Error('invalid overload');
+        }
+
+        /**
          * @return  The number of objects stored in the repository.
          */
         public static GetNumElements() : number {
@@ -260,71 +328,22 @@ namespace fuzztest.generator {
             }
         }
 
-        static kClassName : string; public static kClassName_$LI$() : string { if(TRepository.kClassName == null) TRepository.kClassName = TRepository.getCanonicalName(); return TRepository.kClassName; };
-
-        static gRepository : TRepository = null;
-
-        private fObjectsList : fuzztest.utils.store.TArrayList<fuzztest.generator.VBrowseable>;
-
-        private fObjectsMap : fuzztest.utils.store.THashMap<fuzztest.generator.VBrowseable>;
+        private fRepository : fuzztest.utils.store.TArrayMap<fuzztest.generator.VBrowseable>;
 
         constructor() {
-            this.fObjectsList = <any>(new fuzztest.utils.store.TArrayList<any>());
-            this.fObjectsMap = <any>(new fuzztest.utils.store.THashMap<any>());
+            this.fRepository = <any>(new fuzztest.utils.store.TArrayMap<any>());
         }
 
         private _Add(b : fuzztest.generator.VBrowseable) : string {
             let key : string;
             key = b.GetKey();
-            this._AssertKeyOK(key, true);
-            this.fObjectsList.Add(b);
-            this.fObjectsMap.Set(key, b);
+            this.fRepository.Add(key, b);
             return key;
-        }
-
-        private _AssertKeyOK(key : string, isInverse : boolean) {
-            let hasElement : boolean;
-            if(key == null) {
-                throw new java.lang.IllegalArgumentException("No null keys allowed");
-            }
-            hasElement = this.fObjectsMap.HasElement(key);
-            if(isInverse) {
-                if(hasElement) {
-                    throw new java.lang.IllegalArgumentException("Duplicate object: \'" + key + "\'");
-                }
-            } else {
-                if(!hasElement) {
-                    throw new java.lang.IllegalArgumentException("No such object: \'" + key + "\'");
-                }
-            }
-        }
-
-        private _AssertInRange(i : number) {
-            let kMethod : string = "_AssertInRange";
-            let hasErr : boolean;
-            let postamble : string;
-            let errMsg : string;
-            let n : number;
-            hasErr = false;
-            n = this.fObjectsList.GetNumElements();
-            postamble = "Index must be in [0, " + n + "[. Given: " + i;
-            errMsg = null;
-            if(i < 0) {
-                hasErr = true;
-                errMsg = this.GetErrMsg("Index too small. " + postamble, kMethod);
-            } else if(i >= n) {
-                hasErr = true;
-                errMsg = this.GetErrMsg("Index too large. " + postamble, kMethod);
-            }
-            if(hasErr) {
-                throw new java.lang.IndexOutOfBoundsException(errMsg);
-            }
         }
 
         private _GetElement$int(i : number) : fuzztest.generator.VBrowseable {
             let ret : fuzztest.generator.VBrowseable;
-            this._AssertInRange(i);
-            ret = this.fObjectsList.Get(i);
+            ret = this.fRepository.Get(i);
             return ret;
         }
 
@@ -333,8 +352,7 @@ namespace fuzztest.generator {
                 let __args = Array.prototype.slice.call(arguments);
                 return <any>(() => {
                     let ret : fuzztest.generator.VBrowseable;
-                    this._AssertKeyOK(key, false);
-                    ret = this.fObjectsMap.Get(key);
+                    ret = this.fRepository.Get(key);
                     return ret;
                 })();
             } else if(((typeof key === 'number') || key === null)) {
@@ -342,31 +360,23 @@ namespace fuzztest.generator {
             } else throw new Error('invalid overload');
         }
 
-        private _GetKeys(c : any, isStrict : boolean) : fuzztest.utils.store.TArrayList<string> {
-            let n : number;
+        private _GetKeys(c : fuzztest.generator.classing.TClass, isStrict : boolean) : fuzztest.utils.store.TArrayList<string> {
             let i : number;
-            let obj : fuzztest.generator.VBrowseable;
-            let c0 : any;
-            let cname : string;
-            let cname0 : string;
+            let n : number;
+            let b0 : fuzztest.generator.VBrowseable;
+            let c0 : fuzztest.generator.classing.TClass;
             let isClass : boolean;
             let key : string;
             let ret : fuzztest.utils.store.TArrayList<string>;
             ret = <any>(new fuzztest.utils.store.TArrayList<any>());
-            n = this.fObjectsList.GetNumElements();
+            n = this.fRepository.GetNumElements();
             if(n >= 1) {
                 for(i = 0; i < n; i++) {
-                    obj = this.fObjectsList.Get(i);
-                    c0 = (<any>obj.constructor);
-                    if(isStrict) {
-                        cname = c.getCanonicalName();
-                        cname0 = c0.getCanonicalName();
-                        isClass = (cname === cname0);
-                    } else {
-                        isClass = c.isAssignableFrom(c0);
-                    }
+                    b0 = this.fRepository.Get(i);
+                    c0 = b0.GetClass();
+                    isClass = isStrict?c.IsEqualTo(c0):c.IsEqualToOrDerivedFrom(c0);
                     if(isClass) {
-                        key = obj.GetKey();
+                        key = b0.GetKey();
                         ret.Add(key);
                     }
                 }
@@ -376,19 +386,13 @@ namespace fuzztest.generator {
 
         private _GetNumElements() : number {
             let ret : number;
-            ret = this.fObjectsList.GetNumElements();
+            ret = this.fRepository.GetNumElements();
             return ret;
         }
 
         private _HasElement(key : string) : boolean {
             let ret : boolean;
-            ret = this.fObjectsMap.HasElement(key);
-            return ret;
-        }
-
-        private GetErrMsg(details : string, method : string) : string {
-            let ret : string;
-            ret = TRepository.kClassName_$LI$() + "::" + method + ": " + details;
+            ret = this.fRepository.HasElement(key);
             return ret;
         }
     }
@@ -435,16 +439,20 @@ namespace fuzztest.generator {
     export abstract class VBrowseable {
         static gCounter : number = -1;
 
-        private fClassID : string;
+        private fClass : fuzztest.generator.classing.TClass;
 
         private fKey : string;
 
         /**
          * cTor.
          */
-        public constructor() {
-            this.fClassID = (<any>this.constructor).getCanonicalName();
+        constructor() {
+            this.fClass = fuzztest.generator.classing.TClass.Create(this);
             this.fKey = null;
+        }
+
+        public GetClass() : fuzztest.generator.classing.TClass {
+            return this.fClass;
         }
 
         /**
@@ -455,12 +463,14 @@ namespace fuzztest.generator {
         }
 
         public _Register(key : string = null, doAutoKey : boolean = true) {
+            let k : string;
             if(this.fKey != null) {
                 throw new java.lang.IllegalArgumentException("Key is already assigned.");
             }
             if(doAutoKey) {
+                k = this.fClass.GetName();
                 VBrowseable.gCounter++;
-                this.fKey = this.fClassID + "_" + VBrowseable.gCounter;
+                this.fKey = k + "_" + VBrowseable.gCounter;
             } else {
                 this.fKey = key;
             }
@@ -468,6 +478,186 @@ namespace fuzztest.generator {
         }
     }
     VBrowseable["__classname"] = "fuzztest.generator.VBrowseable";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.generator.classing {
+    /**
+     * @author peter
+     */
+    export class TInheritChain {
+        public static kPathSeparator : string = ".";
+
+        private fChain : fuzztest.utils.store.TArrayMap<fuzztest.generator.classing.TClass>;
+
+        public constructor(obj : Object) {
+            this.fChain = <any>(new fuzztest.utils.store.TArrayMap<any>());
+            this._Build(obj);
+        }
+
+        public GetAsString() : string {
+            let i : number;
+            let n : number;
+            let c : fuzztest.generator.classing.TClass;
+            let ret : string;
+            ret = "";
+            n = this.fChain.GetNumElements();
+            if(n >= 1) {
+                for(i = 0; i < n; i++) {
+                    c = this.fChain.Get(i);
+                    ret += c.GetName();
+                    if(i < n - 1) {
+                        ret += TInheritChain.kPathSeparator;
+                    }
+                }
+            }
+            return ret;
+        }
+
+        /**
+         * Returns the i-th parent in this inheritance chain.
+         * 
+         * @param   i   The number of generations above. Zero is the first parent generation, 1 the one above etc.
+         * @return      The parent class that it i generations above the class hosting this chain.
+         */
+        public GetLink(i : number) : fuzztest.generator.classing.TClass {
+            let ret : fuzztest.generator.classing.TClass;
+            ret = this.fChain.Get(i);
+            return ret;
+        }
+
+        public GetNumLinks() : number {
+            let ret : number;
+            ret = this.fChain.GetNumElements();
+            return ret;
+        }
+
+        public IsLink(c : fuzztest.generator.classing.TClass) : boolean {
+            let i : number;
+            let n : number;
+            let c0 : fuzztest.generator.classing.TClass;
+            let cID : string;
+            let cID0 : string;
+            let ret : boolean;
+            ret = false;
+            n = this.fChain.GetNumElements();
+            if(n >= 1) {
+                for(i = 0; i < n; i++) {
+                    c0 = this.fChain.Get(i);
+                    cID = c.GetName();
+                    cID0 = c0.GetName();
+                    ret = ret || (cID === cID0);
+                }
+            }
+            return ret;
+        }
+
+        private _Build(obj : Object) {
+            let cls : fuzztest.generator.classing.TClass;
+            let instance : Object;
+            let key : string;
+            instance = obj;
+            while((instance != null)){
+                instance = <Object>instance["__proto__"];
+                cls = new fuzztest.generator.classing.TClass(instance);
+                key = cls.GetName();
+                this.fChain.Add(key, cls);
+            };
+        }
+    }
+    TInheritChain["__classname"] = "fuzztest.generator.classing.TInheritChain";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.generator.classing {
+    /**
+     * @author peter
+     */
+    export class TClass {
+        public static Create(obj : fuzztest.generator.VBrowseable) : TClass {
+            let obj0 : Object;
+            let ret : TClass;
+            obj0 = <Object>(<any>obj);
+            ret = new TClass(obj0);
+            return ret;
+        }
+
+        private fInherits : fuzztest.generator.classing.TInheritChain;
+
+        private fName : string;
+
+        constructor(obj : Object) {
+            this._Init(obj);
+        }
+
+        public GetName() : string {
+            return this.fName;
+        }
+
+        public GetParent() : TClass {
+            let nLinks : number;
+            let ret : TClass;
+            nLinks = this.fInherits.GetNumLinks();
+            ret = null;
+            if(nLinks >= 1) {
+                ret = this.fInherits.GetLink(0);
+            }
+            return ret;
+        }
+
+        public IsEqualTo(other : TClass) : boolean {
+            let ret : boolean;
+            ret = this._IsEqualTo(other);
+            return ret;
+        }
+
+        public IsEqualToOrDerivedFrom(other : TClass) : boolean {
+            let isEq : boolean;
+            let isDer : boolean;
+            let ret : boolean;
+            isEq = this._IsEqualTo(other);
+            isDer = this.fInherits.IsLink(other);
+            ret = isEq || isDer;
+            return ret;
+        }
+
+        private _IsEqualTo(other : TClass) : boolean {
+            let path0 : string;
+            let path1 : string;
+            let ret : boolean;
+            path0 = this._GetCanonicalName();
+            path1 = other._GetCanonicalName();
+            ret = (path0 === path1);
+            return ret;
+        }
+
+        /**
+         * @return
+         */
+        private _GetCanonicalName() : string {
+            let n : number;
+            let ret : string;
+            n = this.fInherits.GetNumLinks();
+            if(n >= 1) {
+                ret = this.fInherits.GetAsString();
+                ret += fuzztest.generator.classing.TInheritChain.kPathSeparator;
+                ret += this.fName;
+            } else {
+                ret = this.fName;
+            }
+            return ret;
+        }
+
+        private _Init(obj : Object) {
+            let p : Object;
+            let c : Object;
+            p = <Object>obj["__proto__"];
+            c = <Object>p["constructor"];
+            this.fName = <string>c["name"];
+            this.fInherits = new fuzztest.generator.classing.TInheritChain(obj);
+        }
+    }
+    TClass["__classname"] = "fuzztest.generator.classing.TClass";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -484,6 +674,17 @@ namespace fuzztest.generator.rule.cClass {
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 namespace fuzztest.generator.rule {
     /**
+     * Code generation strategies.
+     * 
+     * @author peter
+     */
+    export enum ERuleAdhesion {
+        kFollowRule, kInjectInvalids, kFollowOpposite
+    }
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.generator.rule {
+    /**
      * @author peter
      */
     export class TStrategy {
@@ -491,11 +692,11 @@ namespace fuzztest.generator.rule {
 
         private fRecursionMax : number;
 
-        private fRuleAdhesion : TStrategy.ERuleAdhesion;
+        private fRuleAdhesion : fuzztest.generator.rule.ERuleAdhesion;
 
         private fRepeatMax : number;
 
-        public constructor(recursionMax : number, ruleAdhesion : TStrategy.ERuleAdhesion, repeatMax : number) {
+        public constructor(recursionMax : number, ruleAdhesion : fuzztest.generator.rule.ERuleAdhesion, repeatMax : number) {
             this.fRecursionCounter = 0;
             this.fRecursionMax = 0;
             this.fRepeatMax = 0;
@@ -514,7 +715,7 @@ namespace fuzztest.generator.rule {
             return ret;
         }
 
-        public GetRuleAdhesion() : TStrategy.ERuleAdhesion {
+        public GetRuleAdhesion() : fuzztest.generator.rule.ERuleAdhesion {
             return this.fRuleAdhesion;
         }
 
@@ -526,201 +727,11 @@ namespace fuzztest.generator.rule {
             return this.fRecursionMax;
         }
 
-        _AssertParamsOK(recursionMax : number, ruleAdhesion : TStrategy.ERuleAdhesion, repeatMax : number) {
+        private _AssertParamsOK(recursionMax : number, ruleAdhesion : fuzztest.generator.rule.ERuleAdhesion, repeatMax : number) {
             console.info("Warning: TStrategy::_AssertParamsOK(...): Must implement.");
         }
     }
     TStrategy["__classname"] = "fuzztest.generator.rule.TStrategy";
-
-
-    export namespace TStrategy {
-
-        /**
-         * Code generation strategies.
-         * 
-         * @author peter
-         */
-        export enum ERuleAdhesion {
-            kFollowRule, kInjectInvalids, kFollowOpposite
-        }
-    }
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace edu.cornell.lassp.houle.RngPack {
-    /**
-     * 
-     * 
-     * RandomApp is a simple application that demonstrates the use of RngPack.
-     * RandomApp generates random numbers and writes them to the standard output.
-     * This is very useful on Unix systems since the output can be piped to another
-     * application. See <A HREF="../RandomApp.txt">RandomApp</A> documentation for
-     * how to run it.
-     * 
-     * 
-     * 
-     * <P>
-     * <A HREF="/RngPack/src/edu/cornell/lassp/houle/RngPack/RandomApp.java"> Source
-     * code </A> is available.
-     * 
-     * @author <A HREF="http://www.honeylocust.com/"> Paul Houle </A> (E-mail:
-     * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
-     * @version 1.1a
-     * 
-     * @see RandomJava
-     * @see RandomShuffle
-     */
-    export class RandomApp {
-        static generators : string[]; public static generators_$LI$() : string[] { if(RandomApp.generators == null) RandomApp.generators = ["ranmar", "ranecu", "ranlux", "randomjava", "null", "ranmt"]; return RandomApp.generators; };
-
-        static distributions : string[]; public static distributions_$LI$() : string[] { if(RandomApp.distributions == null) RandomApp.distributions = ["flat", "gaussian", "choose1", "choose2", "coin1", "coin2"]; return RandomApp.distributions; };
-
-        static RANMAR : number = 0;
-
-        static RANECU : number = 1;
-
-        static RANLUX : number = 2;
-
-        static RANJAVA : number = 3;
-
-        static NULL : number = 4;
-
-        static RANMT : number = 5;
-
-        static FLAT : number = 0;
-
-        static GAUSSIAN : number = 1;
-
-        static CHOOSE1 : number = 2;
-
-        static CHOOSE2 : number = 3;
-
-        static COIN1 : number = 4;
-
-        static COIN2 : number = 5;
-
-        public static main(args : string[]) {
-            let a : string;
-            let e : edu.cornell.lassp.houle.RngPack.RandomElement;
-            let i : number;
-            let j : number;
-            let generator : number;
-            let distribution : number;
-            let n : number;
-            let luxury : number;
-            let x : number;
-            let seed : number;
-            let hi : number;
-            let lo : number;
-            let seeded : boolean = false;
-            let gselected : boolean = false;
-            let dselected : boolean = false;
-            let noprint : boolean = false;
-            let numbered : boolean = false;
-            let luxuryset : boolean = false;
-            generator = RandomApp.RANMAR;
-            distribution = RandomApp.FLAT;
-            seed = edu.cornell.lassp.houle.RngPack.RandomSeedable.ClockSeed();
-            luxury = edu.cornell.lassp.houle.RngPack.Ranlux.lxdflt;
-            n = 100;
-            parse_loop: for(i = 0; i < args.length; i++) {
-                a = args[i].toLowerCase().intern();
-                if(a === "noprint") {
-                    noprint = true;
-                    continue;
-                }
-                if(a === "seed") {
-                    if(seeded) RandomApp.die("RandomApp: only one seed can be passed");
-                    if(i === args.length - 1) RandomApp.die("RandomApp: missing seed.");
-                    i++;
-                    a = <string>new String(args[i]);
-                    try {
-                        seed = javaemul.internal.LongHelper.parseLong(a);
-                    } catch(ex) {
-                        RandomApp.die("RandomApp: seed is not a valid number.");
-                    };
-                    seeded = true;
-                    continue;
-                }
-                if(a === "luxury") {
-                    if(luxuryset) RandomApp.die("RandomApp: only one luxury level can be passed");
-                    if(i === args.length - 1) RandomApp.die("RandomApp: missing luxury level.");
-                    i++;
-                    a = <string>new String(args[i]);
-                    try {
-                        luxury = javaemul.internal.IntegerHelper.parseInt(a);
-                    } catch(ex) {
-                        RandomApp.die("RandomApp: luxury level is not a valid number.");
-                    };
-                    luxuryset = true;
-                    if(luxury < 0 || luxury > edu.cornell.lassp.houle.RngPack.Ranlux.maxlev) RandomApp.die("RandomApp: luxury level must be between 0 and " + edu.cornell.lassp.houle.RngPack.Ranlux.maxlev);
-                    continue;
-                }
-                for(j = 0; j < RandomApp.generators_$LI$().length; j++) if(a === RandomApp.generators_$LI$()[j]) {
-                    if(gselected) RandomApp.die("RandomApp: only one generator can be selected.");
-                    generator = j;
-                    gselected = true;
-                    continue parse_loop;
-                }
-                for(j = 0; j < RandomApp.distributions_$LI$().length; j++) if(a === RandomApp.distributions_$LI$()[j]) {
-                    if(dselected) RandomApp.die("RandomApp: only one distribution can be selected.");
-                    distribution = j;
-                    dselected = true;
-                    continue parse_loop;
-                }
-                try {
-                    n = javaemul.internal.IntegerHelper.parseInt(a);
-                    if(numbered) RandomApp.die("RandomApp: only one number of random numbers can be selected.");
-                    numbered = true;
-                } catch(ex) {
-                    RandomApp.die("RandomApp: syntax error <" + a + ">");
-                };
-            }
-            e = null;
-            if(generator === RandomApp.RANMAR) {
-                e = new edu.cornell.lassp.houle.RngPack.Ranmar(seed);
-            } else if(generator === RandomApp.RANECU) {
-                e = new edu.cornell.lassp.houle.RngPack.Ranecu(seed);
-            } else if(generator === RandomApp.RANLUX) {
-                e = new edu.cornell.lassp.houle.RngPack.Ranlux(luxury, seed);
-            } else if(generator === RandomApp.RANJAVA) {
-                e = new edu.cornell.lassp.houle.RngPack.RandomJava();
-            } else if(generator === RandomApp.RANMT) {
-                e = new edu.cornell.lassp.houle.RngPack.RanMT(seed);
-            }
-            for(i = 1; i <= n; i++) {
-                x = 0.0;
-                if(generator !== RandomApp.NULL) {
-                    if(distribution === RandomApp.FLAT) {
-                        x = e.raw();
-                    } else if(distribution === RandomApp.GAUSSIAN) {
-                        x = e.gaussian();
-                    } else if(distribution === RandomApp.CHOOSE1) {
-                        x = e.choose(5);
-                    } else if(distribution === RandomApp.CHOOSE2) {
-                        x = e.choose(7, 10);
-                    } else if(distribution === RandomApp.COIN1) {
-                        x = e.coin()?1.0:0.0;
-                    } else if(distribution === RandomApp.COIN2) {
-                        x = e.coin(0.7)?1.0:0.0;
-                    } else {
-                        RandomApp.die("Invalid distribution: " + distribution);
-                    }
-                }
-                if(!noprint) console.info(x);
-            }
-        }
-
-        static die(s : string) {
-            console.error(s);
-            java.lang.System.exit(-1);
-        }
-
-        static nullgen() : number {
-            return 0.0;
-        }
-    }
-    RandomApp["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomApp";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -744,7 +755,7 @@ namespace edu.cornell.lassp.houle.RngPack {
      * @see RandomJava
      * @see RandomShuffle
      */
-    export abstract class RandomElement implements java.lang.Cloneable {
+    export abstract class RandomElement {
         BMoutput : number;
 
         /**
@@ -862,52 +873,6 @@ namespace edu.cornell.lassp.houle.RngPack {
         }
 
         /**
-         * gaussian() uses the Box-Muller algorithm to transform raw()'s into
-         * gaussian deviates.
-         * 
-         * @return a random real with a gaussian distribution, standard deviation
-         * 
-         */
-        public gaussian$() : number {
-            let out : number;
-            let x : number;
-            let y : number;
-            let r : number;
-            let z : number;
-            if(this.BMoutput != null) {
-                out = this.BMoutput.doubleValue();
-                this.BMoutput = null;
-                return (out);
-            }
-            do {
-                x = this.uniform(-1, 1);
-                y = this.uniform(-1, 1);
-                r = x * x + y * y;
-            } while((r >= 1.0));
-            z = Math.sqrt(-2.0 * Math.log(r) / r);
-            this.BMoutput = <number>new Number(x * z);
-            return (y * z);
-        }
-
-        /**
-         * 
-         * @param sd
-         * standard deviation
-         * @return a gaussian distributed random real with standard deviation
-         * <STRONG>sd</STRONG>
-         */
-        public gaussian(sd? : any) : any {
-            if(((typeof sd === 'number') || sd === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    return (this.gaussian() * sd);
-                })();
-            } else if(sd === undefined) {
-                return <any>this.gaussian$();
-            } else throw new Error('invalid overload');
-        }
-
-        /**
          * 
          * generate a power-law distribution with exponent <CODE>alpha</CODE> and
          * lower cutoff <CODE>cut</CODE> <CENTER> </CENTER>
@@ -921,12 +886,7 @@ namespace edu.cornell.lassp.houle.RngPack {
             return cut * Math.pow(this.raw(), 1.0 / (alpha + 1.0));
         }
 
-        public clone() : any {
-            return javaemul.internal.ObjectHelper.clone(this);
-        }
-
         constructor() {
-            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
         }
     }
     RandomElement["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomElement";
@@ -943,8 +903,14 @@ namespace fuzztest.generator.rule {
             let n : number;
             let k : string;
             let nd : VNode;
+            let ns : fuzztest.generator.rule.TNodeSurrogate;
+            let clVNodeS : fuzztest.generator.classing.TClass;
+            let clVNode : fuzztest.generator.classing.TClass;
             let keys : fuzztest.utils.store.TArrayList<string>;
-            keys = fuzztest.generator.TRepository.GetKeys(VNode, false);
+            ns = new fuzztest.generator.rule.TNodeSurrogate();
+            clVNodeS = ns.GetClass();
+            clVNode = clVNodeS.GetParent();
+            keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
             n = keys.GetNumElements();
             if(n >= 1) {
                 for(i = 0; i < n; i++) {
@@ -956,12 +922,12 @@ namespace fuzztest.generator.rule {
         }
 
         public static DoesFollowRule(s : fuzztest.generator.rule.TStrategy) : boolean {
-            let r : TStrategy.ERuleAdhesion;
+            let r : fuzztest.generator.rule.ERuleAdhesion;
             let ret : boolean;
             r = s.GetRuleAdhesion();
-            if(r === TStrategy.ERuleAdhesion.kFollowRule) {
+            if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowRule) {
                 ret = true;
-            } else if(r === TStrategy.ERuleAdhesion.kFollowOpposite) {
+            } else if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowOpposite) {
                 ret = false;
             } else {
                 ret = fuzztest.utils.gen.TGenData.GetBoolean();
@@ -1077,7 +1043,7 @@ namespace fuzztest.generator.rule {
          * distinctly different from this node.
          */
         _GetFromOppositeSet() : VNode {
-            let c : any;
+            let c : fuzztest.generator.classing.TClass;
             let i : number;
             let n : number;
             let kThis : string;
@@ -1087,7 +1053,7 @@ namespace fuzztest.generator.rule {
             let refs : fuzztest.utils.store.TArrayList<string>;
             let ret : VNode;
             kThis = this.GetKey();
-            c = (<any>this.constructor);
+            c = this.GetClass();
             refs = fuzztest.generator.TRepository.GetKeys(c);
             n = refs.GetNumElements();
             ret = null;
@@ -1299,7 +1265,6 @@ namespace edu.cornell.lassp.houle.RngPack {
          */
         public constructor(ga : edu.cornell.lassp.houle.RngPack.RandomElement, gb : edu.cornell.lassp.houle.RngPack.RandomElement, ds : number) {
             super();
-            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
             this.decksize = 0;
             this.generatorA = ga;
             this.generatorB = gb;
@@ -1328,118 +1293,6 @@ namespace edu.cornell.lassp.houle.RngPack {
         }
     }
     RandomShuffle["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomShuffle";
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace edu.cornell.lassp.houle.RngPack {
-    /**
-     * RandomSynchronized is a wrapper class that makes a random number generator
-     * safe for multi-threaded operation by serializing access in time. For
-     * high-performance applications, it is better for each thread to have it's own
-     * random number generator.
-     * 
-     * Note this class is declared serializable, but serialization won't be
-     * successful if it's wrapping a non-serializable generator.
-     * <P>
-     * <A HREF=
-     * "/RngPack/src/edu/cornell/lassp/houle/RngPack/RandomSynchronized.java">
-     * Source code </A> is available.
-     * 
-     * @author <A HREF="http://www.honeylocust.com/"> Paul Houle </A> (E-mail:
-     * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
-     * @version 1.1a
-     * 
-     * @see RandomElement
-     */
-    export abstract class RandomSynchronized extends edu.cornell.lassp.houle.RngPack.RandomElement implements java.io.Serializable {
-        private rng : edu.cornell.lassp.houle.RngPack.RandomElement;
-
-        public constructor(rng : edu.cornell.lassp.houle.RngPack.RandomElement) {
-            super();
-            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
-            this.rng = rng;
-        }
-
-        /**
-         * Synchronized the raw() method, which is generally not threadsafe.
-         * 
-         * @see RandomJava
-         * 
-         * @return a random double in the range [0,1]
-         */
-        public raw$() : number {
-            return this.rng.raw();
-        }
-
-        /**
-         * This method probably isn't threadsafe in implementations, so it's
-         * synchronized
-         * 
-         * 
-         * @param d
-         * array to be filled with doubles
-         * @param n
-         * number of doubles to generate
-         */
-        public raw(d? : any, n? : any) : any {
-            if(((d != null && d instanceof Array) || d === null) && ((typeof n === 'number') || n === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    this.rng.raw(d, n);
-                })();
-            } else if(((d != null && d instanceof Array) || d === null) && n === undefined) {
-                return <any>this.raw$double_A(d);
-            } else if(d === undefined && n === undefined) {
-                return <any>this.raw$();
-            } else throw new Error('invalid overload');
-        }
-
-        /**
-         * 
-         * Wrapped so generators can override.
-         * 
-         * @param lo
-         * lower limit of range
-         * @param hi
-         * upper limit of range
-         * @return a random integer in the range <STRONG>lo</STRONG>,
-         * <STRONG>lo</STRONG>+1, ... ,<STRONG>hi</STRONG>
-         */
-        public choose(lo? : any, hi? : any) : any {
-            if(((typeof lo === 'number') || lo === null) && ((typeof hi === 'number') || hi === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    return this.rng.choose(lo, hi);
-                })();
-            } else if(((typeof lo === 'number') || lo === null) && hi === undefined) {
-                return <any>this.choose$int(lo);
-            } else throw new Error('invalid overload');
-        }
-
-        /**
-         * 
-         * Must be synchronized because state is stored in BMoutput
-         * 
-         * @return a random real with a gaussian distribution, standard deviation
-         */
-        public gaussian$() : number {
-            return this.rng.gaussian();
-        }
-
-        /**
-         * 
-         * We wouldn't want some sneaky person to serialize this in the middle of
-         * generating a number
-         */
-        private writeObject(out : java.io.ObjectOutputStream) {
-            out.defaultWriteObject();
-        }
-
-        private readObject(__in : java.io.ObjectInputStream) {
-            __in.defaultReadObject();
-        }
-    }
-    RandomSynchronized["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomSynchronized";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -1475,11 +1328,6 @@ namespace edu.cornell.lassp.houle.RngPack {
          */
         public raw$() : number {
             return Math.random();
-        }
-
-        constructor() {
-            super();
-            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
         }
     }
     RandomJava["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomJava";
@@ -1553,11 +1401,6 @@ namespace edu.cornell.lassp.houle.RngPack {
          */
         public static ClockSeed$() : number {
             return RandomSeedable.ClockSeed(new java.util.Date());
-        }
-
-        constructor() {
-            super();
-            Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable"] });
         }
     }
     RandomSeedable["__classname"] = "edu.cornell.lassp.houle.RngPack.RandomSeedable";
@@ -2099,6 +1942,17 @@ namespace fuzztest.generator.rule.initializer {
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.generator.rule {
+    /**
+     * A dummy class which allows us to create a concrete VNode.
+     * 
+     * @author peter
+     */
+    export class TNodeSurrogate extends fuzztest.generator.rule.VNode {    }
+    TNodeSurrogate["__classname"] = "fuzztest.generator.rule.TNodeSurrogate";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 namespace fuzztest.generator.rule.literal {
     /**
      * 
@@ -2486,7 +2340,7 @@ namespace fuzztest.generator.rule.suffixed {
         }
 
         _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
-            let r : TStrategy.ERuleAdhesion;
+            let r : fuzztest.generator.rule.ERuleAdhesion;
             let ex : fuzztest.generator.rule.VNode;
             let doBreakRule : boolean;
             let nMin : number;
@@ -2496,7 +2350,7 @@ namespace fuzztest.generator.rule.suffixed {
             let ret : string;
             doBreakRule = true;
             r = s.GetRuleAdhesion();
-            if(r === TStrategy.ERuleAdhesion.kFollowRule) {
+            if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowRule) {
                 doBreakRule = false;
             } else {
                 doBreakRule = fuzztest.utils.gen.TGenData.GetBoolean();
@@ -2559,7 +2413,7 @@ namespace edu.cornell.lassp.houle.RngPack {
      * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
      * @version 1.1a
      */
-    export class Ranmar extends edu.cornell.lassp.houle.RngPack.RandomSeedable implements java.io.Serializable {
+    export class Ranmar extends edu.cornell.lassp.houle.RngPack.RandomSeedable {
         c : number;
 
         cd : number;
@@ -2604,7 +2458,6 @@ namespace edu.cornell.lassp.houle.RngPack {
             if(((d != null && d instanceof java.util.Date) || d === null)) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.c = 0;
                 this.cd = 0;
                 this.cm = 0;
@@ -2617,7 +2470,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 let __args = Array.prototype.slice.call(arguments);
                 let ijkl : any = __args[0];
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.c = 0;
                 this.cd = 0;
                 this.cm = 0;
@@ -2630,7 +2482,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 let __args = Array.prototype.slice.call(arguments);
                 let ijkl : any = __args[0];
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.c = 0;
                 this.cd = 0;
                 this.cm = 0;
@@ -2642,7 +2493,6 @@ namespace edu.cornell.lassp.houle.RngPack {
             } else if(d === undefined) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.c = 0;
                 this.cd = 0;
                 this.cm = 0;
@@ -2852,7 +2702,7 @@ namespace edu.cornell.lassp.houle.RngPack {
      * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
      * @version 1.1a
      */
-    export class Ranlux extends edu.cornell.lassp.houle.RngPack.RandomSeedable implements java.io.Serializable {
+    export class Ranlux extends edu.cornell.lassp.houle.RngPack.RandomSeedable {
         /**
          * Maximum luxury level: <CODE>maxlev=4</CODE>
          */
@@ -2937,7 +2787,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -2959,7 +2808,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -2981,7 +2829,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -3003,7 +2850,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -3025,7 +2871,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -3047,7 +2892,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -3068,7 +2912,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 this.j24 = 10;
                 this.carry = <number>0.0;
                 this.diagOn = false;
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.nskip = 0;
                 this.inseed = 0;
                 this.jseed = 0;
@@ -3269,7 +3112,7 @@ namespace edu.cornell.lassp.houle.RngPack {
      * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
      * @version 1.1a
      */
-    export class Ranecu extends edu.cornell.lassp.houle.RngPack.RandomSeedable implements java.io.Serializable {
+    export class Ranecu extends edu.cornell.lassp.houle.RngPack.RandomSeedable {
         iseed1 : number;
 
         iseed2 : number;
@@ -3300,7 +3143,6 @@ namespace edu.cornell.lassp.houle.RngPack {
             if(((typeof s1 === 'number') || s1 === null) && ((typeof s2 === 'number') || s2 === null)) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.iseed1 = 0;
                 this.iseed2 = 0;
                 (() => {
@@ -3311,7 +3153,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 let __args = Array.prototype.slice.call(arguments);
                 let d : any = __args[0];
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.iseed1 = 0;
                 this.iseed2 = 0;
                 (() => {
@@ -3322,7 +3163,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 let __args = Array.prototype.slice.call(arguments);
                 let l : any = __args[0];
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.iseed1 = 0;
                 this.iseed2 = 0;
                 (() => {
@@ -3332,7 +3172,6 @@ namespace edu.cornell.lassp.houle.RngPack {
             } else if(s1 === undefined && s2 === undefined) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.iseed1 = 0;
                 this.iseed2 = 0;
                 (() => {
@@ -3458,7 +3297,7 @@ namespace edu.cornell.lassp.houle.RngPack {
      * <A HREF="mailto:paul@honeylocust.com">paul@honeylocust.com</A>)
      * @version 1.1a
      */
-    export class RanMT extends edu.cornell.lassp.houle.RngPack.RandomSeedable implements java.io.Serializable {
+    export class RanMT extends edu.cornell.lassp.houle.RngPack.RandomSeedable {
         static N : number = 624;
 
         static M : number = 397;
@@ -3483,7 +3322,6 @@ namespace edu.cornell.lassp.houle.RngPack {
             if(((d != null && d instanceof java.util.Date) || d === null)) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.mti = 0;
                 (() => {
                     this.setSeed(d.getTime());
@@ -3492,7 +3330,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 let __args = Array.prototype.slice.call(arguments);
                 let array : any = __args[0];
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.mti = 0;
                 (() => {
                     this.setSeed(array);
@@ -3501,7 +3338,6 @@ namespace edu.cornell.lassp.houle.RngPack {
                 let __args = Array.prototype.slice.call(arguments);
                 let seed : any = __args[0];
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.mti = 0;
                 (() => {
                     this.setSeed(seed);
@@ -3509,7 +3345,6 @@ namespace edu.cornell.lassp.houle.RngPack {
             } else if(d === undefined) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
-                Object.defineProperty(this, '__interfaces', { configurable: true, value: ["java.lang.Cloneable","java.io.Serializable"] });
                 this.mti = 0;
                 (() => {
                     this.setSeed(4357);
@@ -3827,12 +3662,4 @@ edu.cornell.lassp.houle.RngPack.Ranlux.ndskip_$LI$();
 
 edu.cornell.lassp.houle.RngPack.Ranlux.itwo24_$LI$();
 
-edu.cornell.lassp.houle.RngPack.RandomApp.distributions_$LI$();
-
-edu.cornell.lassp.houle.RngPack.RandomApp.generators_$LI$();
-
-fuzztest.generator.TRepository.kClassName_$LI$();
-
 fuzztest.TMain.main(null);
-
-edu.cornell.lassp.houle.RngPack.RandomApp.main(null);

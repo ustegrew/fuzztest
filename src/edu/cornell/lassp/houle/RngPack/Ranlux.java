@@ -104,7 +104,7 @@ import java.util.Date;
  * @version 1.1a
  */
 
-public class Ranlux extends RandomSeedable implements Serializable
+public class Ranlux extends RandomSeedable
 {
 
     /**

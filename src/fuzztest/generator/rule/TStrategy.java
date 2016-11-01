@@ -21,18 +21,6 @@ package fuzztest.generator.rule;
  */
 public class TStrategy
 {
-    /**
-     * Code generation strategies.
-     * 
-     * @author peter
-     */
-    public static enum ERuleAdhesion
-    {
-        kFollowRule,            /* Strictly follow the grammar rule, i.e. generate fragment that matches the rule.  */
-        kInjectInvalids,        /* Randomly inject fragments that that don't match the current grammar rule.        */
-        kFollowOpposite         /* Only use fragments that don't match the current grammar rule                     */
-    }
-
     private int                     fRecursionCounter;
     private int                     fRecursionMax;
     private ERuleAdhesion           fRuleAdhesion;

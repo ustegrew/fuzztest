@@ -36,18 +36,10 @@ public class THashMap<T>
     @SuppressWarnings ("unchecked")
     public T Get (String key)
     {
-        boolean     hasElement;
         T           ret;
         
-        hasElement = fElements.hasOwnProperty (key);
-        if (hasElement)
-        {
-            ret = (T) fElements.$get (key);
-        }
-        else
-        {
-            ret = null;
-        }
+        _AssertHasElement (key, false);
+        ret = (T) fElements.$get (key);
         
         return ret;
     }
@@ -66,9 +58,31 @@ public class THashMap<T>
         return ret;
     }
     
-    public void Set (String key, T value)
+    public void Set (String key, T obj)
     {
-        fElements.$set (key, value);
+        _AssertHasElement (key, true);
+        fElements.$set (key, obj);
         fNumElements++;
+    }
+    
+    private void _AssertHasElement (String key, boolean doInverse)
+    {
+        boolean hasElement;
+        
+        hasElement = fElements.hasOwnProperty (key);
+        if (doInverse)
+        {
+            if (hasElement)
+            {
+                throw new Error ("Duplicate key: '" + key + "'");
+            }
+        }
+        else
+        {
+            if (! hasElement)
+            {
+                throw new Error ("Unknown key: '" + key + "'");
+            }
+        }
     }
 }

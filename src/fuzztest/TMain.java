@@ -17,8 +17,8 @@ package fuzztest;
 
 import static jsweet.dom.Globals.console;
 
+import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.cClass.TCharacterClass;
 

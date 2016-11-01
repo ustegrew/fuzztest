@@ -25,7 +25,7 @@ package edu.cornell.lassp.houle.RngPack;
  * @see RandomShuffle
  */
 
-public abstract class RandomElement extends Object implements Cloneable
+public abstract class RandomElement
 {
 
     Double BMoutput; // constant needed by Box-Mueller algorithm
@@ -142,52 +142,6 @@ public abstract class RandomElement extends Object implements Cloneable
     }
 
     /**
-     * gaussian() uses the Box-Muller algorithm to transform raw()'s into
-     * gaussian deviates.
-     * 
-     * @return a random real with a gaussian distribution, standard deviation
-     * 
-     */
-
-    public double gaussian ()
-    {
-        double out, x, y, r, z;
-
-        if (BMoutput != null)
-        {
-            out = BMoutput.doubleValue ();
-            BMoutput = null;
-            return (out);
-        }
-        ;
-
-        do
-        {
-            x = uniform (-1, 1);
-            y = uniform (-1, 1);
-            r = x * x + y * y;
-        }
-        while (r >= 1.0);
-
-        z = Math.sqrt (-2.0 * Math.log (r) / r);
-        BMoutput = new Double (x * z);
-        return (y * z);
-    }
-
-    /**
-     * 
-     * @param sd
-     *            standard deviation
-     * @return a gaussian distributed random real with standard deviation
-     *         <STRONG>sd</STRONG>
-     */
-
-    public double gaussian (double sd)
-    {
-        return (gaussian () * sd);
-    }
-
-    /**
      *
      * generate a power-law distribution with exponent <CODE>alpha</CODE> and
      * lower cutoff <CODE>cut</CODE> <CENTER> </CENTER>
@@ -203,10 +157,4 @@ public abstract class RandomElement extends Object implements Cloneable
     {
         return cut * Math.pow (raw (), 1.0 / (alpha + 1.0));
     }
-
-    public Object clone () throws java.lang.CloneNotSupportedException
-    {
-        return super.clone ();
-    }
-
 };

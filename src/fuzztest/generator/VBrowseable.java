@@ -15,6 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator;
 
+import fuzztest.generator.classing.TClass;
+
 /**
  * Browseable object, i.e. can be stored in the {@link TRepository}. Provides 
  * manual and automatic key generation. 
@@ -25,16 +27,21 @@ public abstract class VBrowseable
 {
     private static int      gCounter = -1;
     
-    private String          fClassID;
+    private TClass          fClass;
     private String          fKey;
     
     /**
      * cTor. 
      */
-    public VBrowseable ()
+    protected VBrowseable ()
     {
-        fClassID    = getClass ().getCanonicalName ();
+        fClass      = TClass.Create (this);
         fKey        = null;
+    }
+    
+    public TClass GetClass ()
+    {
+        return fClass;
     }
     
     /**
@@ -71,6 +78,8 @@ public abstract class VBrowseable
     
     private void _Register (String key, boolean doAutoKey)
     {
+        String      k;
+        
         if (fKey != null)
         {
             throw new IllegalArgumentException ("Key is already assigned.");
@@ -78,8 +87,9 @@ public abstract class VBrowseable
         
         if (doAutoKey)
         {
+            k = fClass.GetName ();
             gCounter++;
-            fKey = fClassID + "_" + gCounter;
+            fKey = k + "_" + gCounter;
         }
         else
         {
@@ -89,3 +99,9 @@ public abstract class VBrowseable
         TRepository.Add (this);
     }
 }
+
+/*
+[100]   Double cast, necessary to satisfy the Java compiler. Will be reduced
+        to simple assignment in trans-piled code.
+*/
+

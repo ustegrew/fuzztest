@@ -17,8 +17,8 @@ package fuzztest.generator.rule;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
+import fuzztest.generator.classing.TClass;
 import fuzztest.generator.primitive.TOnceAssignable;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.generator.rule.choice.TChoice;
 import fuzztest.utils.gen.TGenData;
 import fuzztest.utils.store.TArrayList;
@@ -35,9 +35,15 @@ public abstract class VNode extends VBrowseable
         int                 n;
         String              k;
         VNode               nd;
+        TNodeSurrogate      ns;
+        TClass              clVNodeS;
+        TClass              clVNode;
         TArrayList<String>  keys;
         
-        keys = TRepository.GetKeys (VNode.class, false);
+        ns          = new TNodeSurrogate ();
+        clVNodeS    = ns.GetClass ();
+        clVNode     = clVNodeS.GetParent ();
+        keys = TRepository.GetKeys (clVNode, false);
         n    = keys.GetNumElements ();
         if (n >= 1)
         {
@@ -186,7 +192,7 @@ public abstract class VNode extends VBrowseable
      */
     protected VNode _GetFromOppositeSet ()
     {
-        Class<? extends VNode>          c;
+        TClass                          c;
         int                             i;
         int                             n;
         String                          kThis;
@@ -197,7 +203,7 @@ public abstract class VNode extends VBrowseable
         VNode                           ret;
         
         kThis   = GetKey ();
-        c       = this.getClass ();
+        c       = GetClass ();
         refs    = TRepository.GetKeys (c);
         n       = refs.GetNumElements ();
         ret     = null;

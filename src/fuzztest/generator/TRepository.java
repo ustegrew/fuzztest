@@ -15,8 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator;
 
+import fuzztest.generator.classing.TClass;
 import fuzztest.utils.store.TArrayList;
-import fuzztest.utils.store.THashMap;
+import fuzztest.utils.store.TArrayMap;
 
 /**
  * The central repository holding references to all {@link VBrowseable} objects.
@@ -29,6 +30,8 @@ import fuzztest.utils.store.THashMap;
  */
 public class TRepository
 {
+    private static TRepository              gRepository = null;
+    
     /**
      * Adds an object to the repository. The object must have it's key property set prior to adding.
      * 
@@ -43,38 +46,6 @@ public class TRepository
         
         _CreateRepository ();
         ret = gRepository._Add (b);
-        
-        return ret;
-    }
-    
-    /**
-     * Returns a list of keys of objects that are of the given class.
-     * 
-     * @param   c   The class of objects queried.
-     * @return      A list of keys of objects that are of the given class.
-     */
-    public static TArrayList<String> GetKeys (Class<? extends VBrowseable> c)
-    {
-        TArrayList<String>       ret;
-        
-        _CreateRepository ();
-        ret = gRepository._GetKeys (c, true);
-        
-        return ret;
-    }
-    
-    /**
-     * Returns a list of keys of objects that are of the given class.
-     * 
-     * @param   c   The class of objects queried.
-     * @return      A list of keys of objects that are of the given class.
-     */
-    public static TArrayList<String> GetKeys (Class<? extends VBrowseable> c, boolean isStrict)
-    {
-        TArrayList<String>       ret;
-        
-        _CreateRepository ();
-        ret = gRepository._GetKeys (c, isStrict);
         
         return ret;
     }
@@ -115,6 +86,42 @@ public class TRepository
     }
     
     /**
+     * Returns a list of keys of objects that are of the same class as the given {@link VBrowseable}.
+     * 
+     * @param   b   The {@link VBrowseable} whose class we are querying.
+     * @return      A list of keys of objects that are of the given class.
+     */
+    public static TArrayList<String> GetKeys (TClass c)
+    {
+        TArrayList<String>       ret;
+        
+        _CreateRepository ();
+        ret = gRepository._GetKeys (c, true);
+        
+        return ret;
+    }
+    
+    /**
+     * Returns a list of keys of objects that are of the same or parent class as the given {@link VBrowseable}.
+     * 
+     * @param   b           The {@link VBrowseable} whose class we are querying.
+     * @param   isStrict    If <code>true</code>, we filter for objects that have <i>exactly</i>
+     *                      the same class as the given {@link VBrowseable}. If <code>false</code>,
+     *                      we also accept objects of a class that is in the given object's parent 
+     *                      chain.
+     * @return              A list of keys of objects that are of the given class, or a parent class thereof.
+     */
+    public static TArrayList<String> GetKeys (TClass c, boolean isStrict)
+    {
+        TArrayList<String>       ret;
+        
+        _CreateRepository ();
+        ret = gRepository._GetKeys (c, isStrict);
+        
+        return ret;
+    }
+    
+    /**
      * @return  The number of objects stored in the repository.
      */
     public static int GetNumElements ()
@@ -143,7 +150,6 @@ public class TRepository
         
         return ret;
     }
-    
     /**
      * Creates a new repository (singleton) if none existed before. 
      */
@@ -155,17 +161,11 @@ public class TRepository
         }
     }
     
-    private static final String             kClassName  = TRepository.class.getCanonicalName ();
-    private static TRepository              gRepository = null;
-    
-    private TArrayList<VBrowseable>         fObjectsList;
-    private THashMap<VBrowseable>           fObjectsMap;
-    
+    private TArrayMap<VBrowseable>          fRepository;
 
     private TRepository ()
     {
-        fObjectsList            = new TArrayList<> ();
-        fObjectsMap             = new THashMap<> ();
+        fRepository             = new TArrayMap<> ();
     }
     
     private String _Add (VBrowseable b)
@@ -173,75 +173,16 @@ public class TRepository
         String      key;
         
         key = b.GetKey ();
-        _AssertKeyOK (key, true);
-        fObjectsList.Add (b);
-        fObjectsMap.Set (key, b);
+        fRepository.Add (key, b);
 
         return key;
-    }
-    
-    private void _AssertKeyOK (String key, boolean isInverse)
-    {
-        boolean hasElement;
-        
-        if (key == null)
-        {
-            throw new IllegalArgumentException ("No null keys allowed");
-        }
-        
-        hasElement = fObjectsMap.HasElement (key);
-        if (isInverse)
-        {
-            if (hasElement)
-            {
-                throw new IllegalArgumentException ("Duplicate object: '" + key + "'");
-            }
-        }
-        else
-        {
-            if (! hasElement)
-            {
-                throw new IllegalArgumentException ("No such object: '" + key + "'");
-            }
-        }
-    }
-    
-    private void _AssertInRange (int i)
-    {
-        final String kMethod = "_AssertInRange";
-        
-        boolean hasErr;
-        String  postamble;
-        String  errMsg;
-        int     n;
-        
-        hasErr      = false;
-        n           = fObjectsList.GetNumElements ();
-        postamble   = "Index must be in [0, " + n + "[. Given: " + i;
-        errMsg      = null;
-        if (i < 0)
-        {
-            hasErr = true;
-            errMsg = GetErrMsg ("Index too small. " + postamble, kMethod); 
-        }
-        else if (i >= n)
-        {
-            hasErr = true;
-            errMsg = GetErrMsg ("Index too large. " + postamble, kMethod); 
-        }
-        
-        if (hasErr)
-        {
-            throw new IndexOutOfBoundsException (errMsg);
-        }
     }
     
     private VBrowseable _GetElement (int i)
     {
         VBrowseable ret;
         
-        _AssertInRange (i);
-        ret = fObjectsList.Get (i);
+        ret = fRepository.Get (i);
         
         return ret;
     }
@@ -250,46 +191,36 @@ public class TRepository
     {
         VBrowseable ret;
         
-        _AssertKeyOK (key, false);
-        ret = fObjectsMap.Get (key);
+        ret = fRepository.Get (key);
         
         return ret;
     }
     
-    private TArrayList<String> _GetKeys (Class<? extends VBrowseable> c, boolean isStrict)
+    private TArrayList<String> _GetKeys (TClass c, boolean isStrict)
     {
-        int                             n;
-        int                             i;
-        VBrowseable                     obj;
-        Class<? extends VBrowseable>    c0;
-        String                          cname;
-        String                          cname0;
-        boolean                         isClass;
-        String                          key;
-        TArrayList<String>               ret;
+        int                         i;
+        int                         n;
+        VBrowseable                 b0;
+        TClass                      c0;
+        boolean                     isClass;
+        String                      key;
+        TArrayList<String>          ret;
         
         ret = new TArrayList<> ();
-        n   = fObjectsList.GetNumElements ();
+        n   = fRepository.GetNumElements ();
         if (n >= 1)
         {
             for (i = 0; i < n; i++)
             {
-                obj     = fObjectsList.Get (i);
-                c0      = obj.getClass ();
-                if (isStrict)
-                {
-                    cname   = c.getCanonicalName ();
-                    cname0  = c0.getCanonicalName ();
-                    isClass = cname.equals (cname0);
-                }
-                else
-                {
-                    isClass = c.isAssignableFrom (c0); 
-                }
-
+                b0      = fRepository.Get (i);
+                c0      = b0.GetClass ();
+                isClass = isStrict  ?  
+                              c.IsEqualTo (c0) 
+                          :
+                              c.IsEqualToOrDerivedFrom (c0);
                 if (isClass)
                 {
-                    key = obj.GetKey ();
+                    key = b0.GetKey ();
                     ret.Add (key);
                 }
             }
@@ -302,7 +233,7 @@ public class TRepository
     {
         int ret;
         
-        ret = fObjectsList.GetNumElements ();
+        ret = fRepository.GetNumElements ();
         
         return ret;
     }
@@ -311,17 +242,20 @@ public class TRepository
     {
         boolean ret;
         
-        ret = fObjectsMap.HasElement (key);
-        
-        return ret;
-    }
-    
-    private String GetErrMsg (String details, String method)
-    {
-        String ret;
-        
-        ret = kClassName + "::" + method + ": " + details;
+        ret = fRepository.HasElement (key);
         
         return ret;
     }
 }
+
+/*
+[100]   Double cast
+        - This program will be transpiled to Javascript and run as such. 
+        - We need Javascript access to the object so we can query type compatibility.
+        - Original code of this program is developed inside a Java environment and has to
+          be compileable by Java. hence the double cast.
+          
+        JSweet will transpile the double cast to a simple assignment:
+            obj = (jsweet.lang.Object) ( (java.lang.Object) fObjectsList.Get (i))   =>
+            obj = fObjectsList.Get (i);
+*/

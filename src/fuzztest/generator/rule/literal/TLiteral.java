@@ -77,5 +77,4 @@ public class TLiteral extends VNode
         
         return ret;
     }
-
 }

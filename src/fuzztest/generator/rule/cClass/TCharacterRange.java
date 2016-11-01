@@ -17,7 +17,6 @@ package fuzztest.generator.rule.cClass;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
-import fuzztest.generator.rule.TStrategy.ERuleAdhesion;
 import fuzztest.utils.gen.TGenData;
 
 /**
