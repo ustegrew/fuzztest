@@ -16,12 +16,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule;
 
 /**
- * A dummy class which allows us to create a concrete VNode. 
+ * A dummy class which allows us to create a concrete VNode instance. 
  * 
  * @author peter
- *
  */
 class TNodeSurrogate extends VNode
 {
-
 }
