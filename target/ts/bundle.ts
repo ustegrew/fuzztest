@@ -2260,15 +2260,8 @@ namespace fuzztest.generator.rule.rule {
      * @see    {@link TNamed}
      */
     export class TRule extends fuzztest.generator.rule.VNode {
-        private fExpression : fuzztest.generator.primitive.TOnceAssignable<fuzztest.generator.rule.VNode>;
-
         public constructor(key : string) {
             super(key);
-            this.fExpression = <any>(new fuzztest.generator.primitive.TOnceAssignable<any>());
-        }
-
-        public SetExpression(exprN : fuzztest.generator.rule.VNode) {
-            this.fExpression.Set(exprN);
         }
 
         _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
@@ -2282,7 +2275,7 @@ namespace fuzztest.generator.rule.rule {
             } else {
                 ref = <TRule>this._GetFromOppositeSet();
             }
-            expr = ref.fExpression.Get();
+            expr = ref._GetExpression();
             ret = expr.CreateData(s, head);
             return ret;
         }

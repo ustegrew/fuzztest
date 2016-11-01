@@ -5203,17 +5203,9 @@ export class TText extends fuzztest.generator.rule.VNode {    }     TText["__cla
  */
 export class TRule extends fuzztest.generator.rule.VNode {         
 
-private fExpression : fuzztest.generator.primitive.TOnceAssignable<fuzztest.generator.rule.VNode>;          
-
 public constructor(key : string) {             
 
-super(key);             
-this.fExpression = new fuzztest.generator.primitive.TOnceAssignable<any>();         }          
-
-
-public SetExpression(exprN : fuzztest.generator.rule.VNode) {             
-
-this.fExpression.Set(exprN);         }          
+super(key);         }          
 
 
 
@@ -5237,7 +5229,7 @@ ref = this;             } else
 ref = <TRule>this._GetFromOppositeSet();             }             
 
 
-expr = ref.fExpression.Get();             
+expr = ref._GetExpression();             
 ret = expr.CreateData(s, head);             
 
 return ret;         }     }     TRule["__classname"] = "fuzztest.generator.rule.rule.TRule";  } 

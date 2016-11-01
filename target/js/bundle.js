@@ -2642,11 +2642,7 @@ var fuzztest;
                     __extends(TRule, _super);
                     function TRule(key) {
                         _super.call(this, key);
-                        this.fExpression = (new fuzztest.generator.primitive.TOnceAssignable());
                     }
-                    TRule.prototype.SetExpression = function (exprN) {
-                        this.fExpression.Set(exprN);
-                    };
                     TRule.prototype._CreateData = function (s, head) {
                         var doFollow;
                         var ref;
@@ -2659,7 +2655,7 @@ var fuzztest;
                         else {
                             ref = this._GetFromOppositeSet();
                         }
-                        expr = ref.fExpression.Get();
+                        expr = ref._GetExpression();
                         ret = expr.CreateData(s, head);
                         return ret;
                     };

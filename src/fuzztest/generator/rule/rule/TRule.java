@@ -61,17 +61,9 @@ import fuzztest.generator.rule.named.TNamed;
  */
 public class TRule extends VNode
 {
-    private TOnceAssignable<VNode>  fExpression;
-    
     public TRule (String key)
     {
         super (key);
-        fExpression = new TOnceAssignable<> ();
-    }
-    
-    public void SetExpression (VNode exprN)
-    {
-        fExpression.Set (exprN);
     }
     
     /* (non-Javadoc)
@@ -95,7 +87,7 @@ public class TRule extends VNode
             ref = (TRule) _GetFromOppositeSet ();
         }
         
-        expr        = ref.fExpression.Get ();
+        expr        = ref._GetExpression ();
         ret         = expr.CreateData (s, head);
         
         return ret;
