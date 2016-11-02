@@ -25,6 +25,29 @@ import fuzztest.generator.classing.TClass;
  */
 public abstract class VBrowseable
 {
+    /**
+     * Creates a generic {@link TClass} from this abstract class.
+     * Use case: {@link TRepository} Query with abstract base class as 
+     *           query criterion.
+     *           
+     * Thankfully, Java allows us to create anonymous instances of 
+     * abstract classes, otherwise it would be hard to instantiate 
+     * a {@link TClass} from an abstract class.
+     * 
+     * Note that each abstract sub class must override this method!  
+     * 
+     * @return      A generic class object for this class.
+     */
+    public static TClass CreateType ()
+    {
+        TClass      ret;
+        
+        ret = (new VBrowseableType ()).GetClass ();
+        
+        return ret;
+    }
+    private static class VBrowseableType extends VBrowseable {} /* [110] */
+    
     private static int      gCounter = -1;
     
     private TClass          fClass;
@@ -103,5 +126,21 @@ public abstract class VBrowseable
 /*
 [100]   Double cast, necessary to satisfy the Java compiler. Will be reduced
         to simple assignment in trans-piled code.
+        
+[110]   Unfortunately we have to create an explicit dummy class that inherits from 
+        VBrowseable. Otherwise we could create a VBrowseable type using a shorter and more 
+        elegant one-liner: 
+            TClass c = (new VBrowseable(){}).GetClass().GetParent(); 
+        the shorter version leads to a complaint by the Typescript to JS compiler:
+            Cannot create an instance of the abstract class 'VBrowseable'. 
+        This is, because the one-liner leads to this typescript code:
+            ret = (((target:VBrowseable) => {
+                return target;
+            })(new VBrowseable())).GetClass();
+        and Typescript correctly complains that we are trying to create an instance of 
+        an abstract class. With the workaround we now get the correct Typescript
+        code:
+            ret = (new VBrowseable.VBrowseableType()).GetClass();
+        which is accepted by Typescript.
 */
 

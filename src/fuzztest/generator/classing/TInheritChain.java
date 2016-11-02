@@ -27,10 +27,17 @@ public class TInheritChain
     
     private TArrayMap<TClass>           fChain;
     
-    public TInheritChain (jsweet.lang.Object obj)
+    TInheritChain ()
     {
         fChain = new TArrayMap<> ();
-        _Build (obj);
+    }
+    
+    void Add (TClass c)
+    {
+        String      key;
+        
+        key = c.GetName ();
+        fChain.Add (key, c);
     }
     
     public String GetAsString ()
@@ -44,11 +51,11 @@ public class TInheritChain
         n   = fChain.GetNumElements ();
         if (n >= 1)
         {
-            for (i = 0; i < n; i++)
+            for (i = n-1; i >= 0; i--)
             {
                 c       = fChain.Get (i);
                 ret    += c.GetName ();
-                if (i < n-1)
+                if (i > 0)
                 {
                     ret += kPathSeparator;
                 }
@@ -105,21 +112,5 @@ public class TInheritChain
         }
         
         return ret;
-    }
-
-    private void _Build (jsweet.lang.Object obj)
-    {
-        TClass                      cls;
-        jsweet.lang.Object          instance;
-        String                      key;
-        
-        instance    = obj;
-        while (instance != null)
-        {
-            instance    = (jsweet.lang.Object) instance.$get ("__proto__");
-            cls         = new TClass (instance);
-            key         = cls.GetName ();
-            fChain.Add (key, cls);
-        }
     }
 }

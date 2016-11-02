@@ -13,21 +13,28 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest;
+package fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01;
 
-import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01;
+import static jsweet.dom.Globals.console;
+
+import fuzztest.generator.VBrowseable;
+import fuzztest.generator.classing.TClass;
 
 /**
+ * Concept test: Create object from an abstract class. Only works because it's trans-piled into Javascript,
+ *               where we (currently) don't have abstract classes. 
+ * 
  * @author peter
- *
  */
-public class TMain
+public class TDevCreateObject_01
 {
-    /**
-     * @param args
-     */
-    public static void main (String[] args)
+    public static void CreateType ()
     {
-        TDevCreateObject_01.CreateType ();
+        TClass                      c;
+        
+        c  = (new VBrowseableType()).GetClass ().GetParent ();
+        console.log ("Inheritence chain: " + c.GetInheritPath ());
+        console.log ("Canonical path:    " + c.GetCanonicalPath ());
     }
+    private static class VBrowseableType extends VBrowseable {}
 }

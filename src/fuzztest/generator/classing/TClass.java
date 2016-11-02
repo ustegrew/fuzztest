@@ -23,6 +23,8 @@ import fuzztest.generator.VBrowseable;
  */
 public class TClass
 {
+    public static final String          kNullID = "anonymous";
+    
     public static TClass Create (VBrowseable obj)
     {
         jsweet.lang.Object          obj0;
@@ -36,15 +38,67 @@ public class TClass
     
     private TInheritChain       fInherits;
     private String              fName;
+    private String              fInheritPath;
+    private String              fCanonicalPath;
     
-    TClass (jsweet.lang.Object obj)
+    private TClass (jsweet.lang.Object obj)
     {
-        _Init (obj);
+        jsweet.lang.Object          proto;
+        jsweet.lang.Object          constr;
+        TClass                      cls;
+
+        fCanonicalPath      = kNullID; 
+        fName               = kNullID;
+        fInheritPath        = kNullID;
+        fInherits           = new TInheritChain ();
+        proto               = null;
+        if (obj != null)
+        {
+            proto = (jsweet.lang.Object) jsweet.lang.Object.getPrototypeOf (obj);
+            if (proto != null)
+            {
+                constr      = (jsweet.lang.Object) proto.$get ("constructor");
+                if (constr != null)
+                {
+                    fCanonicalPath = (String) constr.$get ("__classname");
+                }
+            }
+
+            proto = (jsweet.lang.Object) obj.$get ("__proto__");
+            if (proto != null)
+            {
+                constr  = (jsweet.lang.Object) proto.$get ("constructor");
+                fName   = (String) constr.$get ("name");
+                fInherits.Add (this);
+
+                while (proto != null)
+                {
+                    cls = new TClass (proto);
+                    proto = (jsweet.lang.Object) proto.$get ("__proto__");
+                    if (proto != null)
+                    {
+                        fInherits.Add (cls);
+                    }
+                }
+                
+                fInheritPath = fInherits.GetAsString ();
+            }
+        }
     }
     
     public String GetName ()
     {
         return fName;
+    }
+    
+    public String GetCanonicalPath ()
+    {
+        return fCanonicalPath;
+    }
+    
+    public String GetInheritPath ()
+    {
+        return fInheritPath;
     }
     
     public TClass GetParent ()
@@ -90,44 +144,10 @@ public class TClass
         String          path1;
         boolean         ret;
         
-        path0   = _GetCanonicalName ();
-        path1   = other._GetCanonicalName ();
+        path0   = fInheritPath;
+        path1   = other.fInheritPath;
         ret     = path0.equals (path1);
         
         return ret;
-    }
-    
-    /**
-     * @return
-     */
-    private String _GetCanonicalName ()
-    {
-        int         n;
-        String      ret;
-        
-        n = fInherits.GetNumLinks ();
-        if (n >= 1)
-        {
-            ret     = fInherits.GetAsString ();
-            ret    += TInheritChain.kPathSeparator;
-            ret    += fName;
-        }
-        else
-        {
-            ret = fName;
-        }
-        
-        return ret;
-    }
-    
-    private void _Init (jsweet.lang.Object obj)
-    {
-        jsweet.lang.Object          p;
-        jsweet.lang.Object          c;
-
-        p           = (jsweet.lang.Object) obj.$get ("__proto__");
-        c           = (jsweet.lang.Object) p.$get ("constructor");
-        fName       = (String) c.$get ("name");
-        fInherits   = new TInheritChain (obj);
     }
 }

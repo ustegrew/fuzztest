@@ -62,6 +62,19 @@ public abstract class VNode extends VBrowseable
         }
     }
     
+    /**
+     * @see         VBrowseable#CreateType()
+     */
+    public static TClass CreateType ()
+    {
+        TClass ret;
+        
+        ret = (new VNodeType (){}).GetClass ();
+        
+        return ret;
+    }
+    private static class VNodeType extends VNode{} 
+    
     public static boolean DoesFollowRule (TStrategy s)
     {
         ERuleAdhesion       r;
