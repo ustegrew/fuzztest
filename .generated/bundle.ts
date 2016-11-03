@@ -281,7 +281,7 @@ export class TMain {
  */
 public static main(args : string[]) {             
 
-fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01.CreateType();         }     }     TMain["__classname"] = "fuzztest.TMain";  } 
+fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.CreateType();         }     }     TMain["__classname"] = "fuzztest.TMain";  } 
 
 
 
@@ -712,7 +712,7 @@ public static CreateType() : fuzztest.generator.classing.TClass {
 
 var ret : fuzztest.generator.classing.TClass;             
 
-ret = (new VBrowseable.VBrowseableType()).GetClass();             
+ret = (new VBrowseable.VBrowseableType()).GetClass().GetParent();             
 
 return ret;         }          
 
@@ -814,8 +814,6 @@ fuzztest.generator.TRepository.Add(this);         }     }     VBrowseable["__cla
 
       
 
-      
-
 
 
 
@@ -907,9 +905,18 @@ public GetCanonicalPath() : string {
 return this.fCanonicalPath;         }          
 
 
-public GetInheritPath() : string {             
+public GetInheritPath$() : string {             
 
 return this.fInheritPath;         }          
+
+
+public GetInheritPath(isDetailed? : any) : any {             if(((typeof isDetailed === 'boolean') || isDetailed === null)) {                 return <any>(() => {                     
+
+var ret : string;                     
+
+ret = this.fInherits.GetAsString(isDetailed);                     
+
+return ret;                 })();             } else if(isDetailed === undefined) {                 return <any>this.GetInheritPath$();             } else throw new Error('invalid overload');         }          
 
 
 public GetParent() : TClass {             
@@ -919,9 +926,9 @@ var ret : TClass;
 
 nLinks = this.fInherits.GetNumLinks();             
 ret = null;             
-if(nLinks >= 1) 
+if(nLinks >= 2) 
 {                 
-ret = this.fInherits.GetLink(0);             }             
+ret = this.fInherits.GetLink(1);             }             
 
 
 return ret;         }          
@@ -951,13 +958,9 @@ return ret;         }
 
 private _IsEqualTo(other : TClass) : boolean {             
 
-var path0 : string;             
-var path1 : string;             
 var ret : boolean;             
 
-path0 = this.fInheritPath;             
-path1 = other.fInheritPath;             
-ret = (path0 === path1);             
+ret = (this.fCanonicalPath === other.fCanonicalPath);             
 
 return ret;         }     }     TClass["__classname"] = "fuzztest.generator.classing.TClass";  } 
 
@@ -996,37 +999,23 @@ constructor() {
 this.fChain = new fuzztest.utils.store.TArrayMap<any>();         }          
 
 
-Add(c : fuzztest.generator.classing.TClass) {             
+public GetAsString$() : string {             
 
-var key : string;             
-
-key = c.GetName();             
-this.fChain.Add(key, c);         }          
-
-
-public GetAsString() : string {             
-
-var i : number;             
-var n : number;             
-var c : fuzztest.generator.classing.TClass;             
 var ret : string;             
 
-ret = "";             
-n = this.fChain.GetNumElements();             
-if(n >= 1) 
-{                 
-for(i = n - 1; i >= 0; i--) 
-{                     
-c = this.fChain.Get(i);                     
-ret += c.GetName();                     
-if(i > 0) 
-{                         
-ret += TInheritChain.kPathSeparator;                     }                 }             }             
-
-
-
+ret = this._GetAsString(false);             
 
 return ret;         }          
+
+
+public GetAsString(isDetailed? : any) : any {             if(((typeof isDetailed === 'boolean') || isDetailed === null)) {                 return <any>(() => {                     
+
+var ret : string;                     
+
+ret = this._GetAsString(isDetailed);                     
+
+return ret;                 })();             } else if(isDetailed === undefined) {                 return <any>this.GetAsString$();             } else throw new Error('invalid overload');         }          
+
 
 
 
@@ -1038,7 +1027,8 @@ return ret;         }
 /**
  * Returns the i-th parent in this inheritance chain.
  * 
- * @param   i   The number of generations above. Zero is the first parent generation, 1 the one above etc.
+ * @param   i   The number of generations above. Zero is the the referred class itself,
+ * 1 (one) the first parent generation etc.
  * @return      The parent class that it i generations above the class hosting this chain.
  */
 public GetLink(i : number) : fuzztest.generator.classing.TClass {             
@@ -1078,6 +1068,41 @@ c0 = this.fChain.Get(i);
 cID = c.GetCanonicalPath();                     
 cID0 = c0.GetCanonicalPath();                     
 ret = ret || (cID === cID0);                 }             }             
+
+
+
+return ret;         }          
+
+
+Add(c : fuzztest.generator.classing.TClass) {             
+
+var key : string;             
+
+key = c.GetName();             
+this.fChain.Add(key, c);         }          
+
+
+private _GetAsString(isDetailed : boolean) : string {             
+
+var i : number;             
+var n : number;             
+var c : fuzztest.generator.classing.TClass;             
+var pSep : string;             
+var ret : string;             
+
+pSep = isDetailed?"\n":TInheritChain.kPathSeparator;             
+ret = "";             
+n = this.fChain.GetNumElements();             
+if(n >= 1) 
+{                 
+for(i = n - 1; i >= 0; i--) 
+{                     
+c = this.fChain.Get(i);                     
+ret += isDetailed?c.GetCanonicalPath():c.GetName();                     
+if(i > 0) 
+{                         
+ret += pSep;                     }                 }             }             
+
 
 
 
@@ -1927,20 +1952,10 @@ var i : number;
 var n : number;             
 var k : string;             
 var nd : VNode;             
-var ns : fuzztest.generator.rule.TNodeSurrogate;             
-var clVNodeS : fuzztest.generator.classing.TClass;             
 var clVNode : fuzztest.generator.classing.TClass;             
 var keys : fuzztest.utils.store.TArrayList<string>;             
 
-
-
-
-
-
-
-ns = new fuzztest.generator.rule.TNodeSurrogate();             
-clVNodeS = ns.GetClass();             
-clVNode = clVNodeS.GetParent();             
+clVNode = VNode.CreateType();             
 keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);             
 n = keys.GetNumElements();             
 if(n >= 1) 
@@ -1964,7 +1979,7 @@ public static CreateType() : fuzztest.generator.classing.TClass {
 
 var ret : fuzztest.generator.classing.TClass;             
 
-ret = (((target:VNode.VNodeType) => {                 return target;              })(new VNode.VNodeType())).GetClass();             
+ret = (((target:VNode.VNodeType) => {                 return target;              })(new VNode.VNodeType())).GetClass().GetParent();             
 
 return ret;         }          
 
@@ -3896,7 +3911,14 @@ d[i] = uni;                     }
 
 
 
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */ namespace fuzztest.generator.rule {     
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 {     
+
+      
+
+      
+      
+      
+
 
 
 
@@ -3904,11 +3926,47 @@ d[i] = uni;                     }
 
 
 /**
- * A dummy class which allows us to create a concrete VNode instance.
+ * Concept test: Create object from an abstract class. Only works because it's trans-piled into Javascript,
+ * where we (currently) don't have abstract classes.
  * 
  * @author peter
- */export class TNodeSurrogate extends 
-fuzztest.generator.rule.VNode {    }     TNodeSurrogate["__classname"] = "fuzztest.generator.rule.TNodeSurrogate";  } 
+ */
+export class TDevCreateObject_02 {         
+
+public static CreateType() {             
+
+var c : fuzztest.generator.classing.TClass;             
+
+console.clear();             
+console.log("Legend: x\'  means \"a type derived from x\" (as in calculus).");             
+console.log("      : x\'^ means \"a parent of a type derived from x\" (i.e. x).");             
+console.log();             
+c = fuzztest.generator.VBrowseable.CreateType();             
+console.log("VBrowseable       => Inheritence chain: " + c.GetInheritPath());             
+console.log("VBrowseable       => Canonical path:    " + c.GetCanonicalPath());             
+
+c = fuzztest.generator.rule.VNode.CreateType();             
+console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());             
+console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());             
+
+c = (new TDevCreateObject_02.VDeriv_01()).GetClass();             
+console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());             
+console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());             
+
+c = (new TDevCreateObject_02.VDeriv_02()).GetClass();             
+console.log("VBrowseable\'\'     => Inheritence chain: " + c.GetInheritPath());             
+console.log("VBrowseable\'\'     => Canonical path:    " + c.GetCanonicalPath());             
+
+c = (new TDevCreateObject_02.VDeriv_01()).GetClass().GetParent();             
+console.log("VBrowseable\'^     => Inheritence chain: " + c.GetInheritPath());             
+console.log("VBrowseable\'^     => Canonical path:    " + c.GetCanonicalPath());             
+
+c = (new TDevCreateObject_02.VDeriv_02()).GetClass().GetParent();             
+console.log("VBrowseable\'\'^    => Inheritence chain: " + c.GetInheritPath());             
+console.log("VBrowseable\'\'^    => Canonical path:    " + c.GetCanonicalPath());         }     }     TDevCreateObject_02["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02";       export namespace TDevCreateObject_02 {          
+
+export class VDeriv_01 extends fuzztest.generator.VBrowseable {        }         VDeriv_01["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_01";           
+export class VDeriv_02 extends fuzztest.generator.rule.VNode {        }         VDeriv_02["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_02";      }  } 
 
 
 
@@ -5786,6 +5844,7 @@ return ret;         }     }     TSequence["__classname"] = "fuzztest.generator.r
       
       
       
+      
 
 
 
@@ -5797,16 +5856,18 @@ return ret;         }     }     TSequence["__classname"] = "fuzztest.generator.r
 export abstract class VSuffixed extends fuzztest.generator.rule.VNode {         
 
 
+
+
+/**
+ * @see         VBrowseable#CreateType()
+ */
 public static CreateType() : fuzztest.generator.classing.TClass {             
 
 var ret : fuzztest.generator.classing.TClass;             
 
-ret = (new VSuffixed.VSuffixedType()).GetClass();             
+ret = (new VSuffixed.VSuffixedType()).GetClass().GetParent();             
 
 return ret;         }          
-
-
-
 
 
 

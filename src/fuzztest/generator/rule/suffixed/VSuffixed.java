@@ -15,6 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.suffixed;
 
+import fuzztest.generator.VBrowseable;
 import fuzztest.generator.classing.TClass;
 import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
@@ -27,19 +28,18 @@ import fuzztest.utils.gen.TGenData;
  */
 public abstract class VSuffixed extends VNode
 {
-    
-    public static TClass CreateType ()
+    /**
+     * @see         VBrowseable#GetClassAbstract()
+     */
+    public static TClass GetClassAbstract ()
     {
         TClass ret;
         
-        ret = (new VSuffixedType()).GetClass ();
+        ret = (new VSuffixedType()).GetClass ().GetParent ();
         
         return ret;
     }
-    private static class VSuffixedType extends VSuffixed
-    {
-        public VSuffixedType (){super (false,false);
-    }}
+    private static class VSuffixedType extends VSuffixed {public VSuffixedType (){super (false,false);}}
     
     private boolean     fIsNMinZero;
     private boolean     fIsNMaxInfinite;

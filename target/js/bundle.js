@@ -16,7 +16,7 @@ var fuzztest;
          * @param args
          */
         TMain.main = function (args) {
-            fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01.CreateType();
+            fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.CreateType();
         };
         return TMain;
     }());
@@ -504,7 +504,7 @@ var fuzztest;
              */
             VBrowseable.CreateType = function () {
                 var ret;
-                ret = (new VBrowseable.VBrowseableType()).GetClass();
+                ret = (new VBrowseable.VBrowseableType()).GetClass().GetParent();
                 return ret;
             };
             VBrowseable.prototype.GetClass = function () {
@@ -566,33 +566,32 @@ var fuzztest;
                 function TInheritChain() {
                     this.fChain = (new fuzztest.utils.store.TArrayMap());
                 }
-                TInheritChain.prototype.Add = function (c) {
-                    var key;
-                    key = c.GetName();
-                    this.fChain.Add(key, c);
-                };
-                TInheritChain.prototype.GetAsString = function () {
-                    var i;
-                    var n;
-                    var c;
+                TInheritChain.prototype.GetAsString$ = function () {
                     var ret;
-                    ret = "";
-                    n = this.fChain.GetNumElements();
-                    if (n >= 1) {
-                        for (i = n - 1; i >= 0; i--) {
-                            c = this.fChain.Get(i);
-                            ret += c.GetName();
-                            if (i > 0) {
-                                ret += TInheritChain.kPathSeparator;
-                            }
-                        }
-                    }
+                    ret = this._GetAsString(false);
                     return ret;
+                };
+                TInheritChain.prototype.GetAsString = function (isDetailed) {
+                    var _this = this;
+                    if (((typeof isDetailed === 'boolean') || isDetailed === null)) {
+                        var __args = Array.prototype.slice.call(arguments);
+                        return (function () {
+                            var ret;
+                            ret = _this._GetAsString(isDetailed);
+                            return ret;
+                        })();
+                    }
+                    else if (isDetailed === undefined) {
+                        return this.GetAsString$();
+                    }
+                    else
+                        throw new Error('invalid overload');
                 };
                 /**
                  * Returns the i-th parent in this inheritance chain.
                  *
-                 * @param   i   The number of generations above. Zero is the first parent generation, 1 the one above etc.
+                 * @param   i   The number of generations above. Zero is the the referred class itself,
+                 * 1 (one) the first parent generation etc.
                  * @return      The parent class that it i generations above the class hosting this chain.
                  */
                 TInheritChain.prototype.GetLink = function (i) {
@@ -620,6 +619,31 @@ var fuzztest;
                             cID = c.GetCanonicalPath();
                             cID0 = c0.GetCanonicalPath();
                             ret = ret || (cID === cID0);
+                        }
+                    }
+                    return ret;
+                };
+                TInheritChain.prototype.Add = function (c) {
+                    var key;
+                    key = c.GetName();
+                    this.fChain.Add(key, c);
+                };
+                TInheritChain.prototype._GetAsString = function (isDetailed) {
+                    var i;
+                    var n;
+                    var c;
+                    var pSep;
+                    var ret;
+                    pSep = isDetailed ? "\n" : TInheritChain.kPathSeparator;
+                    ret = "";
+                    n = this.fChain.GetNumElements();
+                    if (n >= 1) {
+                        for (i = n - 1; i >= 0; i--) {
+                            c = this.fChain.Get(i);
+                            ret += isDetailed ? c.GetCanonicalPath() : c.GetName();
+                            if (i > 0) {
+                                ret += pSep;
+                            }
                         }
                     }
                     return ret;
@@ -696,16 +720,32 @@ var fuzztest;
                 TClass.prototype.GetCanonicalPath = function () {
                     return this.fCanonicalPath;
                 };
-                TClass.prototype.GetInheritPath = function () {
+                TClass.prototype.GetInheritPath$ = function () {
                     return this.fInheritPath;
+                };
+                TClass.prototype.GetInheritPath = function (isDetailed) {
+                    var _this = this;
+                    if (((typeof isDetailed === 'boolean') || isDetailed === null)) {
+                        var __args = Array.prototype.slice.call(arguments);
+                        return (function () {
+                            var ret;
+                            ret = _this.fInherits.GetAsString(isDetailed);
+                            return ret;
+                        })();
+                    }
+                    else if (isDetailed === undefined) {
+                        return this.GetInheritPath$();
+                    }
+                    else
+                        throw new Error('invalid overload');
                 };
                 TClass.prototype.GetParent = function () {
                     var nLinks;
                     var ret;
                     nLinks = this.fInherits.GetNumLinks();
                     ret = null;
-                    if (nLinks >= 1) {
-                        ret = this.fInherits.GetLink(0);
+                    if (nLinks >= 2) {
+                        ret = this.fInherits.GetLink(1);
                     }
                     return ret;
                 };
@@ -724,12 +764,8 @@ var fuzztest;
                     return ret;
                 };
                 TClass.prototype._IsEqualTo = function (other) {
-                    var path0;
-                    var path1;
                     var ret;
-                    path0 = this.fInheritPath;
-                    path1 = other.fInheritPath;
-                    ret = (path0 === path1);
+                    ret = (this.fCanonicalPath === other.fCanonicalPath);
                     return ret;
                 };
                 TClass.kNullID = "anonymous";
@@ -1098,13 +1134,9 @@ var fuzztest;
                     var n;
                     var k;
                     var nd;
-                    var ns;
-                    var clVNodeS;
                     var clVNode;
                     var keys;
-                    ns = new fuzztest.generator.rule.TNodeSurrogate();
-                    clVNodeS = ns.GetClass();
-                    clVNode = clVNodeS.GetParent();
+                    clVNode = VNode.CreateType();
                     keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
                     n = keys.GetNumElements();
                     if (n >= 1) {
@@ -1122,7 +1154,7 @@ var fuzztest;
                     var ret;
                     ret = ((function (target) {
                         return target;
-                    })(new VNode.VNodeType())).GetClass();
+                    })(new VNode.VNodeType())).GetClass().GetParent();
                     return ret;
                 };
                 VNode.DoesFollowRule = function (s) {
@@ -1665,6 +1697,84 @@ var edu;
         })(lassp = cornell.lassp || (cornell.lassp = {}));
     })(cornell = edu.cornell || (edu.cornell = {}));
 })(edu || (edu = {}));
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+var fuzztest;
+(function (fuzztest) {
+    var _dev_concepts;
+    (function (_dev_concepts) {
+        var objects;
+        (function (objects) {
+            var construct;
+            (function (construct) {
+                var from_abstract_class;
+                (function (from_abstract_class) {
+                    var trial_01;
+                    (function (trial_01) {
+                        /**
+                         * Concept test: Create object from an abstract class. Only works because it's trans-piled into Javascript,
+                         * where we (currently) don't have abstract classes.
+                         *
+                         * @author peter
+                         */
+                        var TDevCreateObject_02 = (function () {
+                            function TDevCreateObject_02() {
+                            }
+                            TDevCreateObject_02.CreateType = function () {
+                                var c;
+                                console.clear();
+                                console.log("Legend: x\'  means \"a type derived from x\" (as in calculus).");
+                                console.log("      : x\'^ means \"a parent of a type derived from x\" (i.e. x).");
+                                console.log();
+                                c = fuzztest.generator.VBrowseable.CreateType();
+                                console.log("VBrowseable       => Inheritence chain: " + c.GetInheritPath());
+                                console.log("VBrowseable       => Canonical path:    " + c.GetCanonicalPath());
+                                c = fuzztest.generator.rule.VNode.CreateType();
+                                console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());
+                                console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());
+                                c = (new TDevCreateObject_02.VDeriv_01()).GetClass();
+                                console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());
+                                console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());
+                                c = (new TDevCreateObject_02.VDeriv_02()).GetClass();
+                                console.log("VBrowseable\'\'     => Inheritence chain: " + c.GetInheritPath());
+                                console.log("VBrowseable\'\'     => Canonical path:    " + c.GetCanonicalPath());
+                                c = (new TDevCreateObject_02.VDeriv_01()).GetClass().GetParent();
+                                console.log("VBrowseable\'^     => Inheritence chain: " + c.GetInheritPath());
+                                console.log("VBrowseable\'^     => Canonical path:    " + c.GetCanonicalPath());
+                                c = (new TDevCreateObject_02.VDeriv_02()).GetClass().GetParent();
+                                console.log("VBrowseable\'\'^    => Inheritence chain: " + c.GetInheritPath());
+                                console.log("VBrowseable\'\'^    => Canonical path:    " + c.GetCanonicalPath());
+                            };
+                            return TDevCreateObject_02;
+                        }());
+                        trial_01.TDevCreateObject_02 = TDevCreateObject_02;
+                        TDevCreateObject_02["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02";
+                        var TDevCreateObject_02;
+                        (function (TDevCreateObject_02) {
+                            var VDeriv_01 = (function (_super) {
+                                __extends(VDeriv_01, _super);
+                                function VDeriv_01() {
+                                    _super.apply(this, arguments);
+                                }
+                                return VDeriv_01;
+                            }(fuzztest.generator.VBrowseable));
+                            TDevCreateObject_02.VDeriv_01 = VDeriv_01;
+                            VDeriv_01["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_01";
+                            var VDeriv_02 = (function (_super) {
+                                __extends(VDeriv_02, _super);
+                                function VDeriv_02() {
+                                    _super.apply(this, arguments);
+                                }
+                                return VDeriv_02;
+                            }(fuzztest.generator.rule.VNode));
+                            TDevCreateObject_02.VDeriv_02 = VDeriv_02;
+                            VDeriv_02["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_02";
+                        })(TDevCreateObject_02 = trial_01.TDevCreateObject_02 || (trial_01.TDevCreateObject_02 = {}));
+                    })(trial_01 = from_abstract_class.trial_01 || (from_abstract_class.trial_01 = {}));
+                })(from_abstract_class = construct.from_abstract_class || (construct.from_abstract_class = {}));
+            })(construct = objects.construct || (objects.construct = {}));
+        })(objects = _dev_concepts.objects || (_dev_concepts.objects = {}));
+    })(_dev_concepts = fuzztest._dev_concepts || (fuzztest._dev_concepts = {}));
+})(fuzztest || (fuzztest = {}));
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 var fuzztest;
 (function (fuzztest) {
@@ -2388,30 +2498,6 @@ var fuzztest;
     (function (generator) {
         var rule;
         (function (rule) {
-            /**
-             * A dummy class which allows us to create a concrete VNode instance.
-             *
-             * @author peter
-             */
-            var TNodeSurrogate = (function (_super) {
-                __extends(TNodeSurrogate, _super);
-                function TNodeSurrogate() {
-                    _super.apply(this, arguments);
-                }
-                return TNodeSurrogate;
-            }(fuzztest.generator.rule.VNode));
-            rule.TNodeSurrogate = TNodeSurrogate;
-            TNodeSurrogate["__classname"] = "fuzztest.generator.rule.TNodeSurrogate";
-        })(rule = generator.rule || (generator.rule = {}));
-    })(generator = fuzztest.generator || (fuzztest.generator = {}));
-})(fuzztest || (fuzztest = {}));
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-var fuzztest;
-(function (fuzztest) {
-    var generator;
-    (function (generator) {
-        var rule;
-        (function (rule) {
             var literal;
             (function (literal_1) {
                 /**
@@ -2874,9 +2960,12 @@ var fuzztest;
                         this.fIsNMinZero = isNMinZero;
                         this.fIsNMaxInfinite = isNMaxInfinite;
                     }
+                    /**
+                     * @see         VBrowseable#CreateType()
+                     */
                     VSuffixed.CreateType = function () {
                         var ret;
-                        ret = (new VSuffixed.VSuffixedType()).GetClass();
+                        ret = (new VSuffixed.VSuffixedType()).GetClass().GetParent();
                         return ret;
                     };
                     VSuffixed.prototype._CreateData = function (s, head) {

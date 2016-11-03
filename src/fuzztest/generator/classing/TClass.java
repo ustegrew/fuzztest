@@ -15,8 +15,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.classing;
 
-import static jsweet.dom.Globals.console;
-
 import fuzztest.generator.VBrowseable;
 
 /**
@@ -112,6 +110,15 @@ public class TClass
         return fInheritPath;
     }
     
+    public String GetInheritPath (boolean isDetailed)
+    {
+        String ret;
+        
+        ret = fInherits.GetAsString (isDetailed);
+        
+        return ret;
+    }
+    
     public TClass GetParent ()
     {
         int     nLinks;
@@ -119,9 +126,9 @@ public class TClass
         
         nLinks = fInherits.GetNumLinks ();
         ret    = null;
-        if (nLinks >= 1)
+        if (nLinks >= 2)
         {
-            ret = fInherits.GetLink (0);
+            ret = fInherits.GetLink (1);
         }
         
         return ret;
@@ -151,13 +158,9 @@ public class TClass
 
     private boolean _IsEqualTo (TClass other)
     {
-        String          path0;
-        String          path1;
         boolean         ret;
         
-        path0   = fInheritPath;
-        path1   = other.fInheritPath;
-        ret     = path0.equals (path1);
+        ret = fCanonicalPath.equals (other.fCanonicalPath);
         
         return ret;
     }

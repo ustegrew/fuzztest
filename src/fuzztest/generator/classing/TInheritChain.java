@@ -32,35 +32,20 @@ public class TInheritChain
         fChain = new TArrayMap<> ();
     }
     
-    void Add (TClass c)
-    {
-        String      key;
-        
-        key = c.GetName ();
-        fChain.Add (key, c);
-    }
-    
     public String GetAsString ()
     {
-        int     i;
-        int     n;
-        TClass  c;
         String  ret;
+
+        ret = _GetAsString (false);
         
-        ret = "";
-        n   = fChain.GetNumElements ();
-        if (n >= 1)
-        {
-            for (i = n-1; i >= 0; i--)
-            {
-                c       = fChain.Get (i);
-                ret    += c.GetName ();
-                if (i > 0)
-                {
-                    ret += kPathSeparator;
-                }
-            }
-        }
+        return ret;
+    }
+    
+    public String GetAsString (boolean isDetailed)
+    {
+        String  ret;
+
+        ret = _GetAsString (isDetailed);
         
         return ret;
     }
@@ -68,7 +53,8 @@ public class TInheritChain
     /**
      * Returns the i-th parent in this inheritance chain.
      * 
-     * @param   i   The number of generations above. Zero is the first parent generation, 1 the one above etc.
+     * @param   i   The number of generations above. Zero is the the referred class itself, 
+     *              1 (one) the first parent generation etc.
      * @return      The parent class that it i generations above the class hosting this chain.
      */
     public TClass GetLink (int i)
@@ -108,6 +94,41 @@ public class TInheritChain
                 cID     = c.GetCanonicalPath ();
                 cID0    = c0.GetCanonicalPath ();
                 ret     = ret || cID.equals (cID0);
+            }
+        }
+        
+        return ret;
+    }
+    
+    void Add (TClass c)
+    {
+        String      key;
+        
+        key = c.GetName ();
+        fChain.Add (key, c);
+    }
+    
+    private String _GetAsString (boolean isDetailed)
+    {
+        int     i;
+        int     n;
+        TClass  c;
+        String  pSep;
+        String  ret;
+        
+        pSep    = isDetailed  ?  "\n" : kPathSeparator;
+        ret     = "";
+        n       = fChain.GetNumElements ();
+        if (n >= 1)
+        {
+            for (i = n-1; i >= 0; i--)
+            {
+                c       = fChain.Get (i);
+                ret    += isDetailed  ?  c.GetCanonicalPath () : c.GetName ();
+                if (i > 0)
+                {
+                    ret += pSep;
+                }
             }
         }
         

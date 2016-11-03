@@ -38,11 +38,11 @@ public abstract class VBrowseable
      * 
      * @return      A generic class object for this class.
      */
-    public static TClass CreateType ()
+    public static TClass GetClassAbstract ()
     {
         TClass      ret;
         
-        ret = (new VBrowseableType ()).GetClass ();
+        ret = (new VBrowseableType ()).GetClass ().GetParent ();
         
         return ret;
     }

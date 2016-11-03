@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest;
 
-import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01;
+import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02;
 
 /**
  * @author peter
@@ -28,6 +28,6 @@ public class TMain
      */
     public static void main (String[] args)
     {
-        TDevCreateObject_01.CreateType ();
+        TDevCreateObject_02.CreateType ();
     }
 }

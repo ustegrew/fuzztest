@@ -35,22 +35,12 @@ public abstract class VNode extends VBrowseable
         int                 n;
         String              k;
         VNode               nd;
-        TNodeSurrogate      ns;
-        TClass              clVNodeS;
         TClass              clVNode;
         TArrayList<String>  keys;
         
-        // TODO: Create class generator function for abstract classes. Best place as static function in TClass.
-        //       Challenge is to create an instance of the abstract class so we can get a TClass data member.
-        //       Solution - to create a concrete dummy class that directly inherits from the abstract class, 
-        //       and then retrieve that object's TClass::GetParent(). 
-        //       We could also be brutal and say: Object.create (VNode) - bit radical, but we aren't executing
-        //       this program in a Java environment!
-        ns          = new TNodeSurrogate ();
-        clVNodeS    = ns.GetClass ();
-        clVNode     = clVNodeS.GetParent ();
-        keys = TRepository.GetKeys (clVNode, false);
-        n    = keys.GetNumElements ();
+        clVNode = GetClassAbstract ();
+        keys    = TRepository.GetKeys (clVNode, false);
+        n       = keys.GetNumElements ();
         if (n >= 1)
         {
             for (i = 0; i < n; i++)
@@ -63,13 +53,13 @@ public abstract class VNode extends VBrowseable
     }
     
     /**
-     * @see         VBrowseable#CreateType()
+     * @see         VBrowseable#GetClassAbstract()
      */
-    public static TClass CreateType ()
+    public static TClass GetClassAbstract ()
     {
         TClass ret;
         
-        ret = (new VNodeType (){}).GetClass ();
+        ret = (new VNodeType ()).GetClass ().GetParent ();
         
         return ret;
     }
