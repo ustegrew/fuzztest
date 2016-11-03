@@ -51,20 +51,6 @@ public abstract class VNode extends VBrowseable
             }
         }
     }
-    
-    /**
-     * @see         VBrowseable#GetClassAbstract()
-     */
-    public static TClass GetClassAbstract ()
-    {
-        TClass ret;
-        
-        ret = (new VNodeType ()).GetClass ().GetParent ();
-        
-        return ret;
-    }
-    private static class VNodeType extends VNode{} 
-    
     public static boolean DoesFollowRule (TStrategy s)
     {
         ERuleAdhesion       r;
@@ -85,7 +71,20 @@ public abstract class VNode extends VBrowseable
         }
         
         return ret;
+    } 
+    
+    /**
+     * @see         VBrowseable#GetClassAbstract()
+     */
+    public static TClass GetClassAbstract ()
+    {
+        TClass ret;
+        
+        ret = (new VNodeType ()).GetClass ().GetParent ();
+        
+        return ret;
     }
+    private static class VNodeType extends VNode{}
     
     private TOnceAssignable<VNode>      fExpression;
     private int                         fNumVisits;

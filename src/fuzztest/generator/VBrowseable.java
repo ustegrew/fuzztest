@@ -30,10 +30,6 @@ public abstract class VBrowseable
      * Use case: {@link TRepository} Query with abstract base class as 
      *           query criterion.
      *           
-     * Thankfully, Java allows us to create anonymous instances of 
-     * abstract classes, otherwise it would be hard to instantiate 
-     * a {@link TClass} from an abstract class.
-     * 
      * Note that each abstract sub class must override this method!  
      * 
      * @return      A generic class object for this class.
@@ -110,7 +106,7 @@ public abstract class VBrowseable
         
         if (doAutoKey)
         {
-            k = fClass.GetName ();
+            k = fClass.GetCanonicalPath ();
             gCounter++;
             fKey = k + "_" + gCounter;
         }
