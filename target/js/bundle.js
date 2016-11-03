@@ -617,8 +617,8 @@ var fuzztest;
                     if (n >= 1) {
                         for (i = 0; i < n; i++) {
                             c0 = this.fChain.Get(i);
-                            cID = c.GetName();
-                            cID0 = c0.GetName();
+                            cID = c.GetCanonicalPath();
+                            cID0 = c0.GetCanonicalPath();
                             ret = ret || (cID === cID0);
                         }
                     }
@@ -647,33 +647,39 @@ var fuzztest;
                     var proto;
                     var constr;
                     var cls;
+                    var cPath;
                     this.fCanonicalPath = TClass.kNullID;
                     this.fName = TClass.kNullID;
                     this.fInheritPath = TClass.kNullID;
                     this.fInherits = new fuzztest.generator.classing.TInheritChain();
                     proto = null;
                     if (obj != null) {
-                        proto = Object.getPrototypeOf(obj);
-                        if (proto != null) {
-                            constr = proto["constructor"];
-                            if (constr != null) {
-                                this.fCanonicalPath = constr["__classname"];
-                            }
-                        }
                         proto = obj["__proto__"];
                         if (proto != null) {
                             constr = proto["constructor"];
-                            this.fName = constr["name"];
-                            this.fInherits.Add(this);
-                            while ((proto != null)) {
-                                cls = new TClass(proto);
-                                proto = proto["__proto__"];
-                                if (proto != null) {
-                                    this.fInherits.Add(cls);
+                            if (constr != null) {
+                                this.fName = constr["name"];
+                                this.fInherits.Add(this);
+                                while ((proto != null)) {
+                                    cls = new TClass(proto);
+                                    proto = proto["__proto__"];
+                                    if (proto != null) {
+                                        this.fInherits.Add(cls);
+                                    }
                                 }
+                                ;
+                                this.fInheritPath = this.fInherits.GetAsString();
                             }
-                            ;
-                            this.fInheritPath = this.fInherits.GetAsString();
+                        }
+                    }
+                    proto = Object.getPrototypeOf(obj);
+                    if (proto != null) {
+                        constr = proto["constructor"];
+                        if (constr != null) {
+                            cPath = constr["__classname"];
+                            if (cPath != null) {
+                                this.fCanonicalPath = cPath;
+                            }
                         }
                     }
                 }

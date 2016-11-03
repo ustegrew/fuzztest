@@ -105,8 +105,8 @@ public class TInheritChain
             for (i = 0; i < n; i++)
             {
                 c0      = fChain.Get (i);
-                cID     = c.GetName ();
-                cID0    = c0.GetName ();
+                cID     = c.GetCanonicalPath ();
+                cID0    = c0.GetCanonicalPath ();
                 ret     = ret || cID.equals (cID0);
             }
         }

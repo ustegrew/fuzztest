@@ -591,8 +591,8 @@ namespace fuzztest.generator.classing {
             if(n >= 1) {
                 for(i = 0; i < n; i++) {
                     c0 = this.fChain.Get(i);
-                    cID = c.GetName();
-                    cID0 = c0.GetName();
+                    cID = c.GetCanonicalPath();
+                    cID0 = c0.GetCanonicalPath();
                     ret = ret || (cID === cID0);
                 }
             }
@@ -630,32 +630,38 @@ namespace fuzztest.generator.classing {
             let proto : Object;
             let constr : Object;
             let cls : TClass;
+            let cPath : string;
             this.fCanonicalPath = TClass.kNullID;
             this.fName = TClass.kNullID;
             this.fInheritPath = TClass.kNullID;
             this.fInherits = new fuzztest.generator.classing.TInheritChain();
             proto = null;
             if(obj != null) {
-                proto = <Object>Object.getPrototypeOf(obj);
-                if(proto != null) {
-                    constr = <Object>proto["constructor"];
-                    if(constr != null) {
-                        this.fCanonicalPath = <string>constr["__classname"];
-                    }
-                }
                 proto = <Object>obj["__proto__"];
                 if(proto != null) {
                     constr = <Object>proto["constructor"];
-                    this.fName = <string>constr["name"];
-                    this.fInherits.Add(this);
-                    while((proto != null)){
-                        cls = new TClass(proto);
-                        proto = <Object>proto["__proto__"];
-                        if(proto != null) {
-                            this.fInherits.Add(cls);
-                        }
-                    };
-                    this.fInheritPath = this.fInherits.GetAsString();
+                    if(constr != null) {
+                        this.fName = <string>constr["name"];
+                        this.fInherits.Add(this);
+                        while((proto != null)){
+                            cls = new TClass(proto);
+                            proto = <Object>proto["__proto__"];
+                            if(proto != null) {
+                                this.fInherits.Add(cls);
+                            }
+                        };
+                        this.fInheritPath = this.fInherits.GetAsString();
+                    }
+                }
+            }
+            proto = <Object>Object.getPrototypeOf(obj);
+            if(proto != null) {
+                constr = <Object>proto["constructor"];
+                if(constr != null) {
+                    cPath = <string>constr["__classname"];
+                    if(cPath != null) {
+                        this.fCanonicalPath = cPath;
+                    }
                 }
             }
         }

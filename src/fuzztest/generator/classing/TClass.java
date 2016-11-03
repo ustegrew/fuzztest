@@ -15,6 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.classing;
 
+import static jsweet.dom.Globals.console;
+
 import fuzztest.generator.VBrowseable;
 
 /**
@@ -46,42 +48,51 @@ public class TClass
         jsweet.lang.Object          proto;
         jsweet.lang.Object          constr;
         TClass                      cls;
+        String                      cPath;
 
         fCanonicalPath      = kNullID; 
         fName               = kNullID;
         fInheritPath        = kNullID;
         fInherits           = new TInheritChain ();
         proto               = null;
+        
         if (obj != null)
         {
-            proto = (jsweet.lang.Object) jsweet.lang.Object.getPrototypeOf (obj);
-            if (proto != null)
-            {
-                constr      = (jsweet.lang.Object) proto.$get ("constructor");
-                if (constr != null)
-                {
-                    fCanonicalPath = (String) constr.$get ("__classname");
-                }
-            }
-
             proto = (jsweet.lang.Object) obj.$get ("__proto__");
             if (proto != null)
             {
                 constr  = (jsweet.lang.Object) proto.$get ("constructor");
-                fName   = (String) constr.$get ("name");
-                fInherits.Add (this);
-
-                while (proto != null)
+                if (constr != null)
                 {
-                    cls = new TClass (proto);
-                    proto = (jsweet.lang.Object) proto.$get ("__proto__");
-                    if (proto != null)
+                    fName = (String) constr.$get ("name");
+                    fInherits.Add (this);
+
+                    while (proto != null)
                     {
-                        fInherits.Add (cls);
+                        cls   = new TClass (proto);
+                        proto = (jsweet.lang.Object) proto.$get ("__proto__");
+                        if (proto != null)
+                        {
+                            fInherits.Add (cls);
+                        }
                     }
+                    
+                    fInheritPath = fInherits.GetAsString ();
                 }
-                
-                fInheritPath = fInherits.GetAsString ();
+            }
+        }
+        
+        proto = (jsweet.lang.Object) jsweet.lang.Object.getPrototypeOf (obj);
+        if (proto != null)
+        {
+            constr = (jsweet.lang.Object) proto.$get ("constructor");
+            if (constr != null)
+            {
+                cPath = (String) constr.$get ("__classname");
+                if (cPath != null)
+                {
+                    fCanonicalPath = cPath;
+                }
             }
         }
     }
