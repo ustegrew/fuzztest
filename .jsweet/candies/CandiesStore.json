@@ -6,7 +6,7 @@
       "lastUpdateTimestamp": 1477778586000,
       "modelVersion": "unknown",
       "transpilerVersion": "1.2.0",
-      "jsOutputDirPath": "/home/peter/git/fuzztest/target/candies/js",
+      "jsOutputDirPath": "/home/peter/git/fuzztest",
       "jsDirPath": "META-INF/resources/webjars/jsweet-core/1.2.0-SNAPSHOT",
       "jsFilesPaths": []
     },
@@ -16,7 +16,7 @@
       "lastUpdateTimestamp": 1477131342000,
       "modelVersion": "unknown",
       "transpilerVersion": "1.1.1",
-      "jsOutputDirPath": "/home/peter/git/fuzztest/target/candies/js",
+      "jsOutputDirPath": "/home/peter/git/fuzztest",
       "jsDirPath": "META-INF/resources/webjars/j4ts/0.3.0-SNAPSHOT",
       "jsFilesPaths": [
         "META-INF/resources/webjars/j4ts/0.3.0-SNAPSHOT/.tsc-rootfile.js",
@@ -29,7 +29,7 @@
       "lastUpdateTimestamp": 1469514256000,
       "modelVersion": "unknown",
       "transpilerVersion": "1.2.0",
-      "jsOutputDirPath": "/home/peter/git/fuzztest/target/candies/js",
+      "jsOutputDirPath": "/home/peter/git/fuzztest",
       "jsDirPath": "META-INF/resources/webjars/sprintf-js/0.0.0-SNAPSHOT",
       "jsFilesPaths": []
     },
@@ -39,7 +39,7 @@
       "lastUpdateTimestamp": 1468706726000,
       "modelVersion": "unknown",
       "transpilerVersion": "1.2.0",
-      "jsOutputDirPath": "/home/peter/git/fuzztest/target/candies/js",
+      "jsOutputDirPath": "/home/peter/git/fuzztest",
       "jsDirPath": "META-INF/resources/webjars/jquery/1.10.0-SNAPSHOT",
       "jsFilesPaths": [
         "META-INF/resources/webjars/jquery/1.10.0-SNAPSHOT/jquery.js",

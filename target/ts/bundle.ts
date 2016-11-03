@@ -8,10 +8,33 @@ namespace fuzztest {
          * @param args
          */
         public static main(args : string[]) {
+            fuzztest._dev_concepts.math.rnd.TDevRnd_01.RunRnd_01();
+            fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01.TestTree01();
             fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.CreateType();
         }
     }
     TMain["__classname"] = "fuzztest.TMain";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest._dev_concepts.math.rnd {
+    /**
+     * @author peter
+     */
+    export class TDevRnd_01 {
+        public static RunRnd_01() {
+            let i : number;
+            let x : number;
+            let rndGen : fuzztest.utils.gen.TRndMT;
+            rndGen = new fuzztest.utils.gen.TRndMT();
+            console.log(rndGen);
+            for(i = 0; i < 10; i++) {
+                x = rndGen.GetDouble();
+                console.log(x);
+            }
+        }
+    }
+    TDevRnd_01["__classname"] = "fuzztest._dev_concepts.math.rnd.TDevRnd_01";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -206,6 +229,33 @@ namespace fuzztest.utils.store {
         }
     }
     TArrayMap["__classname"] = "fuzztest.utils.store.TArrayMap";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.utils.gen {
+    /**
+     * @author peter
+     */
+    export class TRndMT {
+        public static kMT : string = "/*\n  I\'ve wrapped Makoto Matsumoto and Takuji Nishimura\'s code in a namespace\n  so it\'s better encapsulated. Now you can have multiple random number generators\n  and they won\'t stomp all over eachother\'s state.\n  \n  If you want to use this as a substitute for Math.random(), use the random()\n  method like so:\n  \n  var m = new MersenneTwister();\n  var randomNumber = m.random();\n  \n  You can also call the other genrand_{foo}() methods on the instance.\n\n  If you want to use a specific seed in order to get a repeatable random\n  sequence, pass an integer into the constructor:\n\n  var m = new MersenneTwister(123);\n\n  and that will alwaFunctionys produce the same random sequence.\n\n  Sean McCullough (banksean@gmail.com)\n*/\n\n/* \n   A C-program for MT19937, with initialization improved 2002/1/26.\n   Coded by Takuji Nishimura and Makoto Matsumoto.\n \n   Before using, initialize the state by using init_genrand(seed)  \n   or init_by_array(init_key, key_length).\n \n   Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,\n   All rights reserved.                          \n \n   Redistribution and use in source and binary forms, with or without\n   modification, are permitted provided that the following conditions\n   are met:\n \n     1. Redistributions of source code must retain the above copyright\n        notice, this list of conditions and the following disclaimer.\n \n     2. Redistributions in binary form must reproduce the above copyright\n        notice, this list of conditions and the following disclaimer in the\n        documentation and/or other materials provided with the distribution.\n \n     3. The names of its contributors may not be used to endorse or promote \n        products derived from this software without specific prior written \n        permission.\n \n   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n   \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n   A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n \n \n   Any feedback is very welcome.\n   http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html\n   email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)\n*/\n\nwindow.MersenneTwister = function(seed) {\n  if (seed == undefined) {\n    seed = new Date().getTime();\n  } \n  /* Period parameters */  \n  this.N = 624;\n  this.M = 397;\n  this.MATRIX_A = 0x9908b0df;   /* constant vector a */\n  this.UPPER_MASK = 0x80000000; /* most significant w-r bits */\n  this.LOWER_MASK = 0x7fffffff; /* least significant r bits */\n \n  this.mt = new Array(this.N); /* the array for the state vector */\n  this.mti=this.N+1; /* mti==N+1 means mt[N] is not initialized */\n\n  this.init_genrand(seed);\n}  \n \n/* initializes mt[N] with a seed */\nwindow.MersenneTwister.prototype.init_genrand = function(s) {\n  this.mt[0] = s >>> 0;\n  for (this.mti=1; this.mti<this.N; this.mti++) {\n      var s = this.mt[this.mti-1] ^ (this.mt[this.mti-1] >>> 30);\n   this.mt[this.mti] = (((((s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253)\n  + this.mti;\n      /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */\n      /* In the previous versions, MSBs of the seed affect   */\n      /* only MSBs of the array mt[].                        */\n      /* 2002/01/09 modified by Makoto Matsumoto             */\n      this.mt[this.mti] >>>= 0;\n      /* for >32 bit machines */\n  }\n}\n \n/* initialize by an array with array-length */\n/* init_key is the array for initializing keys */\n/* key_length is its length */\n/* slight change for C++, 2004/2/26 */\nwindow.MersenneTwister.prototype.init_by_array = function(init_key, key_length) {\n  var i, j, k;\n  this.init_genrand(19650218);\n  i=1; j=0;\n  k = (this.N>key_length ? this.N : key_length);\n  for (; k; k--) {\n    var s = this.mt[i-1] ^ (this.mt[i-1] >>> 30)\n    this.mt[i] = (this.mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1664525) << 16) + ((s & 0x0000ffff) * 1664525)))\n      + init_key[j] + j; /* non linear */\n    this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n    i++; j++;\n    if (i>=this.N) { this.mt[0] = this.mt[this.N-1]; i=1; }\n    if (j>=key_length) j=0;\n  }\n  for (k=this.N-1; k; k--) {\n    var s = this.mt[i-1] ^ (this.mt[i-1] >>> 30);\n    this.mt[i] = (this.mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941))\n      - i; /* non linear */\n    this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n    i++;\n    if (i>=this.N) { this.mt[0] = this.mt[this.N-1]; i=1; }\n  }\n\n  this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */ \n}\n \n/* generates a random number on [0,0xffffffff]-interval */\nwindow.MersenneTwister.prototype.genrand_int32 = function() {\n  var y;\n  var mag01 = new Array(0x0, this.MATRIX_A);\n  /* mag01[x] = x * MATRIX_A  for x=0,1 */\n\n  if (this.mti >= this.N) { /* generate N words at one time */\n    var kk;\n\n    if (this.mti == this.N+1)   /* if init_genrand() has not been called, */\n      this.init_genrand(5489); /* a default initial seed is used */\n\n    for (kk=0;kk<this.N-this.M;kk++) {\n      y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk+1]&this.LOWER_MASK);\n      this.mt[kk] = this.mt[kk+this.M] ^ (y >>> 1) ^ mag01[y & 0x1];\n    }\n    for (;kk<this.N-1;kk++) {\n      y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk+1]&this.LOWER_MASK);\n      this.mt[kk] = this.mt[kk+(this.M-this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];\n    }\n    y = (this.mt[this.N-1]&this.UPPER_MASK)|(this.mt[0]&this.LOWER_MASK);\n    this.mt[this.N-1] = this.mt[this.M-1] ^ (y >>> 1) ^ mag01[y & 0x1];\n\n    this.mti = 0;\n  }\n\n  y = this.mt[this.mti++];\n\n  /* Tempering */\n  y ^= (y >>> 11);\n  y ^= (y << 7) & 0x9d2c5680;\n  y ^= (y << 15) & 0xefc60000;\n  y ^= (y >>> 18);\n\n  return y >>> 0;\n}\n \n/* generates a random number on [0,0x7fffffff]-interval */\nwindow.MersenneTwister.prototype.genrand_int31 = function() {\n  return (this.genrand_int32()>>>1);\n}\n \n/* generates a random number on [0,1]-real-interval */\nwindow.MersenneTwister.prototype.genrand_real1 = function() {\n  return this.genrand_int32()*(1.0/4294967295.0); \n  /* divided by 2^32-1 */ \n}\n\n/* generates a random number on [0,1)-real-interval */\nwindow.MersenneTwister.prototype.random = function() {\n  return this.genrand_int32()*(1.0/4294967296.0); \n  /* divided by 2^32 */\n}\n \n/* generates a random number on (0,1)-real-interval */\nwindow.MersenneTwister.prototype.genrand_real3 = function() {\n  return (this.genrand_int32() + 0.5)*(1.0/4294967296.0); \n  /* divided by 2^32 */\n}\n \n/* generates a random number on [0,1) with 53-bit resolution*/\nwindow.MersenneTwister.prototype.genrand_res53 = function() { \n  var a=this.genrand_int32()>>>5, b=this.genrand_int32()>>>6; \n  return(a*67108864.0+b)*(1.0/9007199254740992.0); \n} \n\nwindow.MersenneTwisterGen = new window.MersenneTwister(0);\n/* These real versions are due to Isaku Wada, 2002/01/09 added */\n";
+
+        private fRNDGen : Object;
+
+        private fRNDFunc : Function;
+
+        public constructor() {
+            eval(TRndMT.kMT);
+            this.fRNDGen = <Object>window["MersenneTwisterGen"];
+            this.fRNDFunc = <Function>this.fRNDGen["random"];
+        }
+
+        public GetDouble() : number {
+            let ret : number;
+            ret = <number>this.fRNDFunc.call(this.fRNDGen);
+            return ret;
+        }
+    }
+    TRndMT["__classname"] = "fuzztest.utils.gen.TRndMT";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -457,15 +507,11 @@ namespace fuzztest.generator {
          * Use case: {@link TRepository} Query with abstract base class as
          * query criterion.
          * 
-         * Thankfully, Java allows us to create anonymous instances of
-         * abstract classes, otherwise it would be hard to instantiate
-         * a {@link TClass} from an abstract class.
-         * 
          * Note that each abstract sub class must override this method!
          * 
          * @return      A generic class object for this class.
          */
-        public static CreateType() : fuzztest.generator.classing.TClass {
+        public static GetClassAbstract() : fuzztest.generator.classing.TClass {
             let ret : fuzztest.generator.classing.TClass;
             ret = (new VBrowseable.VBrowseableType()).GetClass().GetParent();
             return ret;
@@ -502,7 +548,7 @@ namespace fuzztest.generator {
                 throw new java.lang.IllegalArgumentException("Key is already assigned.");
             }
             if(doAutoKey) {
-                k = this.fClass.GetName();
+                k = this.fClass.GetCanonicalPath();
                 VBrowseable.gCounter++;
                 this.fKey = k + "_" + VBrowseable.gCounter;
             } else {
@@ -1021,7 +1067,7 @@ namespace fuzztest.generator.rule {
             let nd : VNode;
             let clVNode : fuzztest.generator.classing.TClass;
             let keys : fuzztest.utils.store.TArrayList<string>;
-            clVNode = VNode.CreateType();
+            clVNode = VNode.GetClassAbstract();
             keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
             n = keys.GetNumElements();
             if(n >= 1) {
@@ -1031,18 +1077,6 @@ namespace fuzztest.generator.rule {
                     nd.ClearVisitCounter();
                 }
             }
-        }
-
-        /**
-         * @see         VBrowseable#CreateType()
-         */
-        public static CreateType() : fuzztest.generator.classing.TClass {
-            let ret : fuzztest.generator.classing.TClass;
-            ret = (((target:VNode.VNodeType) => {
-                return target;
-
-            })(new VNode.VNodeType())).GetClass().GetParent();
-            return ret;
         }
 
         public static DoesFollowRule(s : fuzztest.generator.rule.TStrategy) : boolean {
@@ -1056,6 +1090,15 @@ namespace fuzztest.generator.rule {
             } else {
                 ret = fuzztest.utils.gen.TGenData.GetBoolean();
             }
+            return ret;
+        }
+
+        /**
+         * @see         VBrowseable#GetClassAbstract()
+         */
+        public static GetClassAbstract() : fuzztest.generator.classing.TClass {
+            let ret : fuzztest.generator.classing.TClass;
+            ret = (new VNode.VNodeType()).GetClass().GetParent();
             return ret;
         }
 
@@ -1184,7 +1227,7 @@ namespace fuzztest.generator.rule {
             if(n >= 1) {
                 hasKey = false;
                 do {
-                    i = fuzztest.utils.gen.TGenData.GetInt(n);
+                    i = fuzztest.utils.gen.TGenData.GetInt(0, n - 1);
                     kOther = refs.Get(i);
                     isEqual = (kThis === kOther);
                     hasKey = !isEqual;
@@ -1553,10 +1596,10 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
             console.log("Legend: x\'  means \"a type derived from x\" (as in calculus).");
             console.log("      : x\'^ means \"a parent of a type derived from x\" (i.e. x).");
             console.log();
-            c = fuzztest.generator.VBrowseable.CreateType();
+            c = fuzztest.generator.VBrowseable.GetClassAbstract();
             console.log("VBrowseable       => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable       => Canonical path:    " + c.GetCanonicalPath());
-            c = fuzztest.generator.rule.VNode.CreateType();
+            c = fuzztest.generator.rule.VNode.GetClassAbstract();
             console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());
             c = (new TDevCreateObject_02.VDeriv_01()).GetClass();
@@ -1807,20 +1850,20 @@ namespace fuzztest.generator.rule.cClass {
      * @author peter
      */
     export class TCharacterClass extends fuzztest.generator.rule.VNode {
-        private fSets : java.util.ArrayList<fuzztest.generator.rule.cClass.VCharSet>;
+        private fSets : fuzztest.utils.store.TArrayList<fuzztest.generator.rule.cClass.VCharSet>;
 
         /**
          * cTor.
          */
         public constructor() {
             super();
-            this.fSets = <any>(new java.util.ArrayList<any>());
+            this.fSets = <any>(new fuzztest.utils.store.TArrayList<any>());
         }
 
         public AddPoint(ch : string) {
             let set : fuzztest.generator.rule.cClass.TCharacterPoint;
             set = new fuzztest.generator.rule.cClass.TCharacterPoint(ch);
-            this.fSets.add(set);
+            this.fSets.Add(set);
         }
 
         /**
@@ -1830,7 +1873,7 @@ namespace fuzztest.generator.rule.cClass {
         public AddRange(loChar : string, hiChar : string) {
             let set : fuzztest.generator.rule.cClass.TCharacterRange;
             set = new fuzztest.generator.rule.cClass.TCharacterRange(loChar, hiChar);
-            this.fSets.add(set);
+            this.fSets.Add(set);
         }
 
         _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
@@ -1838,10 +1881,10 @@ namespace fuzztest.generator.rule.cClass {
             let cs : fuzztest.generator.rule.cClass.VCharSet;
             let x : number;
             let ret : string;
-            n = this.fSets.size();
+            n = this.fSets.GetNumElements();
             if(n >= 1) {
-                x = fuzztest.utils.gen.TGenData.GetInt(n);
-                cs = this.fSets.get(x);
+                x = fuzztest.utils.gen.TGenData.GetInt(0, n - 1);
+                cs = this.fSets.Get(x);
                 ret = head + cs.GetChar(s);
             } else {
                 ret = head;
@@ -2333,7 +2376,7 @@ namespace fuzztest.generator.rule.choice {
             let ret : string;
             n = this.fBranches.size();
             if(n >= 1) {
-                i = fuzztest.utils.gen.TGenData.GetInt(n);
+                i = fuzztest.utils.gen.TGenData.GetInt(0, n - 1);
                 node = this.fBranches.get(i);
                 ret = node.CreateData(s, head);
             } else {
@@ -2492,9 +2535,9 @@ namespace fuzztest.generator.rule.suffixed {
      */
     export abstract class VSuffixed extends fuzztest.generator.rule.VNode {
         /**
-         * @see         VBrowseable#CreateType()
+         * @see         VBrowseable#GetClassAbstract()
          */
-        public static CreateType() : fuzztest.generator.classing.TClass {
+        public static GetClassAbstract() : fuzztest.generator.classing.TClass {
             let ret : fuzztest.generator.classing.TClass;
             ret = (new VSuffixed.VSuffixedType()).GetClass().GetParent();
             return ret;
@@ -3783,36 +3826,16 @@ namespace fuzztest.utils.gen {
         }
 
         /**
-         * Returns an integer number between <code>0</code> and <code>maxN</code> (exclusive).
-         * Useful
-         * 
-         * @param       maxN    Possible maximum less one.
-         * @return              Random integer in range [0, maxN[
-         */
-        public static GetInt$int(maxN : number) : number {
-            let ret : number;
-            ret = TGenData._GetInt(0, maxN - 1);
-            return ret;
-        }
-
-        /**
          * Returns an integer number between <code>min</code> (inclusive) and <code>max</code> (inclusive).
          * 
          * @param       min     Possible minimum.
          * @param       max     Possible maximum.
          * @return              Random value in range [min, max].
          */
-        public static GetInt(min? : any, max? : any) : any {
-            if(((typeof min === 'number') || min === null) && ((typeof max === 'number') || max === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    let ret : number;
-                    ret = TGenData._GetInt(min, max);
-                    return ret;
-                })();
-            } else if(((typeof min === 'number') || min === null) && max === undefined) {
-                return <any>fuzztest.utils.gen.TGenData.GetInt$int(min);
-            } else throw new Error('invalid overload');
+        public static GetInt(min : number, max : number) : number {
+            let ret : number;
+            ret = TGenData._GetInt(min, max);
+            return ret;
         }
 
         private static _GetChar(loChar : string, hiChar : string) : string {

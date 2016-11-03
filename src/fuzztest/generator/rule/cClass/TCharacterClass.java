@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.utils.gen.TGenData;
+import fuzztest.utils.store.TArrayList;
 
 /**
  * A single character generator. Creates characters that (don't) match a given character class.
@@ -85,7 +86,7 @@ import fuzztest.utils.gen.TGenData;
  */
 public class TCharacterClass extends VNode
 {
-    private ArrayList<VCharSet>     fSets;
+    private TArrayList<VCharSet>     fSets;
     
     /**
      * cTor. 
@@ -93,7 +94,7 @@ public class TCharacterClass extends VNode
     public TCharacterClass ()
     {
         super ();
-        fSets = new ArrayList<> ();
+        fSets = new TArrayList<> ();
     }
     
     public void AddPoint (String ch)
@@ -101,7 +102,7 @@ public class TCharacterClass extends VNode
         TCharacterPoint         set;
         
         set = new TCharacterPoint (ch);
-        fSets.add (set);
+        fSets.Add (set);
     }
     
     /**
@@ -113,7 +114,7 @@ public class TCharacterClass extends VNode
         TCharacterRange         set;
         
         set = new TCharacterRange (loChar, hiChar);
-        fSets.add (set);
+        fSets.Add (set);
     }
     
     protected String _CreateData (TStrategy s, String head)
@@ -123,11 +124,11 @@ public class TCharacterClass extends VNode
         int         x;
         String      ret;
 
-        n   = fSets.size ();
+        n   = fSets.GetNumElements ();
         if (n >= 1)
         {
-            x       = TGenData.GetInt (n);
-            cs      = fSets.get (x);
+            x       = TGenData.GetInt (0, n-1);
+            cs      = fSets.Get (x);
             ret     = head + cs.GetChar (s);
         }
         else

@@ -13,25 +13,30 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest;
+package fuzztest._dev_concepts.math.rnd;
 
-import fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01;
-import fuzztest._dev_concepts.math.rnd.TDevRnd_01;
-import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02;
+import static jsweet.dom.Globals.console;
+
+import fuzztest.utils.gen.TRndMT;
 
 /**
  * @author peter
  *
  */
-public class TMain
+public class TDevRnd_01
 {
-    /**
-     * @param args
-     */
-    public static void main (String[] args)
+    public static void RunRnd_01 ()
     {
-        TDevRnd_01.RunRnd_01 ();
-        TDevBuildGrammar_01.TestTree01 ();
-        TDevCreateObject_02.CreateType ();
+        int             i;
+        double          x;
+        TRndMT          rndGen;
+        
+        rndGen = new TRndMT ();
+        console.log (rndGen);
+        for (i = 0; i < 10; i++)
+        {
+            x = rndGen.GetDouble ();
+            console.log (x);
+        }
     }
 }

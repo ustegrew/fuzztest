@@ -59,14 +59,6 @@ public class TGenData
      * @param       maxN    Possible maximum less one.
      * @return              Random integer in range [0, maxN[
      */
-    public static int GetInt (int maxN)
-    {
-        int ret;
-        
-        ret = _GetInt (0, maxN-1);
-        
-        return ret;
-    }
 
     /**
      * Returns an integer number between <code>min</code> (inclusive) and <code>max</code> (inclusive).
