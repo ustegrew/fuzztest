@@ -29,6 +29,7 @@ import fuzztest.utils.storage.TOnceAssignable;
  */
 public abstract class VNode extends VBrowseable
 {
+    private static class VNodeType extends VNode{}
     public static void ClearVisitCounters ()
     {
         int                 i;
@@ -50,7 +51,8 @@ public abstract class VNode extends VBrowseable
                 nd.ClearVisitCounter ();
             }
         }
-    }
+    } 
+    
     public static boolean DoesFollowRule (TStrategy s)
     {
         ERuleAdhesion       r;
@@ -71,8 +73,7 @@ public abstract class VNode extends VBrowseable
         }
         
         return ret;
-    } 
-    
+    }
     /**
      * @see         VBrowseable#GetClassAbstract()
      */
@@ -84,22 +85,18 @@ public abstract class VNode extends VBrowseable
         
         return ret;
     }
-    private static class VNodeType extends VNode{}
     
     private TOnceAssignable<VNode>      fExpression;
     private int                         fNumVisits;
     
     public VNode ()
     {
-        fNumVisits  = 0;
-        fExpression = new TOnceAssignable<> ();
-        _Register ();
+        _Init (null);
     }
     
     public VNode (String key)
     {
-        fNumVisits = 0;
-        _Register (key);
+        _Init (key);
     }
     
     public void ClearVisitCounter ()
@@ -169,7 +166,7 @@ public abstract class VNode extends VBrowseable
         
         return ret;
     }
-
+    
     protected VNode _GetExpression ()
     {
         VNode ret;
@@ -234,5 +231,19 @@ public abstract class VNode extends VBrowseable
         }
         
         return ret;
+    }
+
+    private void _Init (String key)
+    {
+        fNumVisits  = 0;
+        fExpression = new TOnceAssignable<> ();
+        if (key == null)
+        {
+            _Register ();
+        }
+        else
+        {
+            _Register (key);
+        }
     }
 }

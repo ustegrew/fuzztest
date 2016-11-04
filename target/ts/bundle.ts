@@ -1139,17 +1139,14 @@ namespace fuzztest.generator.rule {
                 super();
                 this.fNumVisits = 0;
                 (() => {
-                    this.fNumVisits = 0;
-                    this._Register(key);
+                    this._Init(key);
                 })();
             } else if(key === undefined) {
                 let __args = Array.prototype.slice.call(arguments);
                 super();
                 this.fNumVisits = 0;
                 (() => {
-                    this.fNumVisits = 0;
-                    this.fExpression = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
-                    this._Register();
+                    this._Init(null);
                 })();
             } else throw new Error('invalid overload');
         }
@@ -1264,6 +1261,16 @@ namespace fuzztest.generator.rule {
                 ret = <VNode>fuzztest.generator.TRepository.Get(kThis);
             }
             return ret;
+        }
+
+        _Init(key : string) {
+            this.fNumVisits = 0;
+            this.fExpression = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
+            if(key == null) {
+                this._Register();
+            } else {
+                this._Register(key);
+            }
         }
     }
     VNode["__classname"] = "fuzztest.generator.rule.VNode";

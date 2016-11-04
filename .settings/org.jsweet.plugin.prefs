@@ -1,6 +1,6 @@
 compiler.bundle=true
 compiler.debugMode=java
-compiler.javascriptFolder=target/s
+compiler.javascriptFolder=target/js
 compiler.moduleKind=none
 compiler.profiles=default
 compiler.sourceFolders=src
