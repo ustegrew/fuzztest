@@ -129,18 +129,50 @@ console.info();         }     }     TDevBuildGrammar_01["__classname"] = "fuzzte
  */
 export class TDevRnd_01 {         
 
+static kN : number = 20;          
+
 public static RunRnd_01() {             
 
 var i : number;             
 var x : number;             
+var b : boolean;             
 var rndGen : fuzztest.utils.gen.TRndMT;             
 
 rndGen = new fuzztest.utils.gen.TRndMT();             
-console.log(rndGen);             
-for(i = 0; i < 10; i++) 
+console.log("------------------------------------------");             
+console.log("GetDouble");             
+console.log("------------------------------------------");             
+for(i = 0; i < TDevRnd_01.kN; i++) 
 {                 
 x = rndGen.GetDouble();                 
-console.log(x);             }         }     }     TDevRnd_01["__classname"] = "fuzztest._dev_concepts.math.rnd.TDevRnd_01";  } 
+console.log(x);             }             
+
+
+console.log("------------------------------------------");             
+console.log("GetIntBetween (2, 4)");             
+console.log("------------------------------------------");             
+for(i = 0; i < TDevRnd_01.kN; i++) 
+{                 
+x = rndGen.GetIntBetween(2, 4);                 
+console.log(x);             }             
+
+
+console.log("------------------------------------------");             
+console.log("GetIntBetween (-1, 1)");             
+console.log("------------------------------------------");             
+for(i = 0; i < TDevRnd_01.kN; i++) 
+{                 
+x = rndGen.GetIntBetween(-1, 1);                 
+console.log(x);             }             
+
+
+console.log("------------------------------------------");             
+console.log("GetBoolean ()");             
+console.log("------------------------------------------");             
+for(i = 0; i < TDevRnd_01.kN; i++) 
+{                 
+b = rndGen.GetBoolean();                 
+console.log(b);             }         }     }     TDevRnd_01["__classname"] = "fuzztest._dev_concepts.math.rnd.TDevRnd_01";  } 
 
 
 
@@ -1403,7 +1435,7 @@ private _GetDouble() : number {
 var x : number;             
 var ret : number;             
 
-x = 0;             
+x = 1;             
 while((x >= 1))
 {                 
 x = <number>this.fRNDFuncInt32.call(this.fRNDGen);                 

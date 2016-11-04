@@ -25,18 +25,50 @@ import fuzztest.utils.gen.TRndMT;
  */
 public class TDevRnd_01
 {
+    private static final int kN = 20;
+    
     public static void RunRnd_01 ()
     {
         int             i;
         double          x;
+        boolean         b;
         TRndMT          rndGen;
         
         rndGen = new TRndMT ();
-        console.log (rndGen);
-        for (i = 0; i < 10; i++)
+        console.log ("------------------------------------------");
+        console.log ("GetDouble");
+        console.log ("------------------------------------------");
+        for (i = 0; i < kN; i++)
         {
             x = rndGen.GetDouble ();
             console.log (x);
+        }
+        
+        console.log ("------------------------------------------");
+        console.log ("GetIntBetween (2, 4)");
+        console.log ("------------------------------------------");
+        for (i = 0; i < kN; i++)
+        {
+            x = rndGen.GetIntBetween (2, 4);
+            console.log (x);
+        }
+        
+        console.log ("------------------------------------------");
+        console.log ("GetIntBetween (-1, 1)");
+        console.log ("------------------------------------------");
+        for (i = 0; i < kN; i++)
+        {
+            x = rndGen.GetIntBetween (-1, 1);
+            console.log (x);
+        }
+        
+        console.log ("------------------------------------------");
+        console.log ("GetBoolean ()");
+        console.log ("------------------------------------------");
+        for (i = 0; i < kN; i++)
+        {
+            b = rndGen.GetBoolean ();
+            console.log (b);
         }
     }
 }

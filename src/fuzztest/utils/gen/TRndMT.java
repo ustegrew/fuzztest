@@ -296,7 +296,7 @@ public class TRndMT
         double      x;
         double      ret;
         
-        x = 0;
+        x = 1;
         while (x >= 1)
         {
             x = (double) fRNDFuncInt32.call (fRNDGen);
