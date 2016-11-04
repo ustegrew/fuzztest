@@ -94,7 +94,7 @@ public class TChoice extends VNode
         n = fBranches.size ();
         if (n >= 1)
         {
-            i       = TGenData.GetInt (0, n-1);
+            i       = TGenData.GetIntUpTo (n);
             node    = fBranches.get (i);
             ret     = node.CreateData (s, head); 
         }

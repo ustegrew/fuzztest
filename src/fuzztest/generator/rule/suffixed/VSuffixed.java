@@ -96,14 +96,14 @@ public abstract class VSuffixed extends VNode
             
             if (nMax >= 1)
             {
-                n = TGenData.GetInt (nMin, nMax);
+                n = TGenData.GetIntBetween (nMin, nMax);
             }
         }
         else
         {
             nMin = fIsNMinZero          ?  0                     : 1;
             nMax = fIsNMaxInfinite      ?  s.GetNumRepeatsMax () : 1;
-            n    = TGenData.GetInt (nMin, nMax);
+            n    = TGenData.GetIntBetween (nMin, nMax);
         }
         
         ret = head;

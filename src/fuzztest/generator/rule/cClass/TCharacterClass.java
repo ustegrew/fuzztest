@@ -127,7 +127,7 @@ public class TCharacterClass extends VNode
         n   = fSets.GetNumElements ();
         if (n >= 1)
         {
-            x       = TGenData.GetInt (0, n-1);
+            x       = TGenData.GetIntUpTo (n);
             cs      = fSets.Get (x);
             ret     = head + cs.GetChar (s);
         }

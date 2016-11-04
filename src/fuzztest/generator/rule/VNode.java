@@ -220,7 +220,7 @@ public abstract class VNode extends VBrowseable
             hasKey = false;
             do
             {
-                i       = TGenData.GetInt (0, n-1);
+                i       = TGenData.GetIntUpTo (n);
                 kOther  = refs.Get (i);
                 isEqual = kThis.equals (kOther);
                 hasKey  = ! isEqual;
