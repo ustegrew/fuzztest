@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator;
 
-import fuzztest.generator.classing.TClass;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * Browseable object, i.e. can be stored in the {@link TRepository}. Provides 

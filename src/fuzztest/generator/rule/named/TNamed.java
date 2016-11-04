@@ -15,9 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.named;
 
-import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.rule.TRule;
+import fuzztest.utils.storage.TOnceAssignable;
 
 /**
  * 

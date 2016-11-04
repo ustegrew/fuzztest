@@ -18,8 +18,8 @@ package fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01;
 import static jsweet.dom.Globals.console;
 
 import fuzztest.generator.VBrowseable;
-import fuzztest.generator.classing.TClass;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * Concept test: Create object from an abstract class. Only works because it's trans-piled into Javascript,

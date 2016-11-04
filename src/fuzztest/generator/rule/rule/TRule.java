@@ -15,10 +15,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.rule;
 
-import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.named.TNamed;
+import fuzztest.utils.storage.TOnceAssignable;
 
 /**
  * rules = expression

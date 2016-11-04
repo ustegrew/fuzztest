@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.utils.gen.TGenData;
-import fuzztest.utils.store.TArrayList;
+import fuzztest.utils.storage.TArrayList;
 
 /**
  * A single character generator. Creates characters that (don't) match a given character class.

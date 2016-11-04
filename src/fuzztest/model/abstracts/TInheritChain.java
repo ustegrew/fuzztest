@@ -13,9 +13,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.classing;
+package fuzztest.model.abstracts;
 
-import fuzztest.utils.store.TArrayMap;
+import fuzztest.utils.storage.TArrayMap;
 
 /**
  * @author peter

@@ -17,11 +17,11 @@ package fuzztest.generator.rule;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
-import fuzztest.generator.classing.TClass;
-import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.choice.TChoice;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
-import fuzztest.utils.store.TArrayList;
+import fuzztest.utils.storage.TArrayList;
+import fuzztest.utils.storage.TOnceAssignable;
 
 /**
  * @author peter

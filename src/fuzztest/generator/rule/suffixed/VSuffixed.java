@@ -16,10 +16,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.suffixed;
 
 import fuzztest.generator.VBrowseable;
-import fuzztest.generator.classing.TClass;
 import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 
 /**

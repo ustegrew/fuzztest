@@ -1,4 +1,231 @@
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.model.abstracts {
+    /**
+     * @author peter
+     */
+    export class TInheritChain {
+        public static kPathSeparator : string = ".";
+
+        private fChain : fuzztest.utils.storage.TArrayMap<fuzztest.model.abstracts.TClass>;
+
+        constructor() {
+            this.fChain = <any>(new fuzztest.utils.storage.TArrayMap<any>());
+        }
+
+        public GetAsString$() : string {
+            let ret : string;
+            ret = this._GetAsString(false);
+            return ret;
+        }
+
+        public GetAsString(isDetailed? : any) : any {
+            if(((typeof isDetailed === 'boolean') || isDetailed === null)) {
+                let __args = Array.prototype.slice.call(arguments);
+                return <any>(() => {
+                    let ret : string;
+                    ret = this._GetAsString(isDetailed);
+                    return ret;
+                })();
+            } else if(isDetailed === undefined) {
+                return <any>this.GetAsString$();
+            } else throw new Error('invalid overload');
+        }
+
+        /**
+         * Returns the i-th parent in this inheritance chain.
+         * 
+         * @param   i   The number of generations above. Zero is the the referred class itself,
+         * 1 (one) the first parent generation etc.
+         * @return      The parent class that it i generations above the class hosting this chain.
+         */
+        public GetLink(i : number) : fuzztest.model.abstracts.TClass {
+            let ret : fuzztest.model.abstracts.TClass;
+            ret = this.fChain.Get(i);
+            return ret;
+        }
+
+        public GetNumLinks() : number {
+            let ret : number;
+            ret = this.fChain.GetNumElements();
+            return ret;
+        }
+
+        public IsLink(c : fuzztest.model.abstracts.TClass) : boolean {
+            let i : number;
+            let n : number;
+            let c0 : fuzztest.model.abstracts.TClass;
+            let cID : string;
+            let cID0 : string;
+            let ret : boolean;
+            ret = false;
+            n = this.fChain.GetNumElements();
+            if(n >= 1) {
+                for(i = 0; i < n; i++) {
+                    c0 = this.fChain.Get(i);
+                    cID = c.GetCanonicalPath();
+                    cID0 = c0.GetCanonicalPath();
+                    ret = ret || (cID === cID0);
+                }
+            }
+            return ret;
+        }
+
+        Add(c : fuzztest.model.abstracts.TClass) {
+            let key : string;
+            key = c.GetName();
+            this.fChain.Add(key, c);
+        }
+
+        private _GetAsString(isDetailed : boolean) : string {
+            let i : number;
+            let n : number;
+            let c : fuzztest.model.abstracts.TClass;
+            let pSep : string;
+            let ret : string;
+            pSep = isDetailed?"\n":TInheritChain.kPathSeparator;
+            ret = "";
+            n = this.fChain.GetNumElements();
+            if(n >= 1) {
+                for(i = n - 1; i >= 0; i--) {
+                    c = this.fChain.Get(i);
+                    ret += isDetailed?c.GetCanonicalPath():c.GetName();
+                    if(i > 0) {
+                        ret += pSep;
+                    }
+                }
+            }
+            return ret;
+        }
+    }
+    TInheritChain["__classname"] = "fuzztest.model.abstracts.TInheritChain";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.model.abstracts {
+    /**
+     * @author peter
+     */
+    export class TClass {
+        public static kNullID : string = "anonymous";
+
+        public static Create(obj : fuzztest.generator.VBrowseable) : TClass {
+            let obj0 : Object;
+            let ret : TClass;
+            obj0 = <Object>(<any>obj);
+            ret = new TClass(obj0);
+            return ret;
+        }
+
+        private fInherits : fuzztest.model.abstracts.TInheritChain;
+
+        private fName : string;
+
+        private fInheritPath : string;
+
+        private fCanonicalPath : string;
+
+        constructor(obj : Object) {
+            let proto : Object;
+            let constr : Object;
+            let cls : TClass;
+            let cPath : string;
+            this.fCanonicalPath = TClass.kNullID;
+            this.fName = TClass.kNullID;
+            this.fInheritPath = TClass.kNullID;
+            this.fInherits = new fuzztest.model.abstracts.TInheritChain();
+            proto = null;
+            if(obj != null) {
+                proto = <Object>obj["__proto__"];
+                if(proto != null) {
+                    constr = <Object>proto["constructor"];
+                    if(constr != null) {
+                        this.fName = <string>constr["name"];
+                        this.fInherits.Add(this);
+                        while((proto != null)){
+                            cls = new TClass(proto);
+                            proto = <Object>proto["__proto__"];
+                            if(proto != null) {
+                                this.fInherits.Add(cls);
+                            }
+                        };
+                        this.fInheritPath = this.fInherits.GetAsString();
+                    }
+                }
+            }
+            proto = <Object>Object.getPrototypeOf(obj);
+            if(proto != null) {
+                constr = <Object>proto["constructor"];
+                if(constr != null) {
+                    cPath = <string>constr["__classname"];
+                    if(cPath != null) {
+                        this.fCanonicalPath = cPath;
+                    }
+                }
+            }
+        }
+
+        public GetName() : string {
+            return this.fName;
+        }
+
+        public GetCanonicalPath() : string {
+            return this.fCanonicalPath;
+        }
+
+        public GetInheritPath$() : string {
+            return this.fInheritPath;
+        }
+
+        public GetInheritPath(isDetailed? : any) : any {
+            if(((typeof isDetailed === 'boolean') || isDetailed === null)) {
+                let __args = Array.prototype.slice.call(arguments);
+                return <any>(() => {
+                    let ret : string;
+                    ret = this.fInherits.GetAsString(isDetailed);
+                    return ret;
+                })();
+            } else if(isDetailed === undefined) {
+                return <any>this.GetInheritPath$();
+            } else throw new Error('invalid overload');
+        }
+
+        public GetParent() : TClass {
+            let nLinks : number;
+            let ret : TClass;
+            nLinks = this.fInherits.GetNumLinks();
+            ret = null;
+            if(nLinks >= 2) {
+                ret = this.fInherits.GetLink(1);
+            }
+            return ret;
+        }
+
+        public IsEqualTo(other : TClass) : boolean {
+            let ret : boolean;
+            ret = this._IsEqualTo(other);
+            return ret;
+        }
+
+        public IsEqualToOrDerivedFrom(other : TClass) : boolean {
+            let isEq : boolean;
+            let isDer : boolean;
+            let ret : boolean;
+            isEq = this._IsEqualTo(other);
+            isDer = this.fInherits.IsLink(other);
+            ret = isEq || isDer;
+            return ret;
+        }
+
+        private _IsEqualTo(other : TClass) : boolean {
+            let ret : boolean;
+            ret = (this.fCanonicalPath === other.fCanonicalPath);
+            return ret;
+        }
+    }
+    TClass["__classname"] = "fuzztest.model.abstracts.TClass";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 namespace fuzztest {
     /**
      * @author peter
@@ -106,7 +333,7 @@ namespace fuzztest._dev_concepts.grammar.build {
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.utils.store {
+namespace fuzztest.utils.storage {
     /**
      * A poor man's implementation of java.util.ArrayList. I could try and import j4ts, but I got loads of
      * transpilation errors. I have a feeling that writing this impl is getting faster results than
@@ -147,11 +374,40 @@ namespace fuzztest.utils.store {
             }
         }
     }
-    TArrayList["__classname"] = "fuzztest.utils.store.TArrayList";
+    TArrayList["__classname"] = "fuzztest.utils.storage.TArrayList";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.utils.store {
+namespace fuzztest.utils.storage {
+    /**
+     * @author peter
+     */
+    export class TOnceAssignable<T> {
+        private fElement : T;
+
+        public constructor() {
+            this.fElement = null;
+        }
+
+        public Set(element : T) {
+            if(this.fElement != null) {
+                throw new java.lang.IllegalArgumentException("Element can only be set once.");
+            }
+            this.fElement = element;
+        }
+
+        public Get() : T {
+            if(this.fElement == null) {
+                throw new java.lang.IllegalStateException("Cannot retrieve unset element.");
+            }
+            return this.fElement;
+        }
+    }
+    TOnceAssignable["__classname"] = "fuzztest.utils.storage.TOnceAssignable";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.utils.storage {
     /**
      * A poor man's implementation of java.util.HashMap. I could try and import j4ts, but I got loads of
      * transpilation errors. I have a feeling that writing this impl is getting faster results than
@@ -207,22 +463,22 @@ namespace fuzztest.utils.store {
             }
         }
     }
-    THashMap["__classname"] = "fuzztest.utils.store.THashMap";
+    THashMap["__classname"] = "fuzztest.utils.storage.THashMap";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.utils.store {
+namespace fuzztest.utils.storage {
     /**
      * @author peter
      */
     export class TArrayMap<T> {
-        private fHashMap : fuzztest.utils.store.THashMap<T>;
+        private fHashMap : fuzztest.utils.storage.THashMap<T>;
 
-        private fArrayList : fuzztest.utils.store.TArrayList<T>;
+        private fArrayList : fuzztest.utils.storage.TArrayList<T>;
 
         public constructor() {
-            this.fHashMap = <any>(new fuzztest.utils.store.THashMap<any>());
-            this.fArrayList = <any>(new fuzztest.utils.store.TArrayList<any>());
+            this.fHashMap = <any>(new fuzztest.utils.storage.THashMap<any>());
+            this.fArrayList = <any>(new fuzztest.utils.storage.TArrayList<any>());
         }
 
         public Add(key : string, obj : T) {
@@ -261,7 +517,7 @@ namespace fuzztest.utils.store {
             return ret;
         }
     }
-    TArrayMap["__classname"] = "fuzztest.utils.store.TArrayMap";
+    TArrayMap["__classname"] = "fuzztest.utils.storage.TArrayMap";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -415,8 +671,8 @@ namespace fuzztest.generator {
          * @param   b   The {@link VBrowseable} whose class we are querying.
          * @return      A list of keys of objects that are of the given class.
          */
-        public static GetKeys$fuzztest_generator_classing_TClass(c : fuzztest.generator.classing.TClass) : fuzztest.utils.store.TArrayList<string> {
-            let ret : fuzztest.utils.store.TArrayList<string>;
+        public static GetKeys$fuzztest_model_abstracts_TClass(c : fuzztest.model.abstracts.TClass) : fuzztest.utils.storage.TArrayList<string> {
+            let ret : fuzztest.utils.storage.TArrayList<string>;
             TRepository._CreateRepository();
             ret = TRepository.gRepository._GetKeys(c, true);
             return ret;
@@ -433,16 +689,16 @@ namespace fuzztest.generator {
          * @return              A list of keys of objects that are of the given class, or a parent class thereof.
          */
         public static GetKeys(c? : any, isStrict? : any) : any {
-            if(((c != null && c instanceof fuzztest.generator.classing.TClass) || c === null) && ((typeof isStrict === 'boolean') || isStrict === null)) {
+            if(((c != null && c instanceof fuzztest.model.abstracts.TClass) || c === null) && ((typeof isStrict === 'boolean') || isStrict === null)) {
                 let __args = Array.prototype.slice.call(arguments);
                 return <any>(() => {
-                    let ret : fuzztest.utils.store.TArrayList<string>;
+                    let ret : fuzztest.utils.storage.TArrayList<string>;
                     TRepository._CreateRepository();
                     ret = TRepository.gRepository._GetKeys(c, isStrict);
                     return ret;
                 })();
-            } else if(((c != null && c instanceof fuzztest.generator.classing.TClass) || c === null) && isStrict === undefined) {
-                return <any>fuzztest.generator.TRepository.GetKeys$fuzztest_generator_classing_TClass(c);
+            } else if(((c != null && c instanceof fuzztest.model.abstracts.TClass) || c === null) && isStrict === undefined) {
+                return <any>fuzztest.generator.TRepository.GetKeys$fuzztest_model_abstracts_TClass(c);
             } else throw new Error('invalid overload');
         }
 
@@ -479,10 +735,10 @@ namespace fuzztest.generator {
             }
         }
 
-        private fRepository : fuzztest.utils.store.TArrayMap<fuzztest.generator.VBrowseable>;
+        private fRepository : fuzztest.utils.storage.TArrayMap<fuzztest.generator.VBrowseable>;
 
         constructor() {
-            this.fRepository = <any>(new fuzztest.utils.store.TArrayMap<any>());
+            this.fRepository = <any>(new fuzztest.utils.storage.TArrayMap<any>());
         }
 
         private _Add(b : fuzztest.generator.VBrowseable) : string {
@@ -511,15 +767,15 @@ namespace fuzztest.generator {
             } else throw new Error('invalid overload');
         }
 
-        private _GetKeys(c : fuzztest.generator.classing.TClass, isStrict : boolean) : fuzztest.utils.store.TArrayList<string> {
+        private _GetKeys(c : fuzztest.model.abstracts.TClass, isStrict : boolean) : fuzztest.utils.storage.TArrayList<string> {
             let i : number;
             let n : number;
             let b0 : fuzztest.generator.VBrowseable;
-            let c0 : fuzztest.generator.classing.TClass;
+            let c0 : fuzztest.model.abstracts.TClass;
             let isClass : boolean;
             let key : string;
-            let ret : fuzztest.utils.store.TArrayList<string>;
-            ret = <any>(new fuzztest.utils.store.TArrayList<any>());
+            let ret : fuzztest.utils.storage.TArrayList<string>;
+            ret = <any>(new fuzztest.utils.storage.TArrayList<any>());
             n = this.fRepository.GetNumElements();
             if(n >= 1) {
                 for(i = 0; i < n; i++) {
@@ -551,35 +807,6 @@ namespace fuzztest.generator {
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.generator.primitive {
-    /**
-     * @author peter
-     */
-    export class TOnceAssignable<T> {
-        private fElement : T;
-
-        public constructor() {
-            this.fElement = null;
-        }
-
-        public Set(element : T) {
-            if(this.fElement != null) {
-                throw new java.lang.IllegalArgumentException("Element can only be set once.");
-            }
-            this.fElement = element;
-        }
-
-        public Get() : T {
-            if(this.fElement == null) {
-                throw new java.lang.IllegalStateException("Cannot retrieve unset element.");
-            }
-            return this.fElement;
-        }
-    }
-    TOnceAssignable["__classname"] = "fuzztest.generator.primitive.TOnceAssignable";
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 namespace fuzztest.generator {
     /**
      * Browseable object, i.e. can be stored in the {@link TRepository}. Provides
@@ -597,15 +824,15 @@ namespace fuzztest.generator {
          * 
          * @return      A generic class object for this class.
          */
-        public static GetClassAbstract() : fuzztest.generator.classing.TClass {
-            let ret : fuzztest.generator.classing.TClass;
+        public static GetClassAbstract() : fuzztest.model.abstracts.TClass {
+            let ret : fuzztest.model.abstracts.TClass;
             ret = (new VBrowseable.VBrowseableType()).GetClass().GetParent();
             return ret;
         }
 
         static gCounter : number = -1;
 
-        private fClass : fuzztest.generator.classing.TClass;
+        private fClass : fuzztest.model.abstracts.TClass;
 
         private fKey : string;
 
@@ -613,11 +840,11 @@ namespace fuzztest.generator {
          * cTor.
          */
         constructor() {
-            this.fClass = fuzztest.generator.classing.TClass.Create(this);
+            this.fClass = fuzztest.model.abstracts.TClass.Create(this);
             this.fKey = null;
         }
 
-        public GetClass() : fuzztest.generator.classing.TClass {
+        public GetClass() : fuzztest.model.abstracts.TClass {
             return this.fClass;
         }
 
@@ -652,233 +879,6 @@ namespace fuzztest.generator {
         VBrowseableType["__classname"] = "fuzztest.generator.VBrowseable.VBrowseableType";
 
     }
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.generator.classing {
-    /**
-     * @author peter
-     */
-    export class TInheritChain {
-        public static kPathSeparator : string = ".";
-
-        private fChain : fuzztest.utils.store.TArrayMap<fuzztest.generator.classing.TClass>;
-
-        constructor() {
-            this.fChain = <any>(new fuzztest.utils.store.TArrayMap<any>());
-        }
-
-        public GetAsString$() : string {
-            let ret : string;
-            ret = this._GetAsString(false);
-            return ret;
-        }
-
-        public GetAsString(isDetailed? : any) : any {
-            if(((typeof isDetailed === 'boolean') || isDetailed === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    let ret : string;
-                    ret = this._GetAsString(isDetailed);
-                    return ret;
-                })();
-            } else if(isDetailed === undefined) {
-                return <any>this.GetAsString$();
-            } else throw new Error('invalid overload');
-        }
-
-        /**
-         * Returns the i-th parent in this inheritance chain.
-         * 
-         * @param   i   The number of generations above. Zero is the the referred class itself,
-         * 1 (one) the first parent generation etc.
-         * @return      The parent class that it i generations above the class hosting this chain.
-         */
-        public GetLink(i : number) : fuzztest.generator.classing.TClass {
-            let ret : fuzztest.generator.classing.TClass;
-            ret = this.fChain.Get(i);
-            return ret;
-        }
-
-        public GetNumLinks() : number {
-            let ret : number;
-            ret = this.fChain.GetNumElements();
-            return ret;
-        }
-
-        public IsLink(c : fuzztest.generator.classing.TClass) : boolean {
-            let i : number;
-            let n : number;
-            let c0 : fuzztest.generator.classing.TClass;
-            let cID : string;
-            let cID0 : string;
-            let ret : boolean;
-            ret = false;
-            n = this.fChain.GetNumElements();
-            if(n >= 1) {
-                for(i = 0; i < n; i++) {
-                    c0 = this.fChain.Get(i);
-                    cID = c.GetCanonicalPath();
-                    cID0 = c0.GetCanonicalPath();
-                    ret = ret || (cID === cID0);
-                }
-            }
-            return ret;
-        }
-
-        Add(c : fuzztest.generator.classing.TClass) {
-            let key : string;
-            key = c.GetName();
-            this.fChain.Add(key, c);
-        }
-
-        private _GetAsString(isDetailed : boolean) : string {
-            let i : number;
-            let n : number;
-            let c : fuzztest.generator.classing.TClass;
-            let pSep : string;
-            let ret : string;
-            pSep = isDetailed?"\n":TInheritChain.kPathSeparator;
-            ret = "";
-            n = this.fChain.GetNumElements();
-            if(n >= 1) {
-                for(i = n - 1; i >= 0; i--) {
-                    c = this.fChain.Get(i);
-                    ret += isDetailed?c.GetCanonicalPath():c.GetName();
-                    if(i > 0) {
-                        ret += pSep;
-                    }
-                }
-            }
-            return ret;
-        }
-    }
-    TInheritChain["__classname"] = "fuzztest.generator.classing.TInheritChain";
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.generator.classing {
-    /**
-     * @author peter
-     */
-    export class TClass {
-        public static kNullID : string = "anonymous";
-
-        public static Create(obj : fuzztest.generator.VBrowseable) : TClass {
-            let obj0 : Object;
-            let ret : TClass;
-            obj0 = <Object>(<any>obj);
-            ret = new TClass(obj0);
-            return ret;
-        }
-
-        private fInherits : fuzztest.generator.classing.TInheritChain;
-
-        private fName : string;
-
-        private fInheritPath : string;
-
-        private fCanonicalPath : string;
-
-        constructor(obj : Object) {
-            let proto : Object;
-            let constr : Object;
-            let cls : TClass;
-            let cPath : string;
-            this.fCanonicalPath = TClass.kNullID;
-            this.fName = TClass.kNullID;
-            this.fInheritPath = TClass.kNullID;
-            this.fInherits = new fuzztest.generator.classing.TInheritChain();
-            proto = null;
-            if(obj != null) {
-                proto = <Object>obj["__proto__"];
-                if(proto != null) {
-                    constr = <Object>proto["constructor"];
-                    if(constr != null) {
-                        this.fName = <string>constr["name"];
-                        this.fInherits.Add(this);
-                        while((proto != null)){
-                            cls = new TClass(proto);
-                            proto = <Object>proto["__proto__"];
-                            if(proto != null) {
-                                this.fInherits.Add(cls);
-                            }
-                        };
-                        this.fInheritPath = this.fInherits.GetAsString();
-                    }
-                }
-            }
-            proto = <Object>Object.getPrototypeOf(obj);
-            if(proto != null) {
-                constr = <Object>proto["constructor"];
-                if(constr != null) {
-                    cPath = <string>constr["__classname"];
-                    if(cPath != null) {
-                        this.fCanonicalPath = cPath;
-                    }
-                }
-            }
-        }
-
-        public GetName() : string {
-            return this.fName;
-        }
-
-        public GetCanonicalPath() : string {
-            return this.fCanonicalPath;
-        }
-
-        public GetInheritPath$() : string {
-            return this.fInheritPath;
-        }
-
-        public GetInheritPath(isDetailed? : any) : any {
-            if(((typeof isDetailed === 'boolean') || isDetailed === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                return <any>(() => {
-                    let ret : string;
-                    ret = this.fInherits.GetAsString(isDetailed);
-                    return ret;
-                })();
-            } else if(isDetailed === undefined) {
-                return <any>this.GetInheritPath$();
-            } else throw new Error('invalid overload');
-        }
-
-        public GetParent() : TClass {
-            let nLinks : number;
-            let ret : TClass;
-            nLinks = this.fInherits.GetNumLinks();
-            ret = null;
-            if(nLinks >= 2) {
-                ret = this.fInherits.GetLink(1);
-            }
-            return ret;
-        }
-
-        public IsEqualTo(other : TClass) : boolean {
-            let ret : boolean;
-            ret = this._IsEqualTo(other);
-            return ret;
-        }
-
-        public IsEqualToOrDerivedFrom(other : TClass) : boolean {
-            let isEq : boolean;
-            let isDer : boolean;
-            let ret : boolean;
-            isEq = this._IsEqualTo(other);
-            isDer = this.fInherits.IsLink(other);
-            ret = isEq || isDer;
-            return ret;
-        }
-
-        private _IsEqualTo(other : TClass) : boolean {
-            let ret : boolean;
-            ret = (this.fCanonicalPath === other.fCanonicalPath);
-            return ret;
-        }
-    }
-    TClass["__classname"] = "fuzztest.generator.classing.TClass";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -1060,7 +1060,7 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
      */
     export class TDevCreateObject_01 {
         public static CreateType() {
-            let c : fuzztest.generator.classing.TClass;
+            let c : fuzztest.model.abstracts.TClass;
             c = (new TDevCreateObject_01.VBrowseableType()).GetClass().GetParent();
             console.log();
             console.log("=========================================================");
@@ -1092,8 +1092,8 @@ namespace fuzztest.generator.rule {
             let n : number;
             let k : string;
             let nd : VNode;
-            let clVNode : fuzztest.generator.classing.TClass;
-            let keys : fuzztest.utils.store.TArrayList<string>;
+            let clVNode : fuzztest.model.abstracts.TClass;
+            let keys : fuzztest.utils.storage.TArrayList<string>;
             clVNode = VNode.GetClassAbstract();
             keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
             n = keys.GetNumElements();
@@ -1123,13 +1123,13 @@ namespace fuzztest.generator.rule {
         /**
          * @see         VBrowseable#GetClassAbstract()
          */
-        public static GetClassAbstract() : fuzztest.generator.classing.TClass {
-            let ret : fuzztest.generator.classing.TClass;
+        public static GetClassAbstract() : fuzztest.model.abstracts.TClass {
+            let ret : fuzztest.model.abstracts.TClass;
             ret = (new VNode.VNodeType()).GetClass().GetParent();
             return ret;
         }
 
-        private fExpression : fuzztest.generator.primitive.TOnceAssignable<VNode>;
+        private fExpression : fuzztest.utils.storage.TOnceAssignable<VNode>;
 
         private fNumVisits : number;
 
@@ -1148,7 +1148,7 @@ namespace fuzztest.generator.rule {
                 this.fNumVisits = 0;
                 (() => {
                     this.fNumVisits = 0;
-                    this.fExpression = <any>(new fuzztest.generator.primitive.TOnceAssignable<any>());
+                    this.fExpression = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
                     this._Register();
                 })();
             } else throw new Error('invalid overload');
@@ -1237,14 +1237,14 @@ namespace fuzztest.generator.rule {
          * distinctly different from this node.
          */
         _GetFromOppositeSet() : VNode {
-            let c : fuzztest.generator.classing.TClass;
+            let c : fuzztest.model.abstracts.TClass;
             let i : number;
             let n : number;
             let kThis : string;
             let kOther : string;
             let hasKey : boolean;
             let isEqual : boolean;
-            let refs : fuzztest.utils.store.TArrayList<string>;
+            let refs : fuzztest.utils.storage.TArrayList<string>;
             let ret : VNode;
             kThis = this.GetKey();
             c = this.GetClass();
@@ -1426,7 +1426,7 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
      */
     export class TDevCreateObject_02 {
         public static CreateType() {
-            let c : fuzztest.generator.classing.TClass;
+            let c : fuzztest.model.abstracts.TClass;
             console.log();
             console.log("=========================================================");
             console.log("TDevCreateObject_02");
@@ -1494,11 +1494,11 @@ namespace fuzztest.generator.rule.labelled {
      * @see    {@link TText}, {@link TSimpleAnd}, {@link TSimpleNot}
      */
     export class TLabelled extends fuzztest.generator.rule.VNode {
-        private fLabel : fuzztest.generator.primitive.TOnceAssignable<string>;
+        private fLabel : fuzztest.utils.storage.TOnceAssignable<string>;
 
         public constructor() {
             super();
-            this.fLabel = <any>(new fuzztest.generator.primitive.TOnceAssignable<any>());
+            this.fLabel = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
         }
 
         public GetLabel() : string {
@@ -1688,14 +1688,14 @@ namespace fuzztest.generator.rule.cClass {
      * @author peter
      */
     export class TCharacterClass extends fuzztest.generator.rule.VNode {
-        private fSets : fuzztest.utils.store.TArrayList<fuzztest.generator.rule.cClass.VCharSet>;
+        private fSets : fuzztest.utils.storage.TArrayList<fuzztest.generator.rule.cClass.VCharSet>;
 
         /**
          * cTor.
          */
         public constructor() {
             super();
-            this.fSets = <any>(new fuzztest.utils.store.TArrayList<any>());
+            this.fSets = <any>(new fuzztest.utils.storage.TArrayList<any>());
         }
 
         public AddPoint(ch : string) {
@@ -2130,11 +2130,11 @@ namespace fuzztest.generator.rule.named {
      * @see    {@link TRule}
      */
     export class TNamed extends fuzztest.generator.rule.VNode {
-        private fName : fuzztest.generator.primitive.TOnceAssignable<string>;
+        private fName : fuzztest.utils.storage.TOnceAssignable<string>;
 
         public constructor() {
             super();
-            this.fName = <any>(new fuzztest.generator.primitive.TOnceAssignable<any>());
+            this.fName = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
         }
 
         public GetName() : string {
@@ -2375,8 +2375,8 @@ namespace fuzztest.generator.rule.suffixed {
         /**
          * @see         VBrowseable#GetClassAbstract()
          */
-        public static GetClassAbstract() : fuzztest.generator.classing.TClass {
-            let ret : fuzztest.generator.classing.TClass;
+        public static GetClassAbstract() : fuzztest.model.abstracts.TClass {
+            let ret : fuzztest.model.abstracts.TClass;
             ret = (new VSuffixed.VSuffixedType()).GetClass().GetParent();
             return ret;
         }

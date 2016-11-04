@@ -15,11 +15,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.labelled;
 
-import fuzztest.generator.primitive.TOnceAssignable;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.prefixed.simple_and.TSimpleAnd;
 import fuzztest.generator.rule.prefixed.simple_not.TSimpleNot;
 import fuzztest.generator.rule.prefixed.text.TText;
+import fuzztest.utils.storage.TOnceAssignable;
 
 /**
  * label: expression

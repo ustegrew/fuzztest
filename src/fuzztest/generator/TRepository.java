@@ -15,9 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator;
 
-import fuzztest.generator.classing.TClass;
-import fuzztest.utils.store.TArrayList;
-import fuzztest.utils.store.TArrayMap;
+import fuzztest.model.abstracts.TClass;
+import fuzztest.utils.storage.TArrayList;
+import fuzztest.utils.storage.TArrayMap;
 
 /**
  * The central repository holding references to all {@link VBrowseable} objects.

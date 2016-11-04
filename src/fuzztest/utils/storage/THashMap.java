@@ -13,7 +13,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.utils.store;
+package fuzztest.utils.storage;
 
 /**
  * A poor man's implementation of java.util.HashMap. I could try and import j4ts, but I got loads of
