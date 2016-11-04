@@ -33,7 +33,10 @@ public class TDevCreateObject_02
     {
         TClass                      c;
 
-        console.clear ();
+        console.log ();
+        console.log ("=========================================================");
+        console.log ("TDevCreateObject_02");
+        console.log ("=========================================================");
         console.log ("Legend: x'  means \"a type derived from x\" (as in calculus).");
         console.log ("      : x'^ means \"a parent of a type derived from x\" (i.e. x).");
         console.log ();

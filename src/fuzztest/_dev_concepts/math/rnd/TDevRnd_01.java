@@ -35,7 +35,10 @@ public class TDevRnd_01
         TRndMT          rndGen;
         
         rndGen = new TRndMT ();
-        console.log ("------------------------------------------");
+        console.log ();
+        console.log ("=========================================================");
+        console.log ("TDevRnd_01");
+        console.log ("=========================================================");
         console.log ("GetDouble");
         console.log ("------------------------------------------");
         for (i = 0; i < kN; i++)

@@ -33,6 +33,10 @@ public class TDevCreateObject_01
         TClass                      c;
         
         c  = (new VBrowseableType()).GetClass ().GetParent ();
+        console.log ();
+        console.log ("=========================================================");
+        console.log ("TDevCreateObject_01");
+        console.log ("=========================================================");
         console.log ("Inheritence chain: " + c.GetInheritPath ());
         console.log ("Canonical path:    " + c.GetCanonicalPath ());
     }

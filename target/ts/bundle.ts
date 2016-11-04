@@ -22,7 +22,7 @@ namespace fuzztest._dev_concepts.math.rnd {
      * @author peter
      */
     export class TDevRnd_01 {
-        static kN : number = 20;
+        static kN : number = 40;
 
         public static RunRnd_01() {
             let i : number;
@@ -30,7 +30,10 @@ namespace fuzztest._dev_concepts.math.rnd {
             let b : boolean;
             let rndGen : fuzztest.utils.gen.TRndMT;
             rndGen = new fuzztest.utils.gen.TRndMT();
-            console.log("------------------------------------------");
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevRnd_01");
+            console.log("=========================================================");
             console.log("GetDouble");
             console.log("------------------------------------------");
             for(i = 0; i < TDevRnd_01.kN; i++) {
@@ -75,24 +78,28 @@ namespace fuzztest._dev_concepts.grammar.build {
             let s : fuzztest.generator.rule.TStrategy;
             let cc : fuzztest.generator.rule.cClass.TCharacterClass;
             let p : string;
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevBuildGrammar_01");
+            console.log("=========================================================");
             cc = new fuzztest.generator.rule.cClass.TCharacterClass();
             cc.AddRange("a", "z");
             cc.AddRange("0", "9");
             cc.AddPoint("_");
             fuzztest.generator.rule.VNode.ClearVisitCounters();
             s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kFollowRule, 10);
+            p = "";
             for(let i : number = 1; i <= 50; i++) {
-                p = cc.CreateData(s, "");
-                java.lang.System.out.print(p);
+                p += cc.CreateData(s, "");
             }
-            console.info();
+            console.log(p);
             fuzztest.generator.rule.VNode.ClearVisitCounters();
             s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kInjectInvalids, 10);
+            p = "";
             for(let i : number = 1; i <= 50; i++) {
-                p = cc.CreateData(s, "");
-                java.lang.System.out.print(p);
+                p += cc.CreateData(s, "");
             }
-            console.info();
+            console.log(p);
         }
     }
     TDevBuildGrammar_01["__classname"] = "fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01";
@@ -306,7 +313,7 @@ namespace fuzztest.utils.gen {
             xMax = max + 1;
             x = this._GetDouble();
             x = min + x * (xMax - min);
-            ret = (<number>Math.round(x)|0);
+            ret = (<number>Math.floor(x)|0);
             return ret;
         }
 
@@ -1055,6 +1062,10 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
         public static CreateType() {
             let c : fuzztest.generator.classing.TClass;
             c = (new TDevCreateObject_01.VBrowseableType()).GetClass().GetParent();
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevCreateObject_01");
+            console.log("=========================================================");
             console.log("Inheritence chain: " + c.GetInheritPath());
             console.log("Canonical path:    " + c.GetCanonicalPath());
         }
@@ -1416,7 +1427,10 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
     export class TDevCreateObject_02 {
         public static CreateType() {
             let c : fuzztest.generator.classing.TClass;
-            console.clear();
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevCreateObject_02");
+            console.log("=========================================================");
             console.log("Legend: x\'  means \"a type derived from x\" (as in calculus).");
             console.log("      : x\'^ means \"a parent of a type derived from x\" (i.e. x).");
             console.log();

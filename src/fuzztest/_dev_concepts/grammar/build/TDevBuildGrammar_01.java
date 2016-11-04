@@ -15,6 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest._dev_concepts.grammar.build;
 
+import static jsweet.dom.Globals.console;
+
 import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
@@ -33,6 +35,10 @@ public class TDevBuildGrammar_01
       TCharacterClass     cc;
       String              p;
       
+      console.log ();
+      console.log ("=========================================================");
+      console.log ("TDevBuildGrammar_01");
+      console.log ("=========================================================");
       cc = new TCharacterClass ();
       cc.AddRange ("a", "z");
       cc.AddRange ("0", "9");
@@ -40,20 +46,20 @@ public class TDevBuildGrammar_01
       
       VNode.ClearVisitCounters ();
       s  = new TStrategy (9, ERuleAdhesion.kFollowRule, 10);
+      p  = "";
       for (int i = 1; i <= 50; i++)
       {
-          p = cc.CreateData (s, "");
-          System.out.print (p);
+          p += cc.CreateData (s, "");
       }
-      System.out.println ();
+      console.log (p);
 
       VNode.ClearVisitCounters ();
       s  = new TStrategy (9, ERuleAdhesion.kInjectInvalids, 10);
+      p  = "";
       for (int i = 1; i <= 50; i++)
       {
-          p = cc.CreateData (s, "");
-          System.out.print (p);
+          p += cc.CreateData (s, "");
       }
-      System.out.println ();
+      console.log (p);
     }
 }
