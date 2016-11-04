@@ -271,7 +271,7 @@ public class TRndMT
         xMax    = max + 1;                  /* [120] */
         x       = _GetDouble ();
         x       = min + x * (xMax - min);
-        ret     = (int) jsweet.lang.Math.round (x); 
+        ret     = (int) jsweet.lang.Math.floor (x); 
 
         return ret;
     }

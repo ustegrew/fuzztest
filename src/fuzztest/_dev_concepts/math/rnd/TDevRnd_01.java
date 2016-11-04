@@ -25,7 +25,7 @@ import fuzztest.utils.gen.TRndMT;
  */
 public class TDevRnd_01
 {
-    private static final int kN = 20;
+    private static final int kN = 40;
     
     public static void RunRnd_01 ()
     {
