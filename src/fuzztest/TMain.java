@@ -17,7 +17,9 @@ package fuzztest;
 
 import fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01;
 import fuzztest._dev_concepts.math.rnd.TDevRnd_01;
+import fuzztest._dev_concepts.math.rnd.TDevRnd_02;
 import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02;
+import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01;
 
 /**
  * @author peter
@@ -31,7 +33,9 @@ public class TMain
     public static void main (String[] args)
     {
         TDevRnd_01.RunRnd_01 ();
-        TDevBuildGrammar_01.TestTree01 ();
+        TDevRnd_02.RunRnd_02 ();
         TDevCreateObject_02.CreateType ();
+        TDevQueryObject_01.Query ();
+        TDevBuildGrammar_01.TestTree01 ();
     }
 }

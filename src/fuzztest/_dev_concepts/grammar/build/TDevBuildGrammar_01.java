@@ -16,11 +16,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest._dev_concepts.grammar.build;
 
 import static jsweet.dom.Globals.console;
+import static jsweet.lang.Globals.eval;
 
 import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.cClass.TCharacterClass;
+import jsweet.dom.Globals;
+import jsweet.lang.Math;
 
 /**
  * Concept test: Build grammar tree
@@ -29,11 +32,17 @@ import fuzztest.generator.rule.cClass.TCharacterClass;
  */
 public class TDevBuildGrammar_01
 {
+    private static final int            kNChars = 40;
+    
     public static void TestTree01 ()
     {
       TStrategy           s;
       TCharacterClass     cc;
-      String              p;
+      jsweet.lang.String  ch;
+      jsweet.lang.String  chx;
+      jsweet.lang.Number  ccode;
+      String              s0;
+      String              s1;
       
       console.log ();
       console.log ("=========================================================");
@@ -45,21 +54,32 @@ public class TDevBuildGrammar_01
       cc.AddPoint ("_");
       
       VNode.ClearVisitCounters ();
-      s  = new TStrategy (9, ERuleAdhesion.kFollowRule, 10);
-      p  = "";
-      for (int i = 1; i <= 50; i++)
+      s   = new TStrategy (9, ERuleAdhesion.kFollowRule, kNChars);
+      s0  = "";
+      s1  = "";
+      for (int i = 1; i <= kNChars + 2; i++)
       {
-          p += cc.CreateData (s, "");
+          ch        = (jsweet.lang.String) (Object) cc.CreateData (s, "");
+          chx       = (jsweet.lang.String) (Object) (new jsweet.lang.Number (ch.charCodeAt (0))).toString (16);
+          s0       += ch;
+          s1       += chx + " ";
       }
-      console.log (p);
+      console.log (s0);
+      console.log (s1);
+      console.log ();
 
       VNode.ClearVisitCounters ();
-      s  = new TStrategy (9, ERuleAdhesion.kInjectInvalids, 10);
-      p  = "";
-      for (int i = 1; i <= 50; i++)
+      s   = new TStrategy (9, ERuleAdhesion.kInjectInvalids, kNChars);
+      s0  = "";
+      s1  = "";
+      for (int i = 1; i <= kNChars + 2; i++)
       {
-          p += cc.CreateData (s, "");
+          ch        = (jsweet.lang.String) (Object) cc.CreateData (s, "");
+          chx       = (jsweet.lang.String) (Object) (new jsweet.lang.Number (ch.charCodeAt (0))).toString (16);
+          s0       += ch;
+          s1       += chx + " ";
       }
-      console.log (p);
+      console.log (s0);
+      console.log (s1);
     }
 }

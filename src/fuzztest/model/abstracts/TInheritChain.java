@@ -15,6 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.model.abstracts;
 
+import static jsweet.dom.Globals.console;
+
 import fuzztest.utils.storage.TArrayMap;
 
 /**
@@ -82,20 +84,25 @@ public class TInheritChain
         TClass  c0;
         String  cID;
         String  cID0;
+        boolean isEq;
         boolean ret;
-        
+
+//console.log ("IsLink: " + c.GetCanonicalPath () + " in " + this.GetAsString ());
         ret = false;
         n   = fChain.GetNumElements ();
+        cID = c.GetCanonicalPath ();
         if (n >= 1)
         {
             for (i = 0; i < n; i++)
             {
                 c0      = fChain.Get (i);
-                cID     = c.GetCanonicalPath ();
                 cID0    = c0.GetCanonicalPath ();
-                ret     = ret || cID.equals (cID0);
+                isEq    = cID.equals (cID0);
+//console.log ("    Test: " + cID + " == " + cID0 + ": " + isEq);
+                ret     = ret || isEq;
             }
         }
+//console.log  ("    IsDerived: " + ret);                  
         
         return ret;
     }

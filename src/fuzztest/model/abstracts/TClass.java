@@ -15,6 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.model.abstracts;
 
+import static jsweet.dom.Globals.console;
+
 import fuzztest.generator.VBrowseable;
 
 /**
@@ -36,10 +38,10 @@ public class TClass
         return ret;
     }
     
+    private String              fCanonicalPath;
+    private String              fInheritPath;
     private TInheritChain       fInherits;
     private String              fName;
-    private String              fInheritPath;
-    private String              fCanonicalPath;
     
     private TClass (jsweet.lang.Object obj)
     {
@@ -95,9 +97,13 @@ public class TClass
         }
     }
     
-    public String GetName ()
+    public String GetAsString ()
     {
-        return fName;
+        String ret;
+        
+        ret = fCanonicalPath + "(" + fInheritPath + ")";
+        
+        return ret;
     }
     
     public String GetCanonicalPath ()
@@ -119,6 +125,11 @@ public class TClass
         return ret;
     }
     
+    public String GetName ()
+    {
+        return fName;
+    }
+    
     public TClass GetParent ()
     {
         int     nLinks;
@@ -137,7 +148,8 @@ public class TClass
     public boolean IsEqualTo (TClass other)
     {
         boolean ret;
-        
+
+//console.log  ("Testing strict equality: " + this.GetAsString () + " / " + other.GetAsString ());                  
         ret = _IsEqualTo (other);
         
         return ret;
@@ -149,8 +161,9 @@ public class TClass
         boolean     isDer;
         boolean     ret;
         
+//console.log  ("Testing loose equality: " + this.GetAsString () + " / " + other.GetAsString ());                  
         isEq    = _IsEqualTo (other);
-        isDer   = fInherits.IsLink (other);
+        isDer   = other.fInherits.IsLink (this);
         ret     = isEq  ||  isDer;
         
         return ret;
@@ -161,7 +174,8 @@ public class TClass
         boolean         ret;
         
         ret = fCanonicalPath.equals (other.fCanonicalPath);
-        
+//console.log ("_IsEqualTo: " + ret);
+
         return ret;
     }
 }

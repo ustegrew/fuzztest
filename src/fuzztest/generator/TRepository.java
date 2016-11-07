@@ -26,6 +26,7 @@ import fuzztest.utils.storage.TArrayMap;
  * Each object is identified by key and by index. Indices are zero based and follow 
  * append order, i.e. the object appended first has index zero, next object has index one etc. 
  * 
+ * TODO Implement clear() method
  * @author peter
  */
 public class TRepository
@@ -214,10 +215,16 @@ public class TRepository
             {
                 b0      = fRepository.Get (i);
                 c0      = b0.GetClass ();
-                isClass = isStrict  ?  
-                              c.IsEqualTo (c0) 
-                          :
-                              c.IsEqualToOrDerivedFrom (c0);
+                
+                if (isStrict)
+                {
+                    isClass = c.IsEqualTo (c0);
+                }
+                else
+                {
+                    isClass = c.IsEqualToOrDerivedFrom (c0);
+                }
+
                 if (isClass)
                 {
                     key = b0.GetKey ();

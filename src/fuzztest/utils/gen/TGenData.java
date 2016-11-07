@@ -25,6 +25,10 @@ public class TGenData
 {
     private static TRndMT   gRndGen = new TRndMT ();
     
+    /* Let no-one instantiate this class. */
+    private TGenData () {}
+    
+    
     /**
      * @return      A random boolean.
      */
@@ -72,6 +76,18 @@ public class TGenData
         }
         
         ret = (char) _GetIntBetween (loChar, hiChar);
+        
+        return ret;
+    }
+    
+    /**
+     * @return  A random double precision number in the range [0, 1[.
+     */
+    public static double GetDouble ()
+    {
+        double ret;
+        
+        ret = gRndGen.GetDouble ();
         
         return ret;
     }

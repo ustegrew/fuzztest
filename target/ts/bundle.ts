@@ -56,15 +56,17 @@ namespace fuzztest.model.abstracts {
             let c0 : fuzztest.model.abstracts.TClass;
             let cID : string;
             let cID0 : string;
+            let isEq : boolean;
             let ret : boolean;
             ret = false;
             n = this.fChain.GetNumElements();
+            cID = c.GetCanonicalPath();
             if(n >= 1) {
                 for(i = 0; i < n; i++) {
                     c0 = this.fChain.Get(i);
-                    cID = c.GetCanonicalPath();
                     cID0 = c0.GetCanonicalPath();
-                    ret = ret || (cID === cID0);
+                    isEq = (cID === cID0);
+                    ret = ret || isEq;
                 }
             }
             return ret;
@@ -116,13 +118,13 @@ namespace fuzztest.model.abstracts {
             return ret;
         }
 
-        private fInherits : fuzztest.model.abstracts.TInheritChain;
-
-        private fName : string;
+        private fCanonicalPath : string;
 
         private fInheritPath : string;
 
-        private fCanonicalPath : string;
+        private fInherits : fuzztest.model.abstracts.TInheritChain;
+
+        private fName : string;
 
         constructor(obj : Object) {
             let proto : Object;
@@ -164,8 +166,10 @@ namespace fuzztest.model.abstracts {
             }
         }
 
-        public GetName() : string {
-            return this.fName;
+        public GetAsString() : string {
+            let ret : string;
+            ret = this.fCanonicalPath + "(" + this.fInheritPath + ")";
+            return ret;
         }
 
         public GetCanonicalPath() : string {
@@ -187,6 +191,10 @@ namespace fuzztest.model.abstracts {
             } else if(isDetailed === undefined) {
                 return <any>this.GetInheritPath$();
             } else throw new Error('invalid overload');
+        }
+
+        public GetName() : string {
+            return this.fName;
         }
 
         public GetParent() : TClass {
@@ -211,7 +219,7 @@ namespace fuzztest.model.abstracts {
             let isDer : boolean;
             let ret : boolean;
             isEq = this._IsEqualTo(other);
-            isDer = this.fInherits.IsLink(other);
+            isDer = other.fInherits.IsLink(this);
             ret = isEq || isDer;
             return ret;
         }
@@ -236,11 +244,61 @@ namespace fuzztest {
          */
         public static main(args : string[]) {
             fuzztest._dev_concepts.math.rnd.TDevRnd_01.RunRnd_01();
-            fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01.TestTree01();
+            fuzztest._dev_concepts.math.rnd.TDevRnd_02.RunRnd_02();
             fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.CreateType();
+            fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01.Query();
+            fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01.TestTree01();
         }
     }
     TMain["__classname"] = "fuzztest.TMain";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest._dev_concepts.math.rnd {
+    /**
+     * @author peter
+     */
+    export class TDevRnd_02 {
+        static kN : number = 40;
+
+        public static RunRnd_02() {
+            let i : number;
+            let x : number;
+            let b : boolean;
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevRnd_02");
+            console.log("=========================================================");
+            console.log("GetDouble");
+            console.log("------------------------------------------");
+            for(i = 0; i < TDevRnd_02.kN; i++) {
+                x = fuzztest.utils.gen.TGenData.GetDouble();
+                console.log(x);
+            }
+            console.log("------------------------------------------");
+            console.log("GetIntBetween (2, 4)");
+            console.log("------------------------------------------");
+            for(i = 0; i < TDevRnd_02.kN; i++) {
+                x = fuzztest.utils.gen.TGenData.GetIntBetween(2, 4);
+                console.log(x);
+            }
+            console.log("------------------------------------------");
+            console.log("GetIntBetween (-1, 1)");
+            console.log("------------------------------------------");
+            for(i = 0; i < TDevRnd_02.kN; i++) {
+                x = fuzztest.utils.gen.TGenData.GetIntBetween(-1, 1);
+                console.log(x);
+            }
+            console.log("------------------------------------------");
+            console.log("GetBoolean ()");
+            console.log("------------------------------------------");
+            for(i = 0; i < TDevRnd_02.kN; i++) {
+                b = fuzztest.utils.gen.TGenData.GetBoolean();
+                console.log(b);
+            }
+        }
+    }
+    TDevRnd_02["__classname"] = "fuzztest._dev_concepts.math.rnd.TDevRnd_02";
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -301,10 +359,16 @@ namespace fuzztest._dev_concepts.grammar.build {
      * @author peter
      */
     export class TDevBuildGrammar_01 {
+        static kNChars : number = 40;
+
         public static TestTree01() {
             let s : fuzztest.generator.rule.TStrategy;
             let cc : fuzztest.generator.rule.cClass.TCharacterClass;
-            let p : string;
+            let ch : string;
+            let chx : string;
+            let ccode : number;
+            let s0 : string;
+            let s1 : string;
             console.log();
             console.log("=========================================================");
             console.log("TDevBuildGrammar_01");
@@ -314,19 +378,30 @@ namespace fuzztest._dev_concepts.grammar.build {
             cc.AddRange("0", "9");
             cc.AddPoint("_");
             fuzztest.generator.rule.VNode.ClearVisitCounters();
-            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kFollowRule, 10);
-            p = "";
-            for(let i : number = 1; i <= 50; i++) {
-                p += cc.CreateData(s, "");
+            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kFollowRule, TDevBuildGrammar_01.kNChars);
+            s0 = "";
+            s1 = "";
+            for(let i : number = 1; i <= TDevBuildGrammar_01.kNChars + 2; i++) {
+                ch = <string><any>cc.CreateData(s, "");
+                chx = <string><any>(<number>new Number(ch.charCodeAt(0))).toString(16);
+                s0 += ch;
+                s1 += chx + " ";
             }
-            console.log(p);
+            console.log(s0);
+            console.log(s1);
+            console.log();
             fuzztest.generator.rule.VNode.ClearVisitCounters();
-            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kInjectInvalids, 10);
-            p = "";
-            for(let i : number = 1; i <= 50; i++) {
-                p += cc.CreateData(s, "");
+            s = new fuzztest.generator.rule.TStrategy(9, fuzztest.generator.rule.ERuleAdhesion.kInjectInvalids, TDevBuildGrammar_01.kNChars);
+            s0 = "";
+            s1 = "";
+            for(let i : number = 1; i <= TDevBuildGrammar_01.kNChars + 2; i++) {
+                ch = <string><any>cc.CreateData(s, "");
+                chx = <string><any>(<number>new Number(ch.charCodeAt(0))).toString(16);
+                s0 += ch;
+                s1 += chx + " ";
             }
-            console.log(p);
+            console.log(s0);
+            console.log(s1);
         }
     }
     TDevBuildGrammar_01["__classname"] = "fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01";
@@ -525,14 +600,10 @@ namespace fuzztest.utils.gen {
     /**
      * A Mersenne-Twister Random number generator.
      * 
-     * TODO: When we create the random generator from the inlined source code we end up with two
-     * global variables. Inlined source code needs to be refactored so that the random generator
-     * object is in the scope of the hosting TRndMT instance.
-     * 
      * @author peter
      */
     export class TRndMT {
-        public static kMT : string = "/*\n  I\'ve wrapped Makoto Matsumoto and Takuji Nishimura\'s code in a namespace\n  so it\'s better encapsulated. Now you can have multiple random number generators\n  and they won\'t stomp all over eachother\'s state.\n  \n  If you want to use this as a substitute for Math.random(), use the random()\n  method like so:\n  \n  var m = new MersenneTwister();\n  var randomNumber = m.random();\n  \n  You can also call the other genrand_{foo}() methods on the instance.\n\n  If you want to use a specific seed in order to get a repeatable random\n  sequence, pass an integer into the constructor:\n\n  var m = new MersenneTwister(123);\n\n  and that will always produce the same random sequence.\n\n  Sean McCullough (banksean@gmail.com)\n */\n\n/* \n A C-program for MT19937, with initialization improved 2002/1/26.\n Coded by Takuji Nishimura and Makoto Matsumoto.\n\n Before using, initialize the state by using init_genrand(seed)  \n or init_by_array(init_key, key_length).\n\n Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,\n All rights reserved.                          \n\n Redistribution and use in source and binary forms, with or without\n modification, are permitted provided that the following conditions\n are met:\n\n 1. Redistributions of source code must retain the above copyright\n notice, this list of conditions and the following disclaimer.\n\n 2. Redistributions in binary form must reproduce the above copyright\n notice, this list of conditions and the following disclaimer in the\n documentation and/or other materials provided with the distribution.\n\n 3. The names of its contributors may not be used to endorse or promote \n products derived from this software without specific prior written \n permission.\n\n THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n\n Any feedback is very welcome.\n http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html\n email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)\n */\n(\n    function (seed)\n    {\n        var MersenneTwister;\n        var ret;\n        \n        MersenneTwister = function (seed)\n        {\n            if (seed == undefined)\n            {\n                seed = new Date ().getTime ();\n            }\n            /* Period parameters */\n            this.N          = 624;\n            this.M          = 397;\n            this.MATRIX_A   = 0x9908b0df;   /* constant vector a */\n            this.UPPER_MASK = 0x80000000;   /* most significant w-r bits */\n            this.LOWER_MASK = 0x7fffffff;   /* least significant r bits */\n\n            this.mt = new Array (this.N);   /* the array for the state vector */\n            this.mti = this.N + 1;          /* mti==N+1 means mt[N] is not initialized */\n\n            this.init_genrand (seed);\n        }\n\n        /* initializes mt[N] with a seed */\n        MersenneTwister.prototype.init_genrand = function (s)\n        {\n            this.mt[0] = s >>> 0;\n            for (this.mti = 1; this.mti < this.N; this.mti++)\n            {\n                var s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);\n                /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */\n                /* In the previous versions, MSBs of the seed affect */\n                /* only MSBs of the array mt[]. */\n                /* 2002/01/09 modified by Makoto Matsumoto */\n                this.mt[this.mti] = ( ( ( ( (s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253) + this.mti;\n                /* for >32 bit machines */\n                this.mt[this.mti] >>>= 0;\n            }\n        }\n\n        /* initialize by an array with array-length */\n        /* init_key is the array for initializing keys */\n        /* key_length is its length */\n        /* slight change for C++, 2004/2/26 */\n        MersenneTwister.prototype.init_by_array = function (init_key, key_length)\n        {\n            var i, j, k;\n            \n            this.init_genrand (19650218);\n            \n            i = 1;\n            j = 0;\n            k = (this.N > key_length ? this.N : key_length);\n            \n            for (; k; k--)\n            {\n                var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)\n                /* non linear */\n                this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1664525) << 16) + ( (s & 0x0000ffff) * 1664525))) + init_key[j] + j;\n                this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n                i++;\n                j++;\n                if (i >= this.N)\n                {\n                    this.mt[0] = this.mt[this.N - 1];\n                    i = 1;\n                }\n                if (j >= key_length)\n                    j = 0;\n            }\n            \n            for (k = this.N - 1; k; k--)\n            {\n                var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);\n                /* non linear */\n                this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941)) - i;\n                this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n                i++;\n                if (i >= this.N)\n                {\n                    this.mt[0] = this.mt[this.N - 1];\n                    i = 1;\n                }\n            }\n\n            this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */\n        }\n\n        /* generates a random number on [0,0xffffffff]-interval */\n        MersenneTwister.prototype.genrand_int32 = function ()\n        {\n            var y;\n            var mag01 = new Array (0x0, this.MATRIX_A);\n            /* mag01[x] = x * MATRIX_A for x=0,1 */\n\n            if (this.mti >= this.N)\n            { /* generate N words at one time */\n                var kk;\n\n                if (this.mti == this.N + 1)     /* if init_genrand() has not been called, */\n                    this.init_genrand (5489);   /* a default initial seed is used */\n\n                for (kk = 0; kk < this.N - this.M; kk++)\n                {\n                    y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n                    this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];\n                }\n                for (; kk < this.N - 1; kk++)\n                {\n                    y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n                    this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];\n                }\n                y = (this.mt[this.N - 1] & this.UPPER_MASK) | (this.mt[0] & this.LOWER_MASK);\n                this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];\n\n                this.mti = 0;\n            }\n\n            y = this.mt[this.mti++];\n\n            /* Tempering */\n            y ^= (y >>> 11);\n            y ^= (y << 7) & 0x9d2c5680;\n            y ^= (y << 15) & 0xefc60000;\n            y ^= (y >>> 18);\n\n            return y >>> 0;\n        }\n\n        /* generates a random number on [0,0x7fffffff]-interval */\n        MersenneTwister.prototype.genrand_int31 = function ()\n        {\n            return (this.genrand_int32 () >>> 1);\n        }\n\n        /* generates a random number on [0,1]-real-interval */\n        MersenneTwister.prototype.genrand_real1 = function ()\n        {\n            /* divided by 2^32-1 */\n            return this.genrand_int32 () * (1.0 / 4294967295.0);\n        }\n\n        /* generates a random number on [0,1)-real-interval */\n        MersenneTwister.prototype.random = function ()\n        {\n            /* divided by 2^32 */\n            return this.genrand_int32 () * (1.0 / 4294967296.0);\n        }\n\n        /* generates a random number on (0,1)-real-interval */\n        MersenneTwister.prototype.genrand_real3 = function ()\n        {\n            /* divided by 2^32 */\n            return (this.genrand_int32 () + 0.5) * (1.0 / 4294967296.0);\n        }\n\n        /* generates a random number on [0,1) with 53-bit resolution */\n        MersenneTwister.prototype.genrand_res53 = function ()\n        {\n            var a = this.genrand_int32 () >>> 5, b = this.genrand_int32 () >>> 6;\n            return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);\n        }\n        /* These real versions are due to Isaku Wada, 2002/01/09 added */\ndebugger;\n        ret = new MersenneTwister(seed);\n        \n        return ret;\n    }\n);\n";
+        public static kMT : string = "/*\n  I\'ve wrapped Makoto Matsumoto and Takuji Nishimura\'s code in a namespace\n  so it\'s better encapsulated. Now you can have multiple random number generators\n  and they won\'t stomp all over eachother\'s state.\n  \n  If you want to use this as a substitute for Math.random(), use the random()\n  method like so:\n  \n  var m = new MersenneTwister();\n  var randomNumber = m.random();\n  \n  You can also call the other genrand_{foo}() methods on the instance.\n\n  If you want to use a specific seed in order to get a repeatable random\n  sequence, pass an integer into the constructor:\n\n  var m = new MersenneTwister(123);\n\n  and that will always produce the same random sequence.\n\n  Sean McCullough (banksean@gmail.com)\n */\n\n/* \n A C-program for MT19937, with initialization improved 2002/1/26.\n Coded by Takuji Nishimura and Makoto Matsumoto.\n\n Before using, initialize the state by using init_genrand(seed)  \n or init_by_array(init_key, key_length).\n\n Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,\n All rights reserved.                          \n\n Redistribution and use in source and binary forms, with or without\n modification, are permitted provided that the following conditions\n are met:\n\n 1. Redistributions of source code must retain the above copyright\n notice, this list of conditions and the following disclaimer.\n\n 2. Redistributions in binary form must reproduce the above copyright\n notice, this list of conditions and the following disclaimer in the\n documentation and/or other materials provided with the distribution.\n\n 3. The names of its contributors may not be used to endorse or promote \n products derived from this software without specific prior written \n permission.\n\n THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n\n Any feedback is very welcome.\n http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html\n email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)\n */\n(\n    function (seed)\n    {\n        var MersenneTwister;\n        var ret;\n        \n        MersenneTwister = function (seed)\n        {\n            if (seed == undefined)\n            {\n                seed = new Date ().getTime ();\n            }\n            /* Period parameters */\n            this.N          = 624;\n            this.M          = 397;\n            this.MATRIX_A   = 0x9908b0df;   /* constant vector a */\n            this.UPPER_MASK = 0x80000000;   /* most significant w-r bits */\n            this.LOWER_MASK = 0x7fffffff;   /* least significant r bits */\n\n            this.mt = new Array (this.N);   /* the array for the state vector */\n            this.mti = this.N + 1;          /* mti==N+1 means mt[N] is not initialized */\n\n            this.init_genrand (seed);\n        }\n\n        /* initializes mt[N] with a seed */\n        MersenneTwister.prototype.init_genrand = function (s)\n        {\n            this.mt[0] = s >>> 0;\n            for (this.mti = 1; this.mti < this.N; this.mti++)\n            {\n                var s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);\n                /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */\n                /* In the previous versions, MSBs of the seed affect */\n                /* only MSBs of the array mt[]. */\n                /* 2002/01/09 modified by Makoto Matsumoto */\n                this.mt[this.mti] = ( ( ( ( (s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253) + this.mti;\n                /* for >32 bit machines */\n                this.mt[this.mti] >>>= 0;\n            }\n        }\n\n        /* initialize by an array with array-length */\n        /* init_key is the array for initializing keys */\n        /* key_length is its length */\n        /* slight change for C++, 2004/2/26 */\n        MersenneTwister.prototype.init_by_array = function (init_key, key_length)\n        {\n            var i, j, k;\n            \n            this.init_genrand (19650218);\n            \n            i = 1;\n            j = 0;\n            k = (this.N > key_length ? this.N : key_length);\n            \n            for (; k; k--)\n            {\n                var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)\n                /* non linear */\n                this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1664525) << 16) + ( (s & 0x0000ffff) * 1664525))) + init_key[j] + j;\n                this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n                i++;\n                j++;\n                if (i >= this.N)\n                {\n                    this.mt[0] = this.mt[this.N - 1];\n                    i = 1;\n                }\n                if (j >= key_length)\n                    j = 0;\n            }\n            \n            for (k = this.N - 1; k; k--)\n            {\n                var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);\n                /* non linear */\n                this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941)) - i;\n                this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n                i++;\n                if (i >= this.N)\n                {\n                    this.mt[0] = this.mt[this.N - 1];\n                    i = 1;\n                }\n            }\n\n            this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */\n        }\n\n        /* generates a random number on [0,0xffffffff]-interval */\n        MersenneTwister.prototype.genrand_int32 = function ()\n        {\n            var y;\n            var mag01 = new Array (0x0, this.MATRIX_A);\n            /* mag01[x] = x * MATRIX_A for x=0,1 */\n\n            if (this.mti >= this.N)\n            { /* generate N words at one time */\n                var kk;\n\n                if (this.mti == this.N + 1)     /* if init_genrand() has not been called, */\n                    this.init_genrand (5489);   /* a default initial seed is used */\n\n                for (kk = 0; kk < this.N - this.M; kk++)\n                {\n                    y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n                    this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];\n                }\n                for (; kk < this.N - 1; kk++)\n                {\n                    y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n                    this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];\n                }\n                y = (this.mt[this.N - 1] & this.UPPER_MASK) | (this.mt[0] & this.LOWER_MASK);\n                this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];\n\n                this.mti = 0;\n            }\n\n            y = this.mt[this.mti++];\n\n            /* Tempering */\n            y ^= (y >>> 11);\n            y ^= (y << 7) & 0x9d2c5680;\n            y ^= (y << 15) & 0xefc60000;\n            y ^= (y >>> 18);\n\n            return y >>> 0;\n        }\n\n        /* generates a random number on [0,0x7fffffff]-interval */\n        MersenneTwister.prototype.genrand_int31 = function ()\n        {\n            return (this.genrand_int32 () >>> 1);\n        }\n\n        /* generates a random number on [0,1]-real-interval */\n        MersenneTwister.prototype.genrand_real1 = function ()\n        {\n            /* divided by 2^32-1 */\n            return this.genrand_int32 () * (1.0 / 4294967295.0);\n        }\n\n        /* generates a random number on [0,1)-real-interval */\n        MersenneTwister.prototype.random = function ()\n        {\n            /* divided by 2^32 */\n            return this.genrand_int32 () * (1.0 / 4294967296.0);\n        }\n\n        /* generates a random number on (0,1)-real-interval */\n        MersenneTwister.prototype.genrand_real3 = function ()\n        {\n            /* divided by 2^32 */\n            return (this.genrand_int32 () + 0.5) * (1.0 / 4294967296.0);\n        }\n\n        /* generates a random number on [0,1) with 53-bit resolution */\n        MersenneTwister.prototype.genrand_res53 = function ()\n        {\n            var a = this.genrand_int32 () >>> 5, b = this.genrand_int32 () >>> 6;\n            return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);\n        }\n        /* These real versions are due to Isaku Wada, 2002/01/09 added */\n\n        ret = new MersenneTwister(seed);\n        \n        return ret;\n    }\n);\n";
 
         static kDiv : number; public static kDiv_$LI$() : number { if(TRndMT.kDiv == null) TRndMT.kDiv = 1.0 / 4.294967296E9; return TRndMT.kDiv; };
 
@@ -612,6 +683,7 @@ namespace fuzztest.generator {
      * Each object is identified by key and by index. Indices are zero based and follow
      * append order, i.e. the object appended first has index zero, next object has index one etc.
      * 
+     * TODO Implement clear() method
      * @author peter
      */
     export class TRepository {
@@ -784,7 +856,11 @@ namespace fuzztest.generator {
                 for(i = 0; i < n; i++) {
                     b0 = this.fRepository.Get(i);
                     c0 = b0.GetClass();
-                    isClass = isStrict?c.IsEqualTo(c0):c.IsEqualToOrDerivedFrom(c0);
+                    if(isStrict) {
+                        isClass = c.IsEqualTo(c0);
+                    } else {
+                        isClass = c.IsEqualToOrDerivedFrom(c0);
+                    }
                     if(isClass) {
                         key = b0.GetKey();
                         ret.Add(key);
@@ -966,6 +1042,9 @@ namespace fuzztest.utils.gen {
     export class TGenData {
         static gRndGen : fuzztest.utils.gen.TRndMT; public static gRndGen_$LI$() : fuzztest.utils.gen.TRndMT { if(TGenData.gRndGen == null) TGenData.gRndGen = new fuzztest.utils.gen.TRndMT(); return TGenData.gRndGen; };
 
+        constructor() {
+        }
+
         /**
          * @return      A random boolean.
          */
@@ -1007,6 +1086,15 @@ namespace fuzztest.utils.gen {
             } else if(loChar === undefined && hiChar === undefined) {
                 return <any>fuzztest.utils.gen.TGenData.GetChar$();
             } else throw new Error('invalid overload');
+        }
+
+        /**
+         * @return  A random double precision number in the range [0, 1[.
+         */
+        public static GetDouble() : number {
+            let ret : number;
+            ret = TGenData.gRndGen_$LI$().GetDouble();
+            return ret;
         }
 
         /**
@@ -1424,6 +1512,70 @@ namespace fuzztest.generator.rule.cClass {
         }
     }
     TCharacterPoint["__classname"] = "fuzztest.generator.rule.cClass.TCharacterPoint";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 {
+    /**
+     * @author peter
+     */
+    export class TDevQueryObject_01 {
+        public static Query() {
+            let n1 : TDevQueryObject_01.VNodeType01;
+            let n2 : TDevQueryObject_01.VNodeType02;
+            let nc0 : fuzztest.model.abstracts.TClass;
+            let nc1 : fuzztest.model.abstracts.TClass;
+            let nc2 : fuzztest.model.abstracts.TClass;
+            let keys0 : fuzztest.utils.storage.TArrayList<string>;
+            let keys1 : fuzztest.utils.storage.TArrayList<string>;
+            let keys2 : fuzztest.utils.storage.TArrayList<string>;
+            n1 = new TDevQueryObject_01.VNodeType01();
+            n2 = new TDevQueryObject_01.VNodeType02();
+            nc0 = fuzztest.generator.rule.VNode.GetClassAbstract();
+            nc1 = n1.GetClass();
+            nc2 = n2.GetClass();
+            keys0 = fuzztest.generator.TRepository.GetKeys(nc0, false);
+            keys1 = fuzztest.generator.TRepository.GetKeys(nc1);
+            keys2 = fuzztest.generator.TRepository.GetKeys(nc2);
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevQueryObject_01");
+            console.log("=========================================================");
+            TDevQueryObject_01.DumpKeys("keys-VNode", keys0);
+            TDevQueryObject_01.DumpKeys("keys-VNodeType01", keys1);
+            TDevQueryObject_01.DumpKeys("keys-VNodeType02", keys2);
+        }
+
+        static DumpKeys(header : string, keys : fuzztest.utils.storage.TArrayList<string>) {
+            let i : number;
+            let n : number;
+            let k : string;
+            console.log(header);
+            console.log("---");
+            n = keys.GetNumElements();
+            if(n >= 1) {
+                for(i = 0; i < n; i++) {
+                    k = keys.Get(i);
+                    console.log(k);
+                }
+            } else {
+                console.log("found 0 (zero) keys.");
+            }
+        }
+    }
+    TDevQueryObject_01["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01";
+
+
+    export namespace TDevQueryObject_01 {
+
+        export class VNodeType01 extends fuzztest.generator.rule.VNode {        }
+        VNodeType01["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01.VNodeType01";
+
+
+        export class VNodeType02 extends fuzztest.generator.rule.VNode {        }
+        VNodeType02["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01.VNodeType02";
+
+    }
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
