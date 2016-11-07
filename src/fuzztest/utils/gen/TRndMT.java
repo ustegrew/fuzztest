@@ -17,16 +17,11 @@ package fuzztest.utils.gen;
 
 import static jsweet.lang.Globals.eval;
 
-import jsweet.dom.Globals;
 import jsweet.lang.RangeError;
 
 /**
  * A Mersenne-Twister Random number generator.
  *
- * TODO: When we create the random generator from the inlined source code we end up with two
- *       global variables. Inlined source code needs to be refactored so that the random generator 
- *       object is in the scope of the hosting TRndMT instance.
- * 
  * @author peter
  */
 public class TRndMT
@@ -98,148 +93,191 @@ public class TRndMT
             " http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html\n" + 
             " email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)\n" + 
             " */\n" + 
-            "\n" + 
-            "window.MersenneTwister = function (seed)\n" + 
-            "{\n" + 
-            "    if (seed == undefined)\n" + 
+            "(\n" + 
+            "    function (seed)\n" + 
             "    {\n" + 
-            "        seed = new Date ().getTime ();\n" + 
-            "    }\n" + 
-            "    /* Period parameters */\n" + 
-            "    this.N          = 624;\n" + 
-            "    this.M          = 397;\n" + 
-            "    this.MATRIX_A   = 0x9908b0df;   /* constant vector a */\n" + 
-            "    this.UPPER_MASK = 0x80000000;   /* most significant w-r bits */\n" + 
-            "    this.LOWER_MASK = 0x7fffffff;   /* least significant r bits */\n" + 
-            "\n" + 
-            "    this.mt = new Array (this.N);   /* the array for the state vector */\n" + 
-            "    this.mti = this.N + 1;          /* mti==N+1 means mt[N] is not initialized */\n" + 
-            "\n" + 
-            "    this.init_genrand (seed);\n" + 
-            "}\n" + 
-            "\n" + 
-            "/* initializes mt[N] with a seed */\n" + 
-            "window.MersenneTwister.prototype.init_genrand = function (s)\n" + 
-            "{\n" + 
-            "    this.mt[0] = s >>> 0;\n" + 
-            "    for (this.mti = 1; this.mti < this.N; this.mti++)\n" + 
-            "    {\n" + 
-            "        var s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);\n" + 
-            "        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */\n" + 
-            "        /* In the previous versions, MSBs of the seed affect */\n" + 
-            "        /* only MSBs of the array mt[]. */\n" + 
-            "        /* 2002/01/09 modified by Makoto Matsumoto */\n" + 
-            "        this.mt[this.mti] = ( ( ( ( (s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253) + this.mti;\n" + 
-            "        /* for >32 bit machines */\n" + 
-            "        this.mt[this.mti] >>>= 0;\n" + 
-            "    }\n" + 
-            "}\n" + 
-            "\n" + 
-            "/* initialize by an array with array-length */\n" + 
-            "/* init_key is the array for initializing keys */\n" + 
-            "/* key_length is its length */\n" + 
-            "/* slight change for C++, 2004/2/26 */\n" + 
-            "window.MersenneTwister.prototype.init_by_array = function (init_key, key_length)\n" + 
-            "{\n" + 
-            "    var i, j, k;\n" + 
-            "    \n" + 
-            "    this.init_genrand (19650218);\n" + 
-            "    \n" + 
-            "    i = 1;\n" + 
-            "    j = 0;\n" + 
-            "    k = (this.N > key_length ? this.N : key_length);\n" + 
-            "    \n" + 
-            "    for (; k; k--)\n" + 
-            "    {\n" + 
-            "        var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)\n" + 
-            "        /* non linear */\n" + 
-            "        this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1664525) << 16) + ( (s & 0x0000ffff) * 1664525))) + init_key[j] + j;\n" + 
-            "        this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n" + 
-            "        i++;\n" + 
-            "        j++;\n" + 
-            "        if (i >= this.N)\n" + 
+            "        var MersenneTwister;\n" + 
+            "        var ret;\n" + 
+            "        \n" + 
+            "        MersenneTwister = function (seed)\n" + 
             "        {\n" + 
-            "            this.mt[0] = this.mt[this.N - 1];\n" + 
-            "            i = 1;\n" + 
+            "            if (seed == undefined)\n" + 
+            "            {\n" + 
+            "                seed = new Date ().getTime ();\n" + 
+            "            }\n" + 
+            "            /* Period parameters */\n" + 
+            "            this.N          = 624;\n" + 
+            "            this.M          = 397;\n" + 
+            "            this.MATRIX_A   = 0x9908b0df;   /* constant vector a */\n" + 
+            "            this.UPPER_MASK = 0x80000000;   /* most significant w-r bits */\n" + 
+            "            this.LOWER_MASK = 0x7fffffff;   /* least significant r bits */\n" + 
+            "\n" + 
+            "            this.mt = new Array (this.N);   /* the array for the state vector */\n" + 
+            "            this.mti = this.N + 1;          /* mti==N+1 means mt[N] is not initialized */\n" + 
+            "\n" + 
+            "            this.init_genrand (seed);\n" + 
             "        }\n" + 
-            "        if (j >= key_length)\n" + 
+            "\n" + 
+            "        /* initializes mt[N] with a seed */\n" + 
+            "        MersenneTwister.prototype.init_genrand = function (s)\n" + 
+            "        {\n" + 
+            "            this.mt[0] = s >>> 0;\n" + 
+            "            for (this.mti = 1; this.mti < this.N; this.mti++)\n" + 
+            "            {\n" + 
+            "                var s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);\n" + 
+            "                /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */\n" + 
+            "                /* In the previous versions, MSBs of the seed affect */\n" + 
+            "                /* only MSBs of the array mt[]. */\n" + 
+            "                /* 2002/01/09 modified by Makoto Matsumoto */\n" + 
+            "                this.mt[this.mti] = ( ( ( ( (s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253) + this.mti;\n" + 
+            "                /* for >32 bit machines */\n" + 
+            "                this.mt[this.mti] >>>= 0;\n" + 
+            "            }\n" + 
+            "        }\n" + 
+            "\n" + 
+            "        /* initialize by an array with array-length */\n" + 
+            "        /* init_key is the array for initializing keys */\n" + 
+            "        /* key_length is its length */\n" + 
+            "        /* slight change for C++, 2004/2/26 */\n" + 
+            "        MersenneTwister.prototype.init_by_array = function (init_key, key_length)\n" + 
+            "        {\n" + 
+            "            var i, j, k;\n" + 
+            "            \n" + 
+            "            this.init_genrand (19650218);\n" + 
+            "            \n" + 
+            "            i = 1;\n" + 
             "            j = 0;\n" + 
-            "    }\n" + 
-            "    \n" + 
-            "    for (k = this.N - 1; k; k--)\n" + 
-            "    {\n" + 
-            "        var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);\n" + 
-            "        /* non linear */\n" + 
-            "        this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941)) - i;\n" + 
-            "        this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n" + 
-            "        i++;\n" + 
-            "        if (i >= this.N)\n" + 
-            "        {\n" + 
-            "            this.mt[0] = this.mt[this.N - 1];\n" + 
-            "            i = 1;\n" + 
+            "            k = (this.N > key_length ? this.N : key_length);\n" + 
+            "            \n" + 
+            "            for (; k; k--)\n" + 
+            "            {\n" + 
+            "                var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)\n" + 
+            "                /* non linear */\n" + 
+            "                this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1664525) << 16) + ( (s & 0x0000ffff) * 1664525))) + init_key[j] + j;\n" + 
+            "                this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n" + 
+            "                i++;\n" + 
+            "                j++;\n" + 
+            "                if (i >= this.N)\n" + 
+            "                {\n" + 
+            "                    this.mt[0] = this.mt[this.N - 1];\n" + 
+            "                    i = 1;\n" + 
+            "                }\n" + 
+            "                if (j >= key_length)\n" + 
+            "                    j = 0;\n" + 
+            "            }\n" + 
+            "            \n" + 
+            "            for (k = this.N - 1; k; k--)\n" + 
+            "            {\n" + 
+            "                var s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);\n" + 
+            "                /* non linear */\n" + 
+            "                this.mt[i] = (this.mt[i] ^ ( ( ( ( (s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941)) - i;\n" + 
+            "                this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */\n" + 
+            "                i++;\n" + 
+            "                if (i >= this.N)\n" + 
+            "                {\n" + 
+            "                    this.mt[0] = this.mt[this.N - 1];\n" + 
+            "                    i = 1;\n" + 
+            "                }\n" + 
+            "            }\n" + 
+            "\n" + 
+            "            this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */\n" + 
             "        }\n" + 
-            "    }\n" + 
             "\n" + 
-            "    this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */\n" + 
-            "}\n" + 
-            "\n" + 
-            "/* generates a random number in range [0, 0xffffffff] */\n" + 
-            "window.MersenneTwister.prototype.genrand_int32 = function ()\n" + 
-            "{\n" + 
-            "    var y;\n" + 
-            "    var mag01 = new Array (0x0, this.MATRIX_A);\n" + 
-            "    /* mag01[x] = x * MATRIX_A for x=0,1 */\n" + 
-            "\n" + 
-            "    if (this.mti >= this.N)\n" + 
-            "    { /* generate N words at one time */\n" + 
-            "        var kk;\n" + 
-            "\n" + 
-            "        if (this.mti == this.N + 1)     /* if init_genrand() has not been called, */\n" + 
-            "            this.init_genrand (5489);   /* a default initial seed is used */\n" + 
-            "\n" + 
-            "        for (kk = 0; kk < this.N - this.M; kk++)\n" + 
+            "        /* generates a random number on [0,0xffffffff]-interval */\n" + 
+            "        MersenneTwister.prototype.genrand_int32 = function ()\n" + 
             "        {\n" + 
-            "            y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n" + 
-            "            this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];\n" + 
+            "            var y;\n" + 
+            "            var mag01 = new Array (0x0, this.MATRIX_A);\n" + 
+            "            /* mag01[x] = x * MATRIX_A for x=0,1 */\n" + 
+            "\n" + 
+            "            if (this.mti >= this.N)\n" + 
+            "            { /* generate N words at one time */\n" + 
+            "                var kk;\n" + 
+            "\n" + 
+            "                if (this.mti == this.N + 1)     /* if init_genrand() has not been called, */\n" + 
+            "                    this.init_genrand (5489);   /* a default initial seed is used */\n" + 
+            "\n" + 
+            "                for (kk = 0; kk < this.N - this.M; kk++)\n" + 
+            "                {\n" + 
+            "                    y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n" + 
+            "                    this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];\n" + 
+            "                }\n" + 
+            "                for (; kk < this.N - 1; kk++)\n" + 
+            "                {\n" + 
+            "                    y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n" + 
+            "                    this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];\n" + 
+            "                }\n" + 
+            "                y = (this.mt[this.N - 1] & this.UPPER_MASK) | (this.mt[0] & this.LOWER_MASK);\n" + 
+            "                this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];\n" + 
+            "\n" + 
+            "                this.mti = 0;\n" + 
+            "            }\n" + 
+            "\n" + 
+            "            y = this.mt[this.mti++];\n" + 
+            "\n" + 
+            "            /* Tempering */\n" + 
+            "            y ^= (y >>> 11);\n" + 
+            "            y ^= (y << 7) & 0x9d2c5680;\n" + 
+            "            y ^= (y << 15) & 0xefc60000;\n" + 
+            "            y ^= (y >>> 18);\n" + 
+            "\n" + 
+            "            return y >>> 0;\n" + 
             "        }\n" + 
-            "        for (; kk < this.N - 1; kk++)\n" + 
+            "\n" + 
+            "        /* generates a random number on [0,0x7fffffff]-interval */\n" + 
+            "        MersenneTwister.prototype.genrand_int31 = function ()\n" + 
             "        {\n" + 
-            "            y = (this.mt[kk] & this.UPPER_MASK) | (this.mt[kk + 1] & this.LOWER_MASK);\n" + 
-            "            this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];\n" + 
+            "            return (this.genrand_int32 () >>> 1);\n" + 
             "        }\n" + 
-            "        y = (this.mt[this.N - 1] & this.UPPER_MASK) | (this.mt[0] & this.LOWER_MASK);\n" + 
-            "        this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];\n" + 
             "\n" + 
-            "        this.mti = 0;\n" + 
+            "        /* generates a random number on [0,1]-real-interval */\n" + 
+            "        MersenneTwister.prototype.genrand_real1 = function ()\n" + 
+            "        {\n" + 
+            "            /* divided by 2^32-1 */\n" + 
+            "            return this.genrand_int32 () * (1.0 / 4294967295.0);\n" + 
+            "        }\n" + 
+            "\n" + 
+            "        /* generates a random number on [0,1)-real-interval */\n" + 
+            "        MersenneTwister.prototype.random = function ()\n" + 
+            "        {\n" + 
+            "            /* divided by 2^32 */\n" + 
+            "            return this.genrand_int32 () * (1.0 / 4294967296.0);\n" + 
+            "        }\n" + 
+            "\n" + 
+            "        /* generates a random number on (0,1)-real-interval */\n" + 
+            "        MersenneTwister.prototype.genrand_real3 = function ()\n" + 
+            "        {\n" + 
+            "            /* divided by 2^32 */\n" + 
+            "            return (this.genrand_int32 () + 0.5) * (1.0 / 4294967296.0);\n" + 
+            "        }\n" + 
+            "\n" + 
+            "        /* generates a random number on [0,1) with 53-bit resolution */\n" + 
+            "        MersenneTwister.prototype.genrand_res53 = function ()\n" + 
+            "        {\n" + 
+            "            var a = this.genrand_int32 () >>> 5, b = this.genrand_int32 () >>> 6;\n" + 
+            "            return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);\n" + 
+            "        }\n" + 
+            "        /* These real versions are due to Isaku Wada, 2002/01/09 added */\n" + 
+            "\n" + 
+            "        ret = new MersenneTwister(seed);\n" + 
+            "        \n" + 
+            "        return ret;\n" + 
             "    }\n" + 
-            "\n" + 
-            "    y = this.mt[this.mti++];\n" + 
-            "\n" + 
-            "    /* Tempering */\n" + 
-            "    y ^= (y >>> 11);\n" + 
-            "    y ^= (y << 7) & 0x9d2c5680;\n" + 
-            "    y ^= (y << 15) & 0xefc60000;\n" + 
-            "    y ^= (y >>> 18);\n" + 
-            "\n" + 
-            "    return y >>> 0;\n" + 
-            "}\n" + 
-            "\n" + 
-            "/* These real versions are due to Isaku Wada, 2002/01/09 added */\n" + 
-            "\n" + 
-            "window.MersenneTwisterGen = new window.MersenneTwister(0);\n"
-            ;
+            ");\n";
     
     private static final double     kDiv    = 1.0 / 4294967296.0;
+    private static final double     kSeed   = 0.0;
     
     private jsweet.lang.Object      fRNDGen;
     private jsweet.lang.Function    fRNDFuncInt32;
     
     public TRndMT ()
     {
-        eval (kMT);                         /* [100] */
+        jsweet.lang.Function    rndFactory;
         
-        fRNDGen             = (jsweet.lang.Object) Globals.window.$get ("MersenneTwisterGen");
-        fRNDFuncInt32       = (jsweet.lang.Function) fRNDGen.$get ("genrand_int32");
+        rndFactory      = (jsweet.lang.Function) eval (kMT);        /* [100] */
+        fRNDGen         = (jsweet.lang.Object) rndFactory.call (rndFactory, kSeed);
+        fRNDFuncInt32   = (jsweet.lang.Function) fRNDGen.$get ("genrand_int32");
     }
     
     public boolean GetBoolean ()

@@ -247,15 +247,3 @@ public class TRepository
         return ret;
     }
 }
-
-/*
-[100]   Double cast
-        - This program will be transpiled to Javascript and run as such. 
-        - We need Javascript access to the object so we can query type compatibility.
-        - Original code of this program is developed inside a Java environment and has to
-          be compileable by Java. hence the double cast.
-          
-        JSweet will transpile the double cast to a simple assignment:
-            obj = (jsweet.lang.Object) ( (java.lang.Object) fObjectsList.Get (i))   =>
-            obj = fObjectsList.Get (i);
-*/
