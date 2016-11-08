@@ -246,6 +246,7 @@ namespace fuzztest {
             fuzztest._dev_concepts.math.rnd.TDevRnd_01.RunRnd_01();
             fuzztest._dev_concepts.math.rnd.TDevRnd_02.RunRnd_02();
             fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.CreateType();
+            fuzztest._dev_concepts.objects.repo.del.TDevRepoDel_01.TRepoDelTest_01();
             fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01.Query();
             fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01.TestTree01();
         }
@@ -1700,6 +1701,34 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
 
         export class VDeriv_02 extends fuzztest.generator.rule.VNode {        }
         VDeriv_02["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_02";
+
+    }
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest._dev_concepts.objects.repo.del {
+    /**
+     * @author peter
+     */
+    export class TDevRepoDel_01 {
+        public static TRepoDelTest_01() {
+            let n1 : TDevRepoDel_01.VNodeType;
+            n1 = new TDevRepoDel_01.VNodeType();
+            fuzztest.generator.TRepository.Clear();
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevRepoDel_01::TRepoDelTest_01");
+            console.log("=========================================================");
+            console.log(typeof n1);
+        }
+    }
+    TDevRepoDel_01["__classname"] = "fuzztest._dev_concepts.objects.repo.del.TDevRepoDel_01";
+
+
+    export namespace TDevRepoDel_01 {
+
+        export class VNodeType extends fuzztest.generator.rule.VNode {        }
+        VNodeType["__classname"] = "fuzztest._dev_concepts.objects.repo.del.TDevRepoDel_01.VNodeType";
 
     }
 
