@@ -16,7 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01;
 
 import static jsweet.dom.Globals.console;
-import static jsweet.lang.Globals.eval;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.VNode;
@@ -25,7 +24,6 @@ import fuzztest.utils.storage.TArrayList;
 
 /**
  * @author peter
- *
  */
 public class TDevQueryObject_01
 {
@@ -39,6 +37,8 @@ public class TDevQueryObject_01
         TArrayList<String>      keys0;
         TArrayList<String>      keys1;
         TArrayList<String>      keys2;
+        
+        TRepository.Clear ();
         
         n1      = new VNodeType01 ();
         n2      = new VNodeType02 ();

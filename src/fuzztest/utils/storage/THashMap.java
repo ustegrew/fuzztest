@@ -30,7 +30,20 @@ public class THashMap<T>
     public THashMap ()
     {
         fElements       = new jsweet.lang.Object ();
-        fNumElements    = 0;
+        _Init ();
+    }
+    
+    /**
+     * Clears this hashmap. Note that the actual objects won't be deleted, 
+     * instead we simply set this hash map's elements to <code>null</code>.
+     * This means that it's not guaranteed that stored objects will be deleted
+     * (e.g. by the garbage collector). Clients should keep access to the
+     * stored level as local as possible, e.g. by assigning stored elements to 
+     * local variables in a function which frees them when function is out of scope. 
+     */
+    public void Clear ()
+    {
+        _Init ();
     }
     
     @SuppressWarnings ("unchecked")
@@ -85,4 +98,34 @@ public class THashMap<T>
             }
         }
     }
+
+    private void _Init ()
+    {
+        String[]        keys;
+        int             i;
+        int             n;
+        String          k;
+        
+        /* [100] */
+        keys = jsweet.lang.Object.keys (fElements);
+        n    = keys.length;
+        if (n >= 1)
+        {
+            for (i = 0; i < n; i++)
+            {
+                k = keys [i];
+                fElements.$set (k, null);
+            }
+        }
+        fNumElements = 0;
+    }
 }
+
+/*
+[100]   Another way of clearing an object is to explicitly delete the elements 
+        in the fElements object (Javascript has the keyword 'delete' reserved
+        for that purpose). However, I don't want to destroy references to objects
+        that could be in use someplace else in the program. Therefore I simply set all 
+        the hashmap's elements to null. The garbage collector will take care 
+        of the unused Objects formerly referenced by the hash map.
+*/

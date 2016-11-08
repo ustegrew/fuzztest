@@ -15,12 +15,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule;
 
+import jsweet.lang.RangeError;
+
 /**
  * @author peter
  *
  */
 public class TStrategy
 {
+    public static final int         kRecursionLimit     = 15;
+    public static final int         kRepeatLimit        = 100;
+    
     private int                     fRecursionCounter;
     private int                     fRecursionMax;
     private ERuleAdhesion           fRuleAdhesion;
@@ -73,6 +78,14 @@ public class TStrategy
         int             repeatMax
     )
     {
-        System.out.println ("Warning: TStrategy::_AssertParamsOK(...): Must implement.");
+        if (recursionMax <= 0  || recursionMax > kRecursionLimit)
+        {
+            throw new RangeError ("recursionMax out of range. Allowed: [1, " + kRecursionLimit + "], Given:" + recursionMax);
+        }
+        
+        if (repeatMax < 0  ||  repeatMax > kRepeatLimit)
+        {
+            throw new RangeError ("repeatMax out of range. Allowed: [0, " + kRepeatLimit + "], Given: " + repeatMax);
+        }
     }
 }

@@ -17,6 +17,7 @@ package fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01;
 
 import static jsweet.dom.Globals.console;
 
+import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
 import fuzztest.model.abstracts.TClass;
 
@@ -32,6 +33,7 @@ public class TDevCreateObject_01
     {
         TClass                      c;
         
+        TRepository.Clear ();
         c  = (new VBrowseableType()).GetClass ().GetParent ();
         console.log ();
         console.log ("=========================================================");

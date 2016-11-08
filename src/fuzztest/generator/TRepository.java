@@ -51,6 +51,12 @@ public class TRepository
         return ret;
     }
     
+    public static void Clear ()
+    {
+        _CreateRepository ();
+        gRepository._Clear ();
+    }
+    
     /**
      * Returns the object with the given index.
      * 
@@ -67,7 +73,7 @@ public class TRepository
         
         return ret;
     }
-    
+
     /**
      * Returns the object with the given key.
      * 
@@ -151,6 +157,7 @@ public class TRepository
         
         return ret;
     }
+    
     /**
      * Creates a new repository (singleton) if none existed before. 
      */
@@ -161,14 +168,13 @@ public class TRepository
             gRepository = new TRepository ();
         }
     }
-    
     private TArrayMap<VBrowseable>          fRepository;
-
+    
     private TRepository ()
     {
         fRepository             = new TArrayMap<> ();
     }
-    
+
     private String _Add (VBrowseable b)
     {
         String      key;
@@ -177,6 +183,14 @@ public class TRepository
         fRepository.Add (key, b);
 
         return key;
+    }
+    
+    /**
+     * 
+     */
+    private void _Clear ()
+    {
+        fRepository.Clear ();
     }
     
     private VBrowseable _GetElement (int i)

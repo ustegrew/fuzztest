@@ -18,6 +18,7 @@ package fuzztest._dev_concepts.grammar.build;
 import static jsweet.dom.Globals.console;
 import static jsweet.lang.Globals.eval;
 
+import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
@@ -40,9 +41,10 @@ public class TDevBuildGrammar_01
       TCharacterClass     cc;
       jsweet.lang.String  ch;
       jsweet.lang.String  chx;
-      jsweet.lang.Number  ccode;
       String              s0;
       String              s1;
+      
+      TRepository.Clear ();
       
       console.log ();
       console.log ("=========================================================");

@@ -366,9 +366,9 @@ namespace fuzztest._dev_concepts.grammar.build {
             let cc : fuzztest.generator.rule.cClass.TCharacterClass;
             let ch : string;
             let chx : string;
-            let ccode : number;
             let s0 : string;
             let s1 : string;
+            fuzztest.generator.TRepository.Clear();
             console.log();
             console.log("=========================================================");
             console.log("TDevBuildGrammar_01");
@@ -412,7 +412,7 @@ namespace fuzztest.utils.storage {
     /**
      * A poor man's implementation of java.util.ArrayList. I could try and import j4ts, but I got loads of
      * transpilation errors. I have a feeling that writing this impl is getting faster results than
-     * trying to make j4ts to work.
+     * trying to make the program work with j4ts.
      * 
      * @author peter
      */
@@ -424,12 +424,19 @@ namespace fuzztest.utils.storage {
         public constructor() {
             this.fNumElements = 0;
             this.fElements = <any>(new Array<any>());
-            this.fNumElements = 0;
+            this._Init();
         }
 
         public Add(obj : T) {
             this.fElements.push(obj);
             this.fNumElements++;
+        }
+
+        /**
+         * 
+         */
+        public Clear() {
+            this._Init();
         }
 
         public Get(i : number) : T {
@@ -445,8 +452,13 @@ namespace fuzztest.utils.storage {
 
         private _AssertIndexOK(i : number) {
             if(i < 0 || i >= this.fNumElements) {
-                throw new Error("Index out of bounds. Must be in [0, " + this.fNumElements + "[. Given: " + i);
+                throw new RangeError("Index out of bounds. Must be in [0, " + this.fNumElements + "[. Given: " + i);
             }
+        }
+
+        private _Init() {
+            this.fElements.length = 0;
+            this.fNumElements = 0;
         }
     }
     TArrayList["__classname"] = "fuzztest.utils.storage.TArrayList";
@@ -498,7 +510,19 @@ namespace fuzztest.utils.storage {
         public constructor() {
             this.fNumElements = 0;
             this.fElements = <Object>new Object();
-            this.fNumElements = 0;
+            this._Init();
+        }
+
+        /**
+         * Clears this hashmap. Note that the actual objects won't be deleted,
+         * instead we simply set this hash map's elements to <code>null</code>.
+         * This means that it's not guaranteed that stored objects will be deleted
+         * (e.g. by the garbage collector). Clients should keep access to the
+         * stored level as local as possible, e.g. by assigning stored elements to
+         * local variables in a function which frees them when function is out of scope.
+         */
+        public Clear() {
+            this._Init();
         }
 
         public Get(key : string) : T {
@@ -537,6 +561,22 @@ namespace fuzztest.utils.storage {
                 }
             }
         }
+
+        private _Init() {
+            let keys : string[];
+            let i : number;
+            let n : number;
+            let k : string;
+            keys = Object.keys(this.fElements);
+            n = keys.length;
+            if(n >= 1) {
+                for(i = 0; i < n; i++) {
+                    k = keys[i];
+                    this.fElements[k] = null;
+                }
+            }
+            this.fNumElements = 0;
+        }
     }
     THashMap["__classname"] = "fuzztest.utils.storage.THashMap";
 
@@ -547,9 +587,9 @@ namespace fuzztest.utils.storage {
      * @author peter
      */
     export class TArrayMap<T> {
-        private fHashMap : fuzztest.utils.storage.THashMap<T>;
-
         private fArrayList : fuzztest.utils.storage.TArrayList<T>;
+
+        private fHashMap : fuzztest.utils.storage.THashMap<T>;
 
         public constructor() {
             this.fHashMap = <any>(new fuzztest.utils.storage.THashMap<any>());
@@ -559,6 +599,20 @@ namespace fuzztest.utils.storage {
         public Add(key : string, obj : T) {
             this.fHashMap.Set(key, obj);
             this.fArrayList.Add(obj);
+        }
+
+        /**
+         * 
+         */
+        public Clear() {
+            this.fHashMap.Clear();
+            this.fArrayList.Clear();
+        }
+
+        public Get$int(i : number) : T {
+            let ret : T;
+            ret = this.fArrayList.Get(i);
+            return ret;
         }
 
         public Get(key? : any) : any {
@@ -572,12 +626,6 @@ namespace fuzztest.utils.storage {
             } else if(((typeof key === 'number') || key === null)) {
                 return <any>this.Get$int(key);
             } else throw new Error('invalid overload');
-        }
-
-        public Get$int(i : number) : T {
-            let ret : T;
-            ret = this.fArrayList.Get(i);
-            return ret;
         }
 
         public GetNumElements() : number {
@@ -704,6 +752,11 @@ namespace fuzztest.generator {
             return ret;
         }
 
+        public static Clear() {
+            TRepository._CreateRepository();
+            TRepository.gRepository._Clear();
+        }
+
         /**
          * Returns the object with the given index.
          * 
@@ -821,6 +874,13 @@ namespace fuzztest.generator {
             key = b.GetKey();
             this.fRepository.Add(key, b);
             return key;
+        }
+
+        /**
+         * 
+         */
+        private _Clear() {
+            this.fRepository.Clear();
         }
 
         private _GetElement$int(i : number) : fuzztest.generator.VBrowseable {
@@ -988,6 +1048,10 @@ namespace fuzztest.generator.rule {
      * @author peter
      */
     export class TStrategy {
+        public static kRecursionLimit : number = 15;
+
+        public static kRepeatLimit : number = 100;
+
         private fRecursionCounter : number;
 
         private fRecursionMax : number;
@@ -1028,7 +1092,12 @@ namespace fuzztest.generator.rule {
         }
 
         private _AssertParamsOK(recursionMax : number, ruleAdhesion : fuzztest.generator.rule.ERuleAdhesion, repeatMax : number) {
-            console.info("Warning: TStrategy::_AssertParamsOK(...): Must implement.");
+            if(recursionMax <= 0 || recursionMax > TStrategy.kRecursionLimit) {
+                throw new RangeError("recursionMax out of range. Allowed: [1, " + TStrategy.kRecursionLimit + "], Given:" + recursionMax);
+            }
+            if(repeatMax < 0 || repeatMax > TStrategy.kRepeatLimit) {
+                throw new RangeError("repeatMax out of range. Allowed: [0, " + TStrategy.kRepeatLimit + "], Given: " + repeatMax);
+            }
         }
     }
     TStrategy["__classname"] = "fuzztest.generator.rule.TStrategy";
@@ -1152,6 +1221,7 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
     export class TDevCreateObject_01 {
         public static CreateType() {
             let c : fuzztest.model.abstracts.TClass;
+            fuzztest.generator.TRepository.Clear();
             c = (new TDevCreateObject_01.VBrowseableType()).GetClass().GetParent();
             console.log();
             console.log("=========================================================");
@@ -1529,6 +1599,7 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
             let keys0 : fuzztest.utils.storage.TArrayList<string>;
             let keys1 : fuzztest.utils.storage.TArrayList<string>;
             let keys2 : fuzztest.utils.storage.TArrayList<string>;
+            fuzztest.generator.TRepository.Clear();
             n1 = new TDevQueryObject_01.VNodeType01();
             n2 = new TDevQueryObject_01.VNodeType02();
             nc0 = fuzztest.generator.rule.VNode.GetClassAbstract();
@@ -1589,6 +1660,7 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
     export class TDevCreateObject_02 {
         public static CreateType() {
             let c : fuzztest.model.abstracts.TClass;
+            fuzztest.generator.TRepository.Clear();
             console.log();
             console.log("=========================================================");
             console.log("TDevCreateObject_02");
@@ -2547,6 +2619,17 @@ namespace fuzztest.generator.rule.suffixed {
 
         private fIsNMaxInfinite : boolean;
 
+        /**
+         * cTor. Creates a new suffixed expression. One of x? (optional), x+ (one-or-more), x* (zero-or-more).
+         * The two parameters reflect the actual behavior of the created object:
+         * 
+         * <code>isNMinZero</code>: <code>true</code>, <code>isNMaxInfinite</code>:  <code>false</code>: <code>x?</code>
+         * <code>isNMinZero</code>: <code>false</code>, <code>isNMaxInfinite</code>: <code>true</code>:  <code>x+</code>
+         * <code>isNMinZero</code>: <code>true</code>, <code>isNMaxInfinite</code>:  <code>true</code>:  <code>x*</code>
+         * 
+         * @param isNMinZero            Allow minimum of zero characters?
+         * @param isNMaxInfinite        Allow for infinite number of characters?
+         */
         public constructor(isNMinZero : boolean, isNMaxInfinite : boolean) {
             super();
             this.fIsNMinZero = false;

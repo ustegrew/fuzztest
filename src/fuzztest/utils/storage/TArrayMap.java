@@ -21,8 +21,8 @@ package fuzztest.utils.storage;
  */
 public class TArrayMap<T>
 {
-    private THashMap<T>                 fHashMap;
     private TArrayList<T>               fArrayList;
+    private THashMap<T>                 fHashMap;
     
     public TArrayMap ()
     {
@@ -36,13 +36,13 @@ public class TArrayMap<T>
         fArrayList.Add (obj);
     }
     
-    public T Get (String key)
+    /**
+     * 
+     */
+    public void Clear ()
     {
-        T ret;
-        
-        ret = fHashMap.Get (key);
-        
-        return ret;
+        fHashMap.Clear ();
+        fArrayList.Clear ();
     }
     
     public T Get (int i)
@@ -50,6 +50,15 @@ public class TArrayMap<T>
         T ret;
         
         ret = fArrayList.Get (i);
+        
+        return ret;
+    }
+    
+    public T Get (String key)
+    {
+        T ret;
+        
+        ret = fHashMap.Get (key);
         
         return ret;
     }
@@ -62,7 +71,7 @@ public class TArrayMap<T>
         
         return ret;
     }
-    
+
     public boolean HasElement (String key)
     {
         boolean ret;

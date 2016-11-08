@@ -44,6 +44,17 @@ public abstract class VSuffixed extends VNode
     private boolean     fIsNMinZero;
     private boolean     fIsNMaxInfinite;
     
+    /**
+     * cTor. Creates a new suffixed expression. One of x? (optional), x+ (one-or-more), x* (zero-or-more).
+     * The two parameters reflect the actual behavior of the created object:
+     * 
+     * <code>isNMinZero</code>: <code>true</code>, <code>isNMaxInfinite</code>:  <code>false</code>: <code>x?</code>
+     * <code>isNMinZero</code>: <code>false</code>, <code>isNMaxInfinite</code>: <code>true</code>:  <code>x+</code>
+     * <code>isNMinZero</code>: <code>true</code>, <code>isNMaxInfinite</code>:  <code>true</code>:  <code>x*</code>
+     * 
+     * @param isNMinZero            Allow minimum of zero characters?
+     * @param isNMaxInfinite        Allow for infinite number of characters?
+     */
     public VSuffixed (boolean isNMinZero, boolean isNMaxInfinite)
     {
         fIsNMinZero     = isNMinZero;
