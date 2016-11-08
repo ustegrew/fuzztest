@@ -115,6 +115,7 @@ public class THashMap<T>
             {
                 k = keys [i];
                 fElements.$set (k, null);
+                fElements.$delete (k);
             }
         }
         fNumElements = 0;
@@ -128,4 +129,6 @@ public class THashMap<T>
         that could be in use someplace else in the program. Therefore I simply set all 
         the hashmap's elements to null. The garbage collector will take care 
         of the unused Objects formerly referenced by the hash map.
+        However, since we want the property element removed from the hashmap we do call
+        delete after setting the resp property to null.
 */

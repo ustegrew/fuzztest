@@ -573,6 +573,7 @@ namespace fuzztest.utils.storage {
                 for(i = 0; i < n; i++) {
                     k = keys[i];
                     this.fElements[k] = null;
+                    delete this.fElements[k];
                 }
             }
             this.fNumElements = 0;
