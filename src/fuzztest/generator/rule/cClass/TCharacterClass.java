@@ -85,16 +85,12 @@ import fuzztest.utils.storage.TArrayList;
  */
 public class TCharacterClass extends VNode
 {
-    private TArrayList<VCharSet>     fSets;
-    
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TCharacterClass ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TCharacterClass ()).GetClass ();
+
+    private TArrayList<VCharSet>        fSets;
     
     /**
      * cTor. 

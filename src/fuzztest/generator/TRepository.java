@@ -228,7 +228,7 @@ public class TRepository
             for (i = 0; i < n; i++)
             {
                 b0      = fRepository.Get (i);
-                c0      = b0.GetClass_Object ();
+                c0      = b0.GetClass ();
                 
                 if (isStrict)
                 {

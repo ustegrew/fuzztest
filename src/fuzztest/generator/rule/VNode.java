@@ -30,17 +30,14 @@ import fuzztest.utils.storage.TOnceAssignable;
 public abstract class VNode extends VBrowseable
 {
     /**
-     * @see         VBrowseable#GetClass_Static()
+     * A dummy class to provide a concrete derivative from the hosting abstract class.
+     * Purely needed so we have something to instantiate (TClass cTor needs an object). 
      */
-    public static TClass GetClass_VNode_Static ()
-    {
-        TClass ret;
-        
-        ret = (new VNodeType ()).GetClass_Object ().GetParent ();
-        
-        return ret;
-    }
-    private static class VNodeType extends VNode{}
+    private static class VNodeT extends VNode{}
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new VNodeT ()).GetClass ().GetParent ();
 
     public static void ClearVisitCounters ()
     {
@@ -51,7 +48,7 @@ public abstract class VNode extends VBrowseable
         TClass              clVNode;
         TArrayList<String>  keys;
         
-        clVNode = GetClass_VNode_Static ();
+        clVNode = gClass;
         keys    = TRepository.GetKeys (clVNode, false);
         n       = keys.GetNumElements ();
         if (n >= 1)
@@ -209,7 +206,7 @@ public abstract class VNode extends VBrowseable
         VNode                           ret;
         
         kThis   = GetKey ();
-        c       = GetClass_Object ();
+        c       = GetClass ();
         refs    = TRepository.GetKeys (c);
         n       = refs.GetNumElements ();
         ret     = null;

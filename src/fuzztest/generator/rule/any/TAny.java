@@ -41,14 +41,10 @@ import fuzztest.utils.gen.TGenData;
  */
 public class TAny extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TAny ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public static final TClass gClass = (new TAny ()).GetClass ();;
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)

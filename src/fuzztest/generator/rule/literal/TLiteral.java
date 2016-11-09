@@ -43,16 +43,12 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TLiteral extends VNode
 {
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TLiteral (null)).GetClass ();
+
     private String          fLiteral;
-    
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TLiteral (null)).GetClass_Object ();
-        
-        return ret;
-    }
     
     /**
      * 

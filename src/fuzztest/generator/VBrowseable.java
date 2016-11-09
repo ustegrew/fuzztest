@@ -26,23 +26,14 @@ import fuzztest.model.abstracts.TClass;
 public abstract class VBrowseable
 {
     /**
-     * Creates a generic {@link TClass} from this abstract class.
-     * Use case: {@link TRepository} Query with abstract base class as 
-     *           query criterion.
-     *           
-     * Note that each abstract sub class must override this method!  
-     * 
-     * @return      A generic class object for this class.
+     * A dummy class to provide a concrete derivative from the hosting abstract class.
+     * Purely needed so we have something to instantiate (TClass cTor needs an object). 
      */
-    public static TClass GetClass_VBrowseable_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new VBrowseableType ()).GetClass_Object ().GetParent ();
-        
-        return ret;
-    }
-    private static class VBrowseableType extends VBrowseable {} /* [110] */
+    private static class VBrowseableT extends VBrowseable {} /* [110] */
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public static final TClass gClass = (new VBrowseableT ()).GetClass ().GetParent ();
 
     private static int      gCounter = -1;
     
@@ -58,7 +49,7 @@ public abstract class VBrowseable
         fKey        = null;
     }
     
-    public TClass GetClass_Object ()
+    public TClass GetClass ()
     {
         return fClass;
     }
@@ -136,7 +127,7 @@ public abstract class VBrowseable
         and Typescript correctly complains that we are trying to create an instance of 
         an abstract class. With the workaround we now get the correct Typescript
         code:
-            ret = (new VBrowseable.VBrowseableType()).GetClass();
+            ret = (new VBrowseable.VBrowseableT()).GetClass();
         which is accepted by Typescript.
         
 [120]   Need to wrap this method into an inner class, otherwise we'll have a naming 

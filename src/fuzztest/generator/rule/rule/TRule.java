@@ -61,14 +61,10 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TRule extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TRule (null)).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TRule (null)).GetClass ();
 
     public TRule (String key)
     {

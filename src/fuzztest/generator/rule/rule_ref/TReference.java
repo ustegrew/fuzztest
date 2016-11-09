@@ -39,14 +39,10 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TReference extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TReference ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TReference ()).GetClass ();
 }
 
 

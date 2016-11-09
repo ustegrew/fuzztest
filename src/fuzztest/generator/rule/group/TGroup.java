@@ -58,12 +58,8 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TGroup extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TGroup ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TGroup ()).GetClass ();
 }

@@ -51,14 +51,10 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TZeroOrMore extends VSuffixed
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TZeroOrMore ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TZeroOrMore ()).GetClass ();
 
     public TZeroOrMore ()
     {

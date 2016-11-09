@@ -917,7 +917,7 @@ namespace fuzztest.generator {
             if(n >= 1) {
                 for(i = 0; i < n; i++) {
                     b0 = this.fRepository.Get(i);
-                    c0 = b0.GetClass_Object();
+                    c0 = b0.GetClass();
                     if(isStrict) {
                         isClass = c.IsEqualTo(c0);
                     } else {
@@ -945,81 +945,6 @@ namespace fuzztest.generator {
         }
     }
     TRepository["__classname"] = "fuzztest.generator.TRepository";
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.generator {
-    /**
-     * Browseable object, i.e. can be stored in the {@link TRepository}. Provides
-     * manual and automatic key generation.
-     * 
-     * @author peter
-     */
-    export abstract class VBrowseable {
-        /**
-         * Creates a generic {@link TClass} from this abstract class.
-         * Use case: {@link TRepository} Query with abstract base class as
-         * query criterion.
-         * 
-         * Note that each abstract sub class must override this method!
-         * 
-         * @return      A generic class object for this class.
-         */
-        public static GetClass_VBrowseable_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new VBrowseable.VBrowseableType()).GetClass_Object().GetParent();
-            return ret;
-        }
-
-        static gCounter : number = -1;
-
-        private fClass : fuzztest.model.abstracts.TClass;
-
-        private fKey : string;
-
-        /**
-         * cTor.
-         */
-        constructor() {
-            this.fClass = fuzztest.model.abstracts.TClass.Create(this);
-            this.fKey = null;
-        }
-
-        public GetClass_Object() : fuzztest.model.abstracts.TClass {
-            return this.fClass;
-        }
-
-        /**
-         * @return      The key associated with this object.
-         */
-        public GetKey() : string {
-            return this.fKey;
-        }
-
-        public _Register(key : string = null, doAutoKey : boolean = true) {
-            let k : string;
-            if(this.fKey != null) {
-                throw new java.lang.IllegalArgumentException("Key is already assigned.");
-            }
-            if(doAutoKey) {
-                k = this.fClass.GetCanonicalPath();
-                VBrowseable.gCounter++;
-                this.fKey = k + "_" + VBrowseable.gCounter;
-            } else {
-                this.fKey = key;
-            }
-            fuzztest.generator.TRepository.Add(this);
-        }
-    }
-    VBrowseable["__classname"] = "fuzztest.generator.VBrowseable";
-
-
-    export namespace VBrowseable {
-
-        export class VBrowseableType extends fuzztest.generator.VBrowseable {        }
-        VBrowseableType["__classname"] = "fuzztest.generator.VBrowseable.VBrowseableType";
-
-    }
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -1103,6 +1028,75 @@ namespace fuzztest.generator.rule {
         }
     }
     TStrategy["__classname"] = "fuzztest.generator.rule.TStrategy";
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.generator {
+    /**
+     * Browseable object, i.e. can be stored in the {@link TRepository}. Provides
+     * manual and automatic key generation.
+     * 
+     * @author peter
+     */
+    export abstract class VBrowseable {
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(VBrowseable.gClass == null) VBrowseable.gClass = (new VBrowseable.VBrowseableT()).GetClass().GetParent(); return VBrowseable.gClass; };
+
+        static gCounter : number = -1;
+
+        private fClass : fuzztest.model.abstracts.TClass;
+
+        private fKey : string;
+
+        /**
+         * cTor.
+         */
+        constructor() {
+            this.fClass = fuzztest.model.abstracts.TClass.Create(this);
+            this.fKey = null;
+        }
+
+        public GetClass() : fuzztest.model.abstracts.TClass {
+            return this.fClass;
+        }
+
+        /**
+         * @return      The key associated with this object.
+         */
+        public GetKey() : string {
+            return this.fKey;
+        }
+
+        public _Register(key : string = null, doAutoKey : boolean = true) {
+            let k : string;
+            if(this.fKey != null) {
+                throw new java.lang.IllegalArgumentException("Key is already assigned.");
+            }
+            if(doAutoKey) {
+                k = this.fClass.GetCanonicalPath();
+                VBrowseable.gCounter++;
+                this.fKey = k + "_" + VBrowseable.gCounter;
+            } else {
+                this.fKey = key;
+            }
+            fuzztest.generator.TRepository.Add(this);
+        }
+    }
+    VBrowseable["__classname"] = "fuzztest.generator.VBrowseable";
+
+
+    export namespace VBrowseable {
+
+        /**
+         * A dummy class to provide a concrete derivative from the hosting abstract class.
+         * Purely needed so we have something to instantiate (TClass cTor needs an object).
+         */
+        export class VBrowseableT extends fuzztest.generator.VBrowseable {        }
+        VBrowseableT["__classname"] = "fuzztest.generator.VBrowseable.VBrowseableT";
+
+    }
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -1210,241 +1204,6 @@ namespace fuzztest.utils.gen {
         }
     }
     TGenData["__classname"] = "fuzztest.utils.gen.TGenData";
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 {
-    /**
-     * Concept test: Create object from an abstract class. Only works because it's trans-piled into Javascript,
-     * where we (currently) don't have abstract classes.
-     * 
-     * @author peter
-     */
-    export class TDevCreateObject_01 {
-        public static CreateType() {
-            let c : fuzztest.model.abstracts.TClass;
-            fuzztest.generator.TRepository.Clear();
-            c = (new TDevCreateObject_01.VBrowseableType()).GetClass_Object().GetParent();
-            console.log();
-            console.log("=========================================================");
-            console.log("TDevCreateObject_01");
-            console.log("=========================================================");
-            console.log("Inheritence chain: " + c.GetInheritPath());
-            console.log("Canonical path:    " + c.GetCanonicalPath());
-        }
-    }
-    TDevCreateObject_01["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01";
-
-
-    export namespace TDevCreateObject_01 {
-
-        export class VBrowseableType extends fuzztest.generator.VBrowseable {        }
-        VBrowseableType["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01.VBrowseableType";
-
-    }
-
-}
-/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
-namespace fuzztest.generator.rule {
-    /**
-     * @author peter
-     */
-    export abstract class VNode extends fuzztest.generator.VBrowseable {
-        /**
-         * @see         VBrowseable#GetClass_Static()
-         */
-        public static GetClass_VNode_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new VNode.VNodeType()).GetClass_Object().GetParent();
-            return ret;
-        }
-
-        public static ClearVisitCounters() {
-            let i : number;
-            let n : number;
-            let k : string;
-            let nd : VNode;
-            let clVNode : fuzztest.model.abstracts.TClass;
-            let keys : fuzztest.utils.storage.TArrayList<string>;
-            clVNode = VNode.GetClass_VNode_Static();
-            keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
-            n = keys.GetNumElements();
-            if(n >= 1) {
-                for(i = 0; i < n; i++) {
-                    k = keys.Get(i);
-                    nd = <VNode>fuzztest.generator.TRepository.Get(k);
-                    nd.ClearVisitCounter();
-                }
-            }
-        }
-
-        public static DoesFollowRule(s : fuzztest.generator.rule.TStrategy) : boolean {
-            let r : fuzztest.generator.rule.ERuleAdhesion;
-            let ret : boolean;
-            r = s.GetRuleAdhesion();
-            if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowRule) {
-                ret = true;
-            } else if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowOpposite) {
-                ret = false;
-            } else {
-                ret = fuzztest.utils.gen.TGenData.GetBoolean();
-            }
-            return ret;
-        }
-
-        private fExpression : fuzztest.utils.storage.TOnceAssignable<VNode>;
-
-        private fNumVisits : number;
-
-        public constructor(key? : any) {
-            if(((typeof key === 'string') || key === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                super();
-                this.fNumVisits = 0;
-                (() => {
-                    this._Init(key);
-                })();
-            } else if(key === undefined) {
-                let __args = Array.prototype.slice.call(arguments);
-                super();
-                this.fNumVisits = 0;
-                (() => {
-                    this._Init(null);
-                })();
-            } else throw new Error('invalid overload');
-        }
-
-        public ClearVisitCounter() {
-            this.fNumVisits = 0;
-        }
-
-        /**
-         * Creates a data fragment and appends it to the given head string.
-         * 
-         * This method guards against descend going too deep
-         * (recursion limit).
-         * 
-         * Please call this method from all sub classes as it provides
-         * the recursion limit.
-         * 
-         * @param       s       The fragment creation strategy.
-         * @param       head    The head unto which we append the newly
-         * created fragment.
-         * @return      The newly assembled source code fragment.
-         */
-        public CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
-            let nVisitsMax : number;
-            let ret : string;
-            nVisitsMax = s.GetNumVisitsMax();
-            if(this.fNumVisits <= nVisitsMax) {
-                this.fNumVisits++;
-                ret = this._CreateData(s, head);
-            } else {
-                ret = head;
-            }
-            return ret;
-        }
-
-        public SetExpression(node : VNode) {
-            this.fExpression.Set(node);
-        }
-
-        /**
-         * Creates a data fragment from the concrete grammar artifact and
-         * appends it to the given head string.
-         * 
-         * This is a default method, meant to be overridden by nodes that generate
-         * their own data. Nodes that don't generate data won't need to override
-         * this method.
-         * 
-         * Concrete implementations of this class should not call this
-         * method directly, but should call {@link #CreateData(TStrategy, String)}.
-         * 
-         * @param       s       The fragment creation strategy.
-         * @return              The data fragment for a particular test case.
-         */
-        _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
-            let ex : VNode;
-            let ret : string;
-            ex = this.fExpression.Get();
-            ret = ex.CreateData(s, head);
-            return ret;
-        }
-
-        _GetExpression() : VNode {
-            let ret : VNode;
-            ret = this.fExpression.Get();
-            return ret;
-        }
-
-        /**
-         * Returns either this node or a randomly chosen node different from
-         * this one, but of the same (concrete) class (i.e. another object of this class).
-         * For example, if this node is a {@linkplain TChoice}, then the chosen
-         * node will be a distinctly other {@linkplain TChoice} object.
-         * Object will be retrieved from the {@link TRepository}.
-         * 
-         * The returned node will be used to randomly mix generation rules
-         * of the same kind.
-         * 
-         * @param       s       The generating strategy. If it's
-         * {@link TStrategy#GetRuleAdhesion()} method
-         * returns {@link ERuleAdhesion#kFollowRule} then
-         * we will return this node. If the method
-         * returns {@link ERuleAdhesion#kInjectInvalids} then
-         * we will return a randomly chosen different node.
-         * @return              Concrete node of this class, either this one or
-         * distinctly different from this node.
-         */
-        _GetFromOppositeSet() : VNode {
-            let c : fuzztest.model.abstracts.TClass;
-            let i : number;
-            let n : number;
-            let kThis : string;
-            let kOther : string;
-            let hasKey : boolean;
-            let isEqual : boolean;
-            let refs : fuzztest.utils.storage.TArrayList<string>;
-            let ret : VNode;
-            kThis = this.GetKey();
-            c = this.GetClass_Object();
-            refs = fuzztest.generator.TRepository.GetKeys(c);
-            n = refs.GetNumElements();
-            ret = null;
-            if(n >= 1) {
-                hasKey = false;
-                do {
-                    i = fuzztest.utils.gen.TGenData.GetIntUpTo(n);
-                    kOther = refs.Get(i);
-                    isEqual = (kThis === kOther);
-                    hasKey = !isEqual;
-                } while((!hasKey));
-                ret = <VNode>fuzztest.generator.TRepository.Get(kOther);
-            } else {
-                ret = <VNode>fuzztest.generator.TRepository.Get(kThis);
-            }
-            return ret;
-        }
-
-        _Init(key : string) {
-            this.fNumVisits = 0;
-            this.fExpression = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
-            if(key == null) {
-                this._Register();
-            } else {
-                this._Register(key);
-            }
-        }
-    }
-    VNode["__classname"] = "fuzztest.generator.rule.VNode";
-
-
-    export namespace VNode {
-
-        export class VNodeType extends fuzztest.generator.rule.VNode {        }
-        VNodeType["__classname"] = "fuzztest.generator.rule.VNode.VNodeType";
-
-    }
 
 }
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
@@ -1589,6 +1348,241 @@ namespace fuzztest.generator.rule.cClass {
 /* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
 namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 {
     /**
+     * Concept test: Create object from an abstract class. Only works because it's trans-piled into Javascript,
+     * where we (currently) don't have abstract classes.
+     * 
+     * @author peter
+     */
+    export class TDevCreateObject_01 {
+        public static CreateType() {
+            let c : fuzztest.model.abstracts.TClass;
+            fuzztest.generator.TRepository.Clear();
+            c = (new TDevCreateObject_01.VBrowseableType()).GetClass().GetParent();
+            console.log();
+            console.log("=========================================================");
+            console.log("TDevCreateObject_01");
+            console.log("=========================================================");
+            console.log("Inheritence chain: " + c.GetInheritPath());
+            console.log("Canonical path:    " + c.GetCanonicalPath());
+        }
+    }
+    TDevCreateObject_01["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01";
+
+
+    export namespace TDevCreateObject_01 {
+
+        export class VBrowseableType extends fuzztest.generator.VBrowseable {        }
+        VBrowseableType["__classname"] = "fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_01.VBrowseableType";
+
+    }
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest.generator.rule {
+    /**
+     * @author peter
+     */
+    export abstract class VNode extends fuzztest.generator.VBrowseable {
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(VNode.gClass == null) VNode.gClass = (new VNode.VNodeT()).GetClass().GetParent(); return VNode.gClass; };
+
+        public static ClearVisitCounters() {
+            let i : number;
+            let n : number;
+            let k : string;
+            let nd : VNode;
+            let clVNode : fuzztest.model.abstracts.TClass;
+            let keys : fuzztest.utils.storage.TArrayList<string>;
+            clVNode = VNode.gClass_$LI$();
+            keys = fuzztest.generator.TRepository.GetKeys(clVNode, false);
+            n = keys.GetNumElements();
+            if(n >= 1) {
+                for(i = 0; i < n; i++) {
+                    k = keys.Get(i);
+                    nd = <VNode>fuzztest.generator.TRepository.Get(k);
+                    nd.ClearVisitCounter();
+                }
+            }
+        }
+
+        public static DoesFollowRule(s : fuzztest.generator.rule.TStrategy) : boolean {
+            let r : fuzztest.generator.rule.ERuleAdhesion;
+            let ret : boolean;
+            r = s.GetRuleAdhesion();
+            if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowRule) {
+                ret = true;
+            } else if(r === fuzztest.generator.rule.ERuleAdhesion.kFollowOpposite) {
+                ret = false;
+            } else {
+                ret = fuzztest.utils.gen.TGenData.GetBoolean();
+            }
+            return ret;
+        }
+
+        private fExpression : fuzztest.utils.storage.TOnceAssignable<VNode>;
+
+        private fNumVisits : number;
+
+        public constructor(key? : any) {
+            if(((typeof key === 'string') || key === null)) {
+                let __args = Array.prototype.slice.call(arguments);
+                super();
+                this.fNumVisits = 0;
+                (() => {
+                    this._Init(key);
+                })();
+            } else if(key === undefined) {
+                let __args = Array.prototype.slice.call(arguments);
+                super();
+                this.fNumVisits = 0;
+                (() => {
+                    this._Init(null);
+                })();
+            } else throw new Error('invalid overload');
+        }
+
+        public ClearVisitCounter() {
+            this.fNumVisits = 0;
+        }
+
+        /**
+         * Creates a data fragment and appends it to the given head string.
+         * 
+         * This method guards against descend going too deep
+         * (recursion limit).
+         * 
+         * Please call this method from all sub classes as it provides
+         * the recursion limit.
+         * 
+         * @param       s       The fragment creation strategy.
+         * @param       head    The head unto which we append the newly
+         * created fragment.
+         * @return      The newly assembled source code fragment.
+         */
+        public CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
+            let nVisitsMax : number;
+            let ret : string;
+            nVisitsMax = s.GetNumVisitsMax();
+            if(this.fNumVisits <= nVisitsMax) {
+                this.fNumVisits++;
+                ret = this._CreateData(s, head);
+            } else {
+                ret = head;
+            }
+            return ret;
+        }
+
+        public SetExpression(node : VNode) {
+            this.fExpression.Set(node);
+        }
+
+        /**
+         * Creates a data fragment from the concrete grammar artifact and
+         * appends it to the given head string.
+         * 
+         * This is a default method, meant to be overridden by nodes that generate
+         * their own data. Nodes that don't generate data won't need to override
+         * this method.
+         * 
+         * Concrete implementations of this class should not call this
+         * method directly, but should call {@link #CreateData(TStrategy, String)}.
+         * 
+         * @param       s       The fragment creation strategy.
+         * @return              The data fragment for a particular test case.
+         */
+        _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
+            let ex : VNode;
+            let ret : string;
+            ex = this.fExpression.Get();
+            ret = ex.CreateData(s, head);
+            return ret;
+        }
+
+        _GetExpression() : VNode {
+            let ret : VNode;
+            ret = this.fExpression.Get();
+            return ret;
+        }
+
+        /**
+         * Returns either this node or a randomly chosen node different from
+         * this one, but of the same (concrete) class (i.e. another object of this class).
+         * For example, if this node is a {@linkplain TChoice}, then the chosen
+         * node will be a distinctly other {@linkplain TChoice} object.
+         * Object will be retrieved from the {@link TRepository}.
+         * 
+         * The returned node will be used to randomly mix generation rules
+         * of the same kind.
+         * 
+         * @param       s       The generating strategy. If it's
+         * {@link TStrategy#GetRuleAdhesion()} method
+         * returns {@link ERuleAdhesion#kFollowRule} then
+         * we will return this node. If the method
+         * returns {@link ERuleAdhesion#kInjectInvalids} then
+         * we will return a randomly chosen different node.
+         * @return              Concrete node of this class, either this one or
+         * distinctly different from this node.
+         */
+        _GetFromOppositeSet() : VNode {
+            let c : fuzztest.model.abstracts.TClass;
+            let i : number;
+            let n : number;
+            let kThis : string;
+            let kOther : string;
+            let hasKey : boolean;
+            let isEqual : boolean;
+            let refs : fuzztest.utils.storage.TArrayList<string>;
+            let ret : VNode;
+            kThis = this.GetKey();
+            c = this.GetClass();
+            refs = fuzztest.generator.TRepository.GetKeys(c);
+            n = refs.GetNumElements();
+            ret = null;
+            if(n >= 1) {
+                hasKey = false;
+                do {
+                    i = fuzztest.utils.gen.TGenData.GetIntUpTo(n);
+                    kOther = refs.Get(i);
+                    isEqual = (kThis === kOther);
+                    hasKey = !isEqual;
+                } while((!hasKey));
+                ret = <VNode>fuzztest.generator.TRepository.Get(kOther);
+            } else {
+                ret = <VNode>fuzztest.generator.TRepository.Get(kThis);
+            }
+            return ret;
+        }
+
+        _Init(key : string) {
+            this.fNumVisits = 0;
+            this.fExpression = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());
+            if(key == null) {
+                this._Register();
+            } else {
+                this._Register(key);
+            }
+        }
+    }
+    VNode["__classname"] = "fuzztest.generator.rule.VNode";
+
+
+    export namespace VNode {
+
+        /**
+         * A dummy class to provide a concrete derivative from the hosting abstract class.
+         * Purely needed so we have something to instantiate (TClass cTor needs an object).
+         */
+        export class VNodeT extends fuzztest.generator.rule.VNode {        }
+        VNodeT["__classname"] = "fuzztest.generator.rule.VNode.VNodeT";
+
+    }
+
+}
+/* Generated from Java with JSweet 1.2.0-SNAPSHOT - http://www.jsweet.org */
+namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 {
+    /**
      * @author peter
      */
     export class TDevQueryObject_01 {
@@ -1604,9 +1598,9 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
             fuzztest.generator.TRepository.Clear();
             n1 = new TDevQueryObject_01.VNodeType01();
             n2 = new TDevQueryObject_01.VNodeType02();
-            nc0 = fuzztest.generator.rule.VNode.GetClass_VNode_Static();
-            nc1 = n1.GetClass_Object();
-            nc2 = n2.GetClass_Object();
+            nc0 = fuzztest.generator.rule.VNode.gClass_$LI$();
+            nc1 = n1.GetClass();
+            nc2 = n2.GetClass();
             keys0 = fuzztest.generator.TRepository.GetKeys(nc0, false);
             keys1 = fuzztest.generator.TRepository.GetKeys(nc1);
             keys2 = fuzztest.generator.TRepository.GetKeys(nc2);
@@ -1670,22 +1664,22 @@ namespace fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01 
             console.log("Legend: x\'  means \"a type derived from x\" (as in calculus).");
             console.log("      : x\'^ means \"a parent of a type derived from x\" (i.e. x).");
             console.log();
-            c = fuzztest.generator.VBrowseable.GetClass_VBrowseable_Static();
+            c = fuzztest.generator.VBrowseable.gClass_$LI$();
             console.log("VBrowseable       => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable       => Canonical path:    " + c.GetCanonicalPath());
-            c = fuzztest.generator.rule.VNode.GetClass_VNode_Static();
+            c = fuzztest.generator.rule.VNode.gClass_$LI$();
             console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());
-            c = (new TDevCreateObject_02.VDeriv_01()).GetClass_Object();
+            c = (new TDevCreateObject_02.VDeriv_01()).GetClass();
             console.log("VBrowseable\'      => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable\'      => Canonical path:    " + c.GetCanonicalPath());
-            c = (new TDevCreateObject_02.VDeriv_02()).GetClass_Object();
+            c = (new TDevCreateObject_02.VDeriv_02()).GetClass();
             console.log("VBrowseable\'\'     => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable\'\'     => Canonical path:    " + c.GetCanonicalPath());
-            c = (new TDevCreateObject_02.VDeriv_01()).GetClass_Object().GetParent();
+            c = (new TDevCreateObject_02.VDeriv_01()).GetClass().GetParent();
             console.log("VBrowseable\'^     => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable\'^     => Canonical path:    " + c.GetCanonicalPath());
-            c = (new TDevCreateObject_02.VDeriv_02()).GetClass_Object().GetParent();
+            c = (new TDevCreateObject_02.VDeriv_02()).GetClass().GetParent();
             console.log("VBrowseable\'\'^    => Inheritence chain: " + c.GetInheritPath());
             console.log("VBrowseable\'\'^    => Canonical path:    " + c.GetCanonicalPath());
         }
@@ -1758,13 +1752,12 @@ namespace fuzztest.generator.rule.labelled {
      * @see    {@link TText}, {@link TSimpleAnd}, {@link TSimpleNot}
      */
     export class TLabelled extends fuzztest.generator.rule.VNode {
-        private fLabel : fuzztest.utils.storage.TOnceAssignable<string>;
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TLabelled.gClass == null) TLabelled.gClass = (new TLabelled()).GetClass(); return TLabelled.gClass; };
 
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TLabelled()).GetClass_Object();
-            return ret;
-        }
+        private fLabel : fuzztest.utils.storage.TOnceAssignable<string>;
 
         public constructor() {
             super();
@@ -1823,11 +1816,10 @@ namespace fuzztest.generator.rule.semanticPredicate.semantic_not {
      * @see    {@link TSemanticAnd}
      */
     export class TSemanticNot extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TSemanticNot()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TSemanticNot.gClass == null) TSemanticNot.gClass = (new TSemanticNot()).GetClass(); return TSemanticNot.gClass; };
     }
     TSemanticNot["__classname"] = "fuzztest.generator.rule.semanticPredicate.semantic_not.TSemanticNot";
 
@@ -1871,11 +1863,10 @@ namespace fuzztest.generator.rule.semanticPredicate.semantic_and {
      * @see    {@link TSemanticNot}
      */
     export class TSemanticAnd extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TSemanticAnd()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TSemanticAnd.gClass == null) TSemanticAnd.gClass = (new TSemanticAnd()).GetClass(); return TSemanticAnd.gClass; };
     }
     TSemanticAnd["__classname"] = "fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd";
 
@@ -1902,11 +1893,10 @@ namespace fuzztest.generator.rule.rule_ref {
      * @author peter
      */
     export class TReference extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TReference()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TReference.gClass == null) TReference.gClass = (new TReference()).GetClass(); return TReference.gClass; };
     }
     TReference["__classname"] = "fuzztest.generator.rule.rule_ref.TReference";
 
@@ -1976,13 +1966,12 @@ namespace fuzztest.generator.rule.cClass {
      * @author peter
      */
     export class TCharacterClass extends fuzztest.generator.rule.VNode {
-        private fSets : fuzztest.utils.storage.TArrayList<fuzztest.generator.rule.cClass.VCharSet>;
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TCharacterClass.gClass == null) TCharacterClass.gClass = (new TCharacterClass()).GetClass(); return TCharacterClass.gClass; };
 
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TCharacterClass()).GetClass_Object();
-            return ret;
-        }
+        private fSets : fuzztest.utils.storage.TArrayList<fuzztest.generator.rule.cClass.VCharSet>;
 
         /**
          * cTor.
@@ -2059,11 +2048,10 @@ namespace fuzztest.generator.rule.prefixed.simple_not {
      * @see    {@link TSemanticAnd}, {@link TText}
      */
     export class TSimpleNot extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TSimpleNot()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TSimpleNot.gClass == null) TSimpleNot.gClass = (new TSimpleNot()).GetClass(); return TSimpleNot.gClass; };
     }
     TSimpleNot["__classname"] = "fuzztest.generator.rule.prefixed.simple_not.TSimpleNot";
 
@@ -2102,11 +2090,10 @@ namespace fuzztest.generator.rule.prefixed.text {
      * @see    {@link TSemanticAnd}, {@link TSimpleNot}
      */
     export class TText extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TText()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TText.gClass == null) TText.gClass = (new TText()).GetClass(); return TText.gClass; };
     }
     TText["__classname"] = "fuzztest.generator.rule.prefixed.text.TText";
 
@@ -2142,11 +2129,10 @@ namespace fuzztest.generator.rule.prefixed.simple_and {
      * @author peter
      */
     export class TSimpleAnd extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TSimpleAnd()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TSimpleAnd.gClass == null) TSimpleAnd.gClass = (new TSimpleAnd()).GetClass(); return TSimpleAnd.gClass; };
     }
     TSimpleAnd["__classname"] = "fuzztest.generator.rule.prefixed.simple_and.TSimpleAnd";
 
@@ -2195,11 +2181,10 @@ namespace fuzztest.generator.rule.sequence {
      * @author peter
      */
     export class TSequence extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TSequence()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TSequence.gClass == null) TSequence.gClass = (new TSequence()).GetClass(); return TSequence.gClass; };
 
         private fElements : java.util.ArrayList<fuzztest.generator.rule.VNode>;
 
@@ -2242,11 +2227,10 @@ namespace fuzztest.generator.rule.expression {
      * @author peter
      */
     export class TExpression extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TExpression()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TExpression.gClass == null) TExpression.gClass = (new TExpression()).GetClass(); return TExpression.gClass; };
     }
     TExpression["__classname"] = "fuzztest.generator.rule.expression.TExpression";
 
@@ -2293,13 +2277,12 @@ namespace fuzztest.generator.rule.grammar {
      * @author peter
      */
     export class TGrammar extends fuzztest.generator.rule.VNode {
-        static kKeyStart : string = "start";
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TGrammar.gClass == null) TGrammar.gClass = (new TGrammar()).GetClass(); return TGrammar.gClass; };
 
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TGrammar()).GetClass_Object();
-            return ret;
-        }
+        static kKeyStart : string = "start";
 
         _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
             let rStart : fuzztest.generator.rule.rule.TRule;
@@ -2331,11 +2314,10 @@ namespace fuzztest.generator.rule.initializer {
      * @author peter
      */
     export class TInitializer extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TInitializer()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TInitializer.gClass == null) TInitializer.gClass = (new TInitializer()).GetClass(); return TInitializer.gClass; };
     }
     TInitializer["__classname"] = "fuzztest.generator.rule.initializer.TInitializer";
 
@@ -2364,13 +2346,12 @@ namespace fuzztest.generator.rule.literal {
      * @author peter
      */
     export class TLiteral extends fuzztest.generator.rule.VNode {
-        private fLiteral : string;
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TLiteral.gClass == null) TLiteral.gClass = (new TLiteral(null)).GetClass(); return TLiteral.gClass; };
 
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TLiteral(null)).GetClass_Object();
-            return ret;
-        }
+        private fLiteral : string;
 
         /**
          * 
@@ -2427,11 +2408,10 @@ namespace fuzztest.generator.rule.action {
      * @author peter
      */
     export class TAction extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TAction()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TAction.gClass == null) TAction.gClass = (new TAction()).GetClass(); return TAction.gClass; };
     }
     TAction["__classname"] = "fuzztest.generator.rule.action.TAction";
 
@@ -2478,11 +2458,10 @@ namespace fuzztest.generator.rule.named {
      * @see    {@link TRule}
      */
     export class TNamed extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TNamed()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TNamed.gClass == null) TNamed.gClass = (new TNamed()).GetClass(); return TNamed.gClass; };
 
         private fName : fuzztest.utils.storage.TOnceAssignable<string>;
 
@@ -2547,13 +2526,12 @@ namespace fuzztest.generator.rule.choice {
      * @author peter
      */
     export class TChoice extends fuzztest.generator.rule.VNode {
-        private fBranches : java.util.ArrayList<fuzztest.generator.rule.VNode>;
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TChoice.gClass == null) TChoice.gClass = (new TChoice()).GetClass(); return TChoice.gClass; };
 
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TChoice()).GetClass_Object();
-            return ret;
-        }
+        private fBranches : java.util.ArrayList<fuzztest.generator.rule.VNode>;
 
         /**
          * 
@@ -2627,11 +2605,10 @@ namespace fuzztest.generator.rule.group {
      * @author peter
      */
     export class TGroup extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TGroup()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TGroup.gClass == null) TGroup.gClass = (new TGroup()).GetClass(); return TGroup.gClass; };
     }
     TGroup["__classname"] = "fuzztest.generator.rule.group.TGroup";
 
@@ -2678,11 +2655,10 @@ namespace fuzztest.generator.rule.rule {
      * @see    {@link TNamed}
      */
     export class TRule extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TRule(null)).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TRule.gClass == null) TRule.gClass = (new TRule(null)).GetClass(); return TRule.gClass; };
 
         public constructor(key : string) {
             super(key);
@@ -2729,11 +2705,10 @@ namespace fuzztest.generator.rule.any {
      * @author peter
      */
     export class TAny extends fuzztest.generator.rule.VNode {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TAny()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TAny.gClass == null) TAny.gClass = (new TAny()).GetClass(); return TAny.gClass; };
 
         _CreateData(s : fuzztest.generator.rule.TStrategy, head : string) : string {
             let ret : string;
@@ -2751,13 +2726,9 @@ namespace fuzztest.generator.rule.suffixed {
      */
     export abstract class VSuffixed extends fuzztest.generator.rule.VNode {
         /**
-         * @see         VBrowseable#GetClass_Static()
+         * The {@link TClass} of this class for type information.
          */
-        public static GetClass_VSuffixed_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new VSuffixed.VSuffixedType()).GetClass_Object().GetParent();
-            return ret;
-        }
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(VSuffixed.gClass == null) VSuffixed.gClass = (new VSuffixed.VSuffixedT()).GetClass().GetParent(); return VSuffixed.gClass; };
 
         private fIsNMinZero : boolean;
 
@@ -2832,12 +2803,16 @@ namespace fuzztest.generator.rule.suffixed {
 
     export namespace VSuffixed {
 
-        export class VSuffixedType extends fuzztest.generator.rule.suffixed.VSuffixed {
+        /**
+         * A dummy class to provide a concrete derivative from the hosting abstract class.
+         * Purely needed so we have something to instantiate (TClass cTor needs an object).
+         */
+        export class VSuffixedT extends fuzztest.generator.rule.suffixed.VSuffixed {
             public constructor() {
                 super(false, false);
             }
         }
-        VSuffixedType["__classname"] = "fuzztest.generator.rule.suffixed.VSuffixed.VSuffixedType";
+        VSuffixedT["__classname"] = "fuzztest.generator.rule.suffixed.VSuffixed.VSuffixedT";
 
     }
 
@@ -2868,11 +2843,10 @@ namespace fuzztest.generator.rule.suffixed.one_or_more {
      * @see    {@link TZeroOrMore}, {@link TOptional}
      */
     export class TOneOrMore extends fuzztest.generator.rule.suffixed.VSuffixed {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TOneOrMore()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TOneOrMore.gClass == null) TOneOrMore.gClass = (new TOneOrMore()).GetClass(); return TOneOrMore.gClass; };
 
         public constructor() {
             super(false, true);
@@ -2912,11 +2886,10 @@ namespace fuzztest.generator.rule.suffixed.optional {
      * @see    {@link TZeroOrMore}, {@link TOneOrMore}
      */
     export class TOptional extends fuzztest.generator.rule.suffixed.VSuffixed {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TOptional()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TOptional.gClass == null) TOptional.gClass = (new TOptional()).GetClass(); return TOptional.gClass; };
 
         public constructor() {
             super(true, false);
@@ -2957,11 +2930,10 @@ namespace fuzztest.generator.rule.suffixed.zero_or_more {
      * @see    {@link TOptional}, {@link TOneOrMore}
      */
     export class TZeroOrMore extends fuzztest.generator.rule.suffixed.VSuffixed {
-        public static GetClass_Static() : fuzztest.model.abstracts.TClass {
-            let ret : fuzztest.model.abstracts.TClass;
-            ret = (new TZeroOrMore()).GetClass_Object();
-            return ret;
-        }
+        /**
+         * The {@link TClass} of this class for type information.
+         */
+        public static gClass : fuzztest.model.abstracts.TClass; public static gClass_$LI$() : fuzztest.model.abstracts.TClass { if(TZeroOrMore.gClass == null) TZeroOrMore.gClass = (new TZeroOrMore()).GetClass(); return TZeroOrMore.gClass; };
 
         public constructor() {
             super(true, true);
@@ -2972,7 +2944,57 @@ namespace fuzztest.generator.rule.suffixed.zero_or_more {
 }
 
 
+fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore.gClass_$LI$();
+
+fuzztest.generator.rule.suffixed.optional.TOptional.gClass_$LI$();
+
+fuzztest.generator.rule.suffixed.one_or_more.TOneOrMore.gClass_$LI$();
+
+fuzztest.generator.rule.suffixed.VSuffixed.gClass_$LI$();
+
+fuzztest.generator.rule.any.TAny.gClass_$LI$();
+
+fuzztest.generator.rule.rule.TRule.gClass_$LI$();
+
+fuzztest.generator.rule.group.TGroup.gClass_$LI$();
+
+fuzztest.generator.rule.choice.TChoice.gClass_$LI$();
+
+fuzztest.generator.rule.named.TNamed.gClass_$LI$();
+
+fuzztest.generator.rule.action.TAction.gClass_$LI$();
+
+fuzztest.generator.rule.literal.TLiteral.gClass_$LI$();
+
+fuzztest.generator.rule.initializer.TInitializer.gClass_$LI$();
+
+fuzztest.generator.rule.grammar.TGrammar.gClass_$LI$();
+
+fuzztest.generator.rule.expression.TExpression.gClass_$LI$();
+
+fuzztest.generator.rule.sequence.TSequence.gClass_$LI$();
+
+fuzztest.generator.rule.prefixed.simple_and.TSimpleAnd.gClass_$LI$();
+
+fuzztest.generator.rule.prefixed.text.TText.gClass_$LI$();
+
+fuzztest.generator.rule.prefixed.simple_not.TSimpleNot.gClass_$LI$();
+
+fuzztest.generator.rule.cClass.TCharacterClass.gClass_$LI$();
+
+fuzztest.generator.rule.rule_ref.TReference.gClass_$LI$();
+
+fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd.gClass_$LI$();
+
+fuzztest.generator.rule.semanticPredicate.semantic_not.TSemanticNot.gClass_$LI$();
+
+fuzztest.generator.rule.labelled.TLabelled.gClass_$LI$();
+
+fuzztest.generator.rule.VNode.gClass_$LI$();
+
 fuzztest.utils.gen.TGenData.gRndGen_$LI$();
+
+fuzztest.generator.VBrowseable.gClass_$LI$();
 
 fuzztest.utils.gen.TRndMT.kDiv_$LI$();
 

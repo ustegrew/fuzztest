@@ -45,14 +45,10 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TOneOrMore extends VSuffixed
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TOneOrMore ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TOneOrMore ()).GetClass ();
 
     public TOneOrMore ()
     {

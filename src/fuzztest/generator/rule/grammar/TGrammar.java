@@ -62,16 +62,12 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TGrammar extends VNode
 {
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TGrammar ()).GetClass ();
+
     private static final String         kKeyStart   = "start";
-    
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TGrammar ()).GetClass_Object ();
-        
-        return ret;
-    }
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)

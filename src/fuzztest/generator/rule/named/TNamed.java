@@ -61,14 +61,10 @@ import fuzztest.utils.storage.TOnceAssignable;
  */
 public class TNamed extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TNamed ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TNamed ()).GetClass ();
 
     private TOnceAssignable<String> fName;
     

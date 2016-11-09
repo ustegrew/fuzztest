@@ -43,27 +43,27 @@ public class TDevCreateObject_02
         console.log ("Legend: x'  means \"a type derived from x\" (as in calculus).");
         console.log ("      : x'^ means \"a parent of a type derived from x\" (i.e. x).");
         console.log ();
-        c  = VBrowseable.GetClass_VBrowseable_Static ();
+        c  = VBrowseable.gClass;
         console.log ("VBrowseable       => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable       => Canonical path:    " + c.GetCanonicalPath ());
 
-        c  = VNode.GetClass_VNode_Static ();
+        c  = VNode.gClass;
         console.log ("VBrowseable'      => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable'      => Canonical path:    " + c.GetCanonicalPath ());
         
-        c  = (new VDeriv_01()).GetClass_Object ();
+        c  = (new VDeriv_01()).GetClass ();
         console.log ("VBrowseable'      => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable'      => Canonical path:    " + c.GetCanonicalPath ());
 
-        c  = (new VDeriv_02()).GetClass_Object ();
+        c  = (new VDeriv_02()).GetClass ();
         console.log ("VBrowseable''     => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable''     => Canonical path:    " + c.GetCanonicalPath ());
         
-        c  = (new VDeriv_01()).GetClass_Object ().GetParent ();
+        c  = (new VDeriv_01()).GetClass ().GetParent ();
         console.log ("VBrowseable'^     => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable'^     => Canonical path:    " + c.GetCanonicalPath ());
 
-        c  = (new VDeriv_02()).GetClass_Object ().GetParent ();
+        c  = (new VDeriv_02()).GetClass ().GetParent ();
         console.log ("VBrowseable''^    => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable''^    => Canonical path:    " + c.GetCanonicalPath ());
     }

@@ -48,12 +48,8 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TAction extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TAction ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public static final TClass gClass = (new TAction ()).GetClass ();
 }

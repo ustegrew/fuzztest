@@ -15,8 +15,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.model.abstracts;
 
-import static jsweet.dom.Globals.console;
-
 import fuzztest.generator.VBrowseable;
 
 /**
@@ -149,7 +147,6 @@ public class TClass
     {
         boolean ret;
 
-//console.log  ("Testing strict equality: " + this.GetAsString () + " / " + other.GetAsString ());                  
         ret = _IsEqualTo (other);
         
         return ret;
@@ -161,7 +158,6 @@ public class TClass
         boolean     isDer;
         boolean     ret;
         
-//console.log  ("Testing loose equality: " + this.GetAsString () + " / " + other.GetAsString ());                  
         isEq    = _IsEqualTo (other);
         isDer   = other.fInherits.IsLink (this);
         ret     = isEq  ||  isDer;
@@ -174,7 +170,6 @@ public class TClass
         boolean         ret;
         
         ret = fCanonicalPath.equals (other.fCanonicalPath);
-//console.log ("_IsEqualTo: " + ret);
 
         return ret;
     }

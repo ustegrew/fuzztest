@@ -65,17 +65,13 @@ import fuzztest.utils.gen.TGenData;
  */
 public class TChoice extends VNode
 {
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TChoice ()).GetClass ();
+
     private ArrayList<VNode>        fBranches;
     
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TChoice ()).GetClass_Object ();
-        
-        return ret;
-    }
-
     /**
      * 
      */

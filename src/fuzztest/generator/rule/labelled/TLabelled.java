@@ -46,17 +46,13 @@ import fuzztest.utils.storage.TOnceAssignable;
  */
 public class TLabelled extends VNode
 {
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TLabelled ()).GetClass ();
+
     private TOnceAssignable<String> fLabel;
     
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TLabelled ()).GetClass_Object ();
-        
-        return ret;
-    }
-
     public TLabelled ()
     {
         super ();

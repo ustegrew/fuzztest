@@ -64,14 +64,10 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TSequence extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TSequence ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TSequence ()).GetClass ();
     
     private ArrayList<VNode>        fElements;
     

@@ -34,7 +34,7 @@ public class TDevCreateObject_01
         TClass                      c;
         
         TRepository.Clear ();
-        c  = (new VBrowseableType()).GetClass_Object ().GetParent ();
+        c  = (new VBrowseableType()).GetClass ().GetParent ();
         console.log ();
         console.log ("=========================================================");
         console.log ("TDevCreateObject_01");

@@ -56,12 +56,8 @@ import fuzztest.model.abstracts.TClass;
  */
 public class TSemanticAnd extends VNode
 {
-    public static TClass GetClass_Static ()
-    {
-        TClass      ret;
-        
-        ret = (new TSemanticAnd ()).GetClass_Object ();
-        
-        return ret;
-    }
+    /**
+     * The {@link TClass} of this class for type information. 
+     */
+    public  static final TClass gClass = (new TSemanticAnd ()).GetClass ();
 }
