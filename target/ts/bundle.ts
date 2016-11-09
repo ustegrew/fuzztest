@@ -429,6 +429,8 @@ namespace fuzztest._dev_concepts.grammar.build {
             let c0 : fuzztest.generator.rule.cClass.TCharacterClass;
             let l0 : fuzztest.generator.rule.literal.TLiteral;
             let l1 : fuzztest.generator.rule.literal.TLiteral;
+            let l2 : fuzztest.generator.rule.literal.TLiteral;
+            let l3 : fuzztest.generator.rule.literal.TLiteral;
             let i : number;
             let x : string;
             fuzztest.generator.TRepository.Clear();
@@ -439,10 +441,14 @@ namespace fuzztest._dev_concepts.grammar.build {
             c0.AddRange("0", "9");
             c0.AddRange("a", "f");
             l0 = new fuzztest.generator.rule.literal.TLiteral("hello");
-            l1 = new fuzztest.generator.rule.literal.TLiteral("world");
+            l1 = new fuzztest.generator.rule.literal.TLiteral("-");
+            l2 = new fuzztest.generator.rule.literal.TLiteral("world");
+            l3 = new fuzztest.generator.rule.literal.TLiteral("=");
             s = new fuzztest.generator.rule.sequence.TSequence();
             s.Add(l0);
             s.Add(l1);
+            s.Add(l2);
+            s.Add(l3);
             s.Add(c0);
             r.SetExpression(s);
             g.SetExpression(r);
@@ -452,18 +458,21 @@ namespace fuzztest._dev_concepts.grammar.build {
             console.log("=========================================================");
             str = new fuzztest.generator.rule.TStrategy(TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats);
             for(i = 0; i < TDevBuildGrammar_02.kNumCases; i++) {
+                fuzztest.generator.rule.VNode.ClearVisitCounters();
                 x = g.CreateData(str, "");
                 console.log(x);
             }
             console.log("--------------------------------------------------");
             str = new fuzztest.generator.rule.TStrategy(TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule.ERuleAdhesion.kInjectInvalids, TDevBuildGrammar_02.kNumRepeats);
             for(i = 0; i < TDevBuildGrammar_02.kNumCases; i++) {
+                fuzztest.generator.rule.VNode.ClearVisitCounters();
                 x = g.CreateData(str, "");
                 console.log(x);
             }
             console.log("--------------------------------------------------");
             str = new fuzztest.generator.rule.TStrategy(TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule.ERuleAdhesion.kFollowOpposite, TDevBuildGrammar_02.kNumRepeats);
             for(i = 0; i < TDevBuildGrammar_02.kNumCases; i++) {
+                fuzztest.generator.rule.VNode.ClearVisitCounters();
                 x = g.CreateData(str, "");
                 console.log(x);
             }
@@ -751,13 +760,17 @@ namespace fuzztest.utils.gen {
             let x : number;
             let xMax : number;
             let ret : number;
-            if(min >= max) {
-                throw new RangeError("Constraints problem. Requirement: min < max. Given: max:" + max + ", min: " + min);
+            if(min > max) {
+                throw new RangeError("Constraints problem. Requirement: min <= max. Given: max:" + max + ", min: " + min);
             }
-            xMax = max + 1;
-            x = this._GetDouble();
-            x = min + x * (xMax - min);
-            ret = (<number>Math.floor(x)|0);
+            if(max > min) {
+                xMax = max + 1;
+                x = this._GetDouble();
+                x = min + x * (xMax - min);
+                ret = (<number>Math.floor(x)|0);
+            } else {
+                ret = min;
+            }
             return ret;
         }
 
@@ -1618,7 +1631,7 @@ namespace fuzztest.generator.rule {
             refs = fuzztest.generator.TRepository.GetKeys(c);
             n = refs.GetNumElements();
             ret = null;
-            if(n >= 1) {
+            if(n >= 2) {
                 hasKey = false;
                 do {
                     i = fuzztest.utils.gen.TGenData.GetIntUpTo(n);

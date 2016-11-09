@@ -210,7 +210,7 @@ public abstract class VNode extends VBrowseable
         refs    = TRepository.GetKeys (c);
         n       = refs.GetNumElements ();
         ret     = null;
-        if (n >= 1)
+        if (n >= 2)     /* [100] */
         {
             hasKey = false;
             do
@@ -245,3 +245,9 @@ public abstract class VNode extends VBrowseable
         }
     }
 }
+
+/*
+[100]   No point looking for another node of the same class if there's only one of these nodes
+        e.g. if we only have one single TRule in the grammar, then there's no point looking for
+        another one. Therefore: if (n >= 2), not: if (n>= 1)
+*/

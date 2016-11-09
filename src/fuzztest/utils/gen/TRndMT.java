@@ -302,14 +302,22 @@ public class TRndMT
         double  xMax;
         int     ret;
         
-        if (min >= max)                      /* [130] */
+        if (min > max)                      /* [130] */
         {
-            throw new RangeError ("Constraints problem. Requirement: min < max. Given: max:" + max + ", min: " + min);
+            throw new RangeError ("Constraints problem. Requirement: min <= max. Given: max:" + max + ", min: " + min);
         }
-        xMax    = max + 1;                  /* [120] */
-        x       = _GetDouble ();
-        x       = min + x * (xMax - min);
-        ret     = (int) jsweet.lang.Math.floor (x); 
+        
+        if (max > min)
+        {
+            xMax    = max + 1;              /* [120] */
+            x       = _GetDouble ();
+            x       = min + x * (xMax - min);
+            ret     = (int) jsweet.lang.Math.floor (x); 
+        }
+        else
+        {                                   /* [130] */
+            ret = min;
+        }
 
         return ret;
     }
@@ -359,6 +367,5 @@ public class TRndMT
 [120] max + 1: We want to include the max value in the possible range, [min, max]. Without it we'd get
                a range of [min, max[.
                
-[130] We don't allow for min = max. Caller might as well save the trouble and say 
-      foo = 10 instead of foo = myRand.GetIntBetween (10, 10)
+[130] In this case, min = max, so we just return min.
 */

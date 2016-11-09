@@ -20,6 +20,7 @@ import static jsweet.dom.Globals.console;
 import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.ERuleAdhesion;
 import fuzztest.generator.rule.TStrategy;
+import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.cClass.TCharacterClass;
 import fuzztest.generator.rule.grammar.TGrammar;
 import fuzztest.generator.rule.literal.TLiteral;
@@ -45,6 +46,8 @@ public class TDevBuildGrammar_02
         TCharacterClass c0;
         TLiteral        l0;
         TLiteral        l1;
+        TLiteral        l2;
+        TLiteral        l3;
         int             i;
         String          x;
         
@@ -57,10 +60,14 @@ public class TDevBuildGrammar_02
         c0.AddRange                 ("0", "9");
         c0.AddRange                 ("a", "f");
         l0 = new TLiteral           ("hello");
-        l1 = new TLiteral           ("world");
+        l1 = new TLiteral           ("-");
+        l2 = new TLiteral           ("world");
+        l3 = new TLiteral           ("=");
         s  = new TSequence          ();
         s.Add (l0);
         s.Add (l1);
+        s.Add (l2);
+        s.Add (l3);
         s.Add (c0);
         
         r.SetExpression (s);
@@ -74,6 +81,7 @@ public class TDevBuildGrammar_02
         str = new TStrategy (kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats);
         for (i = 0; i < kNumCases; i++)
         {
+            VNode.ClearVisitCounters ();
             x = g.CreateData (str, "");
             console.log (x);
         }
@@ -82,6 +90,7 @@ public class TDevBuildGrammar_02
         str = new TStrategy (kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats);
         for (i = 0; i < kNumCases; i++)
         {
+            VNode.ClearVisitCounters ();
             x = g.CreateData (str, "");
             console.log (x);
         }
@@ -90,6 +99,7 @@ public class TDevBuildGrammar_02
         str = new TStrategy (kRecursionMax, ERuleAdhesion.kFollowOpposite, kNumRepeats);
         for (i = 0; i < kNumCases; i++)
         {
+            VNode.ClearVisitCounters ();
             x = g.CreateData (str, "");
             console.log (x);
         }
