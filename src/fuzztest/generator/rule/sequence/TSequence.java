@@ -15,11 +15,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.sequence;
 
-import java.util.ArrayList;
-
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.model.abstracts.TClass;
+import fuzztest.utils.storage.TArrayList;
 
 /**
  * expression1 expression2 ...
@@ -69,16 +68,16 @@ public class TSequence extends VNode
      */
     public  static final TClass gClass = (new TSequence ()).GetClass ();
     
-    private ArrayList<VNode>        fElements;
+    private TArrayList<VNode>        fElements;
     
     public TSequence ()
     {
-        fElements = new ArrayList<> ();
+        fElements = new TArrayList<> ();
     }
     
     public void Add (VNode element)
     {
-        fElements.add (element);
+        fElements.Add (element);
     }
 
     /* (non-Javadoc)
@@ -93,12 +92,12 @@ public class TSequence extends VNode
         String  ret;
         
         ret = head;
-        n   = fElements.size ();
+        n   = fElements.GetNumElements ();
         if (n >= 1)
         {
             for (i = 0; i < n; i++)
             {
-                e   = fElements.get (i);
+                e   = fElements.Get (i);
                 ret = ret + e.CreateData (s, "");
             }
         }

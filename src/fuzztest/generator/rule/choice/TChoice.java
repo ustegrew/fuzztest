@@ -15,12 +15,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.choice;
 
-import java.util.ArrayList;
-
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
+import fuzztest.utils.storage.TArrayList;
 
 /**
  * 
@@ -70,7 +69,7 @@ public class TChoice extends VNode
      */
     public  static final TClass gClass = (new TChoice ()).GetClass ();
 
-    private ArrayList<VNode>        fBranches;
+    private TArrayList<VNode>        fBranches;
     
     /**
      * 
@@ -78,12 +77,12 @@ public class TChoice extends VNode
     public TChoice ()
     {
         super ();
-        fBranches = new ArrayList<> ();
+        fBranches = new TArrayList<> ();
     }
     
     public void AddExpression (VNode node)
     {
-        fBranches.add (node);
+        fBranches.Add (node);
     }
 
     /* (non-Javadoc)
@@ -97,11 +96,11 @@ public class TChoice extends VNode
         VNode   node;
         String  ret;
         
-        n = fBranches.size ();
+        n = fBranches.GetNumElements ();
         if (n >= 1)
         {
             i       = TGenData.GetIntUpTo (n);
-            node    = fBranches.get (i);
+            node    = fBranches.Get (i);
             ret     = node.CreateData (s, head); 
         }
         else

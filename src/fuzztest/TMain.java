@@ -16,12 +16,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest;
 
 import fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_01;
+import fuzztest._dev_concepts.grammar.build.TDevBuildGrammar_02;
 import fuzztest._dev_concepts.math.rnd.TDevRnd_01;
 import fuzztest._dev_concepts.math.rnd.TDevRnd_02;
 import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02;
 import fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevQueryObject_01;
 import fuzztest._dev_concepts.objects.repo.del.TDevRepoDel_01;
-//import fuzztest._dev_concepts.objects.repository.delete.TDevRepositoryDelete_01;
 
 /**
  * @author peter
@@ -40,5 +40,6 @@ public class TMain
         TDevRepoDel_01.TRepoDelTest_01 ();
         TDevQueryObject_01.Query ();
         TDevBuildGrammar_01.TestTree01 ();
+        TDevBuildGrammar_02.TestBuild ();
     }
 }
