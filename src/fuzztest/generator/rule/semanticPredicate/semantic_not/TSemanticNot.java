@@ -17,6 +17,7 @@ package fuzztest.generator.rule.semanticPredicate.semantic_not;
 
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * Semantic NOT. 
@@ -56,4 +57,12 @@ import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
  */
 public class TSemanticNot extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TSemanticNot ()).GetClass_Object ();
+        
+        return ret;
+    }
 }

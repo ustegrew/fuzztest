@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.action;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * <pre>
@@ -47,4 +48,12 @@ import fuzztest.generator.rule.VNode;
  */
 public class TAction extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TAction ()).GetClass_Object ();
+        
+        return ret;
+    }
 }

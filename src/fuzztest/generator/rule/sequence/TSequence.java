@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * expression1 expression2 ...
@@ -63,6 +64,15 @@ import fuzztest.generator.rule.VNode;
  */
 public class TSequence extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TSequence ()).GetClass_Object ();
+        
+        return ret;
+    }
+    
     private ArrayList<VNode>        fElements;
     
     public TSequence ()

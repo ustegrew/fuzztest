@@ -15,10 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.cClass;
 
-import java.util.ArrayList;
-
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 import fuzztest.utils.storage.TArrayList;
 
@@ -87,6 +86,15 @@ import fuzztest.utils.storage.TArrayList;
 public class TCharacterClass extends VNode
 {
     private TArrayList<VCharSet>     fSets;
+    
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TCharacterClass ()).GetClass_Object ();
+        
+        return ret;
+    }
     
     /**
      * cTor. 

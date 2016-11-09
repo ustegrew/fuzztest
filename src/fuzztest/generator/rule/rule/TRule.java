@@ -18,7 +18,7 @@ package fuzztest.generator.rule.rule;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.named.TNamed;
-import fuzztest.utils.storage.TOnceAssignable;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * rules = expression
@@ -61,6 +61,15 @@ import fuzztest.utils.storage.TOnceAssignable;
  */
 public class TRule extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TRule (null)).GetClass_Object ();
+        
+        return ret;
+    }
+
     public TRule (String key)
     {
         super (key);

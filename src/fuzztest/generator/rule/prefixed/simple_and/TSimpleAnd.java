@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.prefixed.simple_and;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * 
@@ -48,4 +49,12 @@ import fuzztest.generator.rule.VNode;
  */
 public class TSimpleAnd extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TSimpleAnd ()).GetClass_Object ();
+        
+        return ret;
+    }
 }

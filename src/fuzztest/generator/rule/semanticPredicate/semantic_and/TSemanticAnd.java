@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.semanticPredicate.semantic_and;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * Semantic AND. 
@@ -55,4 +56,12 @@ import fuzztest.generator.rule.VNode;
  */
 public class TSemanticAnd extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TSemanticAnd ()).GetClass_Object ();
+        
+        return ret;
+    }
 }

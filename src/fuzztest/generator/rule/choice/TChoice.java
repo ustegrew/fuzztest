@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -66,6 +67,15 @@ public class TChoice extends VNode
 {
     private ArrayList<VNode>        fBranches;
     
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TChoice ()).GetClass_Object ();
+        
+        return ret;
+    }
+
     /**
      * 
      */

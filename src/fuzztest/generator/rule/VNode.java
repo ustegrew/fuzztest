@@ -29,7 +29,19 @@ import fuzztest.utils.storage.TOnceAssignable;
  */
 public abstract class VNode extends VBrowseable
 {
+    /**
+     * @see         VBrowseable#GetClass_Static()
+     */
+    public static TClass GetClass_VNode_Static ()
+    {
+        TClass ret;
+        
+        ret = (new VNodeType ()).GetClass_Object ().GetParent ();
+        
+        return ret;
+    }
     private static class VNodeType extends VNode{}
+
     public static void ClearVisitCounters ()
     {
         int                 i;
@@ -39,7 +51,7 @@ public abstract class VNode extends VBrowseable
         TClass              clVNode;
         TArrayList<String>  keys;
         
-        clVNode = GetClassAbstract ();
+        clVNode = GetClass_VNode_Static ();
         keys    = TRepository.GetKeys (clVNode, false);
         n       = keys.GetNumElements ();
         if (n >= 1)
@@ -74,18 +86,7 @@ public abstract class VNode extends VBrowseable
         
         return ret;
     }
-    /**
-     * @see         VBrowseable#GetClassAbstract()
-     */
-    public static TClass GetClassAbstract ()
-    {
-        TClass ret;
-        
-        ret = (new VNodeType ()).GetClass ().GetParent ();
-        
-        return ret;
-    }
-    
+
     private TOnceAssignable<VNode>      fExpression;
     private int                         fNumVisits;
     
@@ -208,7 +209,7 @@ public abstract class VNode extends VBrowseable
         VNode                           ret;
         
         kThis   = GetKey ();
-        c       = GetClass ();
+        c       = GetClass_Object ();
         refs    = TRepository.GetKeys (c);
         n       = refs.GetNumElements ();
         ret     = null;

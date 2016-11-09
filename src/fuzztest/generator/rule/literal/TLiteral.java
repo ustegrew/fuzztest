@@ -17,6 +17,7 @@ package fuzztest.generator.rule.literal;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * 
@@ -43,6 +44,15 @@ import fuzztest.generator.rule.VNode;
 public class TLiteral extends VNode
 {
     private String          fLiteral;
+    
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TLiteral (null)).GetClass_Object ();
+        
+        return ret;
+    }
     
     /**
      * 

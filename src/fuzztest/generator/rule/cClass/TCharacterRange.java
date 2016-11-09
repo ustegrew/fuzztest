@@ -42,7 +42,7 @@ class TCharacterRange extends VCharSet
     public char GetChar (TStrategy s)
     {
         boolean         doFollow;
-        boolean         doHead;
+        boolean         doLowerRange;
         char            loChar;
         char            hiChar;
         char            ret;
@@ -71,8 +71,8 @@ class TCharacterRange extends VCharSet
             }
             else
             {
-                doHead = TGenData.GetBoolean ();
-                if (doHead)
+                doLowerRange = TGenData.GetBoolean ();
+                if (doLowerRange)
                 {
                     hiChar  = (char) (fLoChar-1);
                     ret     = TGenData.GetChar ('\u0000', hiChar);
@@ -85,7 +85,6 @@ class TCharacterRange extends VCharSet
             }
         }
         
-        // TODO Auto-generated method stub
         return ret;
     }
 
@@ -119,6 +118,6 @@ class TCharacterRange extends VCharSet
 }
 
 /*
-[100]   It's better to provide some data than to throw an exception. Therefore we ignore the rule adhesion and return 
-        a random character.
+[100]   In that place it's better to provide some data than to throw an exception. 
+        Therefore we ignore the rule adhesion and return a random character.
  */

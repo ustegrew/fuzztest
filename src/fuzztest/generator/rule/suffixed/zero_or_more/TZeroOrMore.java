@@ -18,6 +18,7 @@ package fuzztest.generator.rule.suffixed.zero_or_more;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.suffixed.VSuffixed;
 import fuzztest.generator.rule.suffixed.optional.TOptional;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * 
@@ -50,6 +51,15 @@ import fuzztest.generator.rule.suffixed.optional.TOptional;
  */
 public class TZeroOrMore extends VSuffixed
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TZeroOrMore ()).GetClass_Object ();
+        
+        return ret;
+    }
+
     public TZeroOrMore ()
     {
         super (true, true);

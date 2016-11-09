@@ -34,16 +34,16 @@ public abstract class VBrowseable
      * 
      * @return      A generic class object for this class.
      */
-    public static TClass GetClassAbstract ()
+    public static TClass GetClass_VBrowseable_Static ()
     {
         TClass      ret;
         
-        ret = (new VBrowseableType ()).GetClass ().GetParent ();
+        ret = (new VBrowseableType ()).GetClass_Object ().GetParent ();
         
         return ret;
     }
     private static class VBrowseableType extends VBrowseable {} /* [110] */
-    
+
     private static int      gCounter = -1;
     
     private TClass          fClass;
@@ -58,7 +58,7 @@ public abstract class VBrowseable
         fKey        = null;
     }
     
-    public TClass GetClass ()
+    public TClass GetClass_Object ()
     {
         return fClass;
     }
@@ -138,5 +138,8 @@ public abstract class VBrowseable
         code:
             ret = (new VBrowseable.VBrowseableType()).GetClass();
         which is accepted by Typescript.
+        
+[120]   Need to wrap this method into an inner class, otherwise we'll have a naming 
+        conflict, because all concrete subclasses have a method with the same name. 
 */
 

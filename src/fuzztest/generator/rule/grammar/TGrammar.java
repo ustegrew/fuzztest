@@ -19,6 +19,7 @@ import fuzztest.generator.TRepository;
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.rule.TRule;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * Generator rule for: Whole grammar. 
@@ -62,6 +63,15 @@ import fuzztest.generator.rule.rule.TRule;
 public class TGrammar extends VNode
 {
     private static final String         kKeyStart   = "start";
+    
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TGrammar ()).GetClass_Object ();
+        
+        return ret;
+    }
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)

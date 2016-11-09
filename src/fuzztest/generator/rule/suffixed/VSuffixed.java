@@ -29,18 +29,18 @@ import fuzztest.utils.gen.TGenData;
 public abstract class VSuffixed extends VNode
 {
     /**
-     * @see         VBrowseable#GetClassAbstract()
+     * @see         VBrowseable#GetClass_Static()
      */
-    public static TClass GetClassAbstract ()
+    public static TClass GetClass_VSuffixed_Static ()
     {
         TClass ret;
         
-        ret = (new VSuffixedType()).GetClass ().GetParent ();
+        ret = (new VSuffixedType()).GetClass_Object ().GetParent ();
         
         return ret;
     }
     private static class VSuffixedType extends VSuffixed {public VSuffixedType (){super (false,false);}}
-    
+
     private boolean     fIsNMinZero;
     private boolean     fIsNMaxInfinite;
     

@@ -17,6 +17,7 @@ package fuzztest.generator.rule.named;
 
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.rule.TRule;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.storage.TOnceAssignable;
 
 /**
@@ -60,6 +61,15 @@ import fuzztest.utils.storage.TOnceAssignable;
  */
 public class TNamed extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TNamed ()).GetClass_Object ();
+        
+        return ret;
+    }
+
     private TOnceAssignable<String> fName;
     
     public TNamed ()

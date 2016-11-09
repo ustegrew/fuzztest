@@ -17,6 +17,7 @@ package fuzztest.generator.rule.any;
 
 import fuzztest.generator.rule.TStrategy;
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -40,6 +41,15 @@ import fuzztest.utils.gen.TGenData;
  */
 public class TAny extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TAny ()).GetClass_Object ();
+        
+        return ret;
+    }
+    
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */

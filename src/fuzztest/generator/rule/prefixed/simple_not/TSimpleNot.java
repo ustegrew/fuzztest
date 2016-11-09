@@ -18,6 +18,7 @@ package fuzztest.generator.rule.prefixed.simple_not;
 import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.prefixed.text.TText;
 import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * 
@@ -50,4 +51,12 @@ import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
  */
 public class TSimpleNot extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TSimpleNot ()).GetClass_Object ();
+        
+        return ret;
+    }
 }

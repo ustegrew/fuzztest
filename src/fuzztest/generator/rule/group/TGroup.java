@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.group;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * Corresponding PEGjs rule:
@@ -57,4 +58,12 @@ import fuzztest.generator.rule.VNode;
  */
 public class TGroup extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TGroup ()).GetClass_Object ();
+        
+        return ret;
+    }
 }

@@ -42,9 +42,9 @@ public class TDevQueryObject_01
         
         n1      = new VNodeType01 ();
         n2      = new VNodeType02 ();
-        nc0     = VNode.GetClassAbstract ();
-        nc1     = n1.GetClass ();
-        nc2     = n2.GetClass ();
+        nc0     = VNode.GetClass_VNode_Static ();
+        nc1     = n1.GetClass_Object ();
+        nc2     = n2.GetClass_Object ();
         
         keys0   = TRepository.GetKeys (nc0, false);
         keys1   = TRepository.GetKeys (nc1);

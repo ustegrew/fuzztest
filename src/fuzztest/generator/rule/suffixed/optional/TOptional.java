@@ -19,6 +19,7 @@ import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.suffixed.VSuffixed;
 import fuzztest.generator.rule.suffixed.one_or_more.TOneOrMore;
 import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * 
@@ -51,6 +52,15 @@ import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
  */
 public class TOptional extends VSuffixed
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TOptional ()).GetClass_Object ();
+        
+        return ret;
+    }
+    
     public TOptional ()
     {
         super (true, false);

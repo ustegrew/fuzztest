@@ -18,6 +18,7 @@ package fuzztest.generator.rule.suffixed.one_or_more;
 import fuzztest.generator.rule.suffixed.VSuffixed;
 import fuzztest.generator.rule.suffixed.optional.TOptional;
 import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * SuffixedExpression
@@ -44,6 +45,15 @@ import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
  */
 public class TOneOrMore extends VSuffixed
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TOneOrMore ()).GetClass_Object ();
+        
+        return ret;
+    }
+
     public TOneOrMore ()
     {
         super (false, true);

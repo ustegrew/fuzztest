@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.rule_ref;
 
 import fuzztest.generator.rule.VNode;
+import fuzztest.model.abstracts.TClass;
 
 /**
  * rule reference. 
@@ -38,6 +39,14 @@ import fuzztest.generator.rule.VNode;
  */
 public class TReference extends VNode
 {
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TReference ()).GetClass_Object ();
+        
+        return ret;
+    }
 }
 
 

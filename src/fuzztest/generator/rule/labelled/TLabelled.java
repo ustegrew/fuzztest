@@ -19,6 +19,7 @@ import fuzztest.generator.rule.VNode;
 import fuzztest.generator.rule.prefixed.simple_and.TSimpleAnd;
 import fuzztest.generator.rule.prefixed.simple_not.TSimpleNot;
 import fuzztest.generator.rule.prefixed.text.TText;
+import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.storage.TOnceAssignable;
 
 /**
@@ -47,6 +48,15 @@ public class TLabelled extends VNode
 {
     private TOnceAssignable<String> fLabel;
     
+    public static TClass GetClass_Static ()
+    {
+        TClass      ret;
+        
+        ret = (new TLabelled ()).GetClass_Object ();
+        
+        return ret;
+    }
+
     public TLabelled ()
     {
         super ();
