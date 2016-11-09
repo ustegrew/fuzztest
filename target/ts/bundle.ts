@@ -733,11 +733,13 @@ namespace fuzztest.generator {
      * Each object is identified by key and by index. Indices are zero based and follow
      * append order, i.e. the object appended first has index zero, next object has index one etc.
      * 
-     * TODO Implement clear() method
      * @author peter
      */
     export class TRepository {
-        static gRepository : TRepository = null;
+        /**
+         * The repository singleton.
+         */
+        static gRepository : TRepository; public static gRepository_$LI$() : TRepository { if(TRepository.gRepository == null) TRepository.gRepository = new TRepository(); return TRepository.gRepository; };
 
         /**
          * Adds an object to the repository. The object must have it's key property set prior to adding.
@@ -749,14 +751,12 @@ namespace fuzztest.generator {
          */
         public static Add(b : fuzztest.generator.VBrowseable) : string {
             let ret : string;
-            TRepository._CreateRepository();
-            ret = TRepository.gRepository._Add(b);
+            ret = TRepository.gRepository_$LI$()._Add(b);
             return ret;
         }
 
         public static Clear() {
-            TRepository._CreateRepository();
-            TRepository.gRepository._Clear();
+            TRepository.gRepository_$LI$()._Clear();
         }
 
         /**
@@ -768,8 +768,7 @@ namespace fuzztest.generator {
          */
         public static Get$int(i : number) : fuzztest.generator.VBrowseable {
             let ret : fuzztest.generator.VBrowseable;
-            TRepository._CreateRepository();
-            ret = TRepository.gRepository._GetElement(i);
+            ret = TRepository.gRepository_$LI$()._GetElement(i);
             return ret;
         }
 
@@ -786,8 +785,7 @@ namespace fuzztest.generator {
                 let __args = Array.prototype.slice.call(arguments);
                 return <any>(() => {
                     let ret : fuzztest.generator.VBrowseable;
-                    TRepository._CreateRepository();
-                    ret = TRepository.gRepository._GetElement(key);
+                    ret = TRepository.gRepository_$LI$()._GetElement(key);
                     return ret;
                 })();
             } else if(((typeof key === 'number') || key === null)) {
@@ -803,8 +801,7 @@ namespace fuzztest.generator {
          */
         public static GetKeys$fuzztest_model_abstracts_TClass(c : fuzztest.model.abstracts.TClass) : fuzztest.utils.storage.TArrayList<string> {
             let ret : fuzztest.utils.storage.TArrayList<string>;
-            TRepository._CreateRepository();
-            ret = TRepository.gRepository._GetKeys(c, true);
+            ret = TRepository.gRepository_$LI$()._GetKeys(c, true);
             return ret;
         }
 
@@ -823,8 +820,7 @@ namespace fuzztest.generator {
                 let __args = Array.prototype.slice.call(arguments);
                 return <any>(() => {
                     let ret : fuzztest.utils.storage.TArrayList<string>;
-                    TRepository._CreateRepository();
-                    ret = TRepository.gRepository._GetKeys(c, isStrict);
+                    ret = TRepository.gRepository_$LI$()._GetKeys(c, isStrict);
                     return ret;
                 })();
             } else if(((c != null && c instanceof fuzztest.model.abstracts.TClass) || c === null) && isStrict === undefined) {
@@ -837,8 +833,7 @@ namespace fuzztest.generator {
          */
         public static GetNumElements() : number {
             let ret : number;
-            TRepository._CreateRepository();
-            ret = TRepository.gRepository._GetNumElements();
+            ret = TRepository.gRepository_$LI$()._GetNumElements();
             return ret;
         }
 
@@ -851,18 +846,8 @@ namespace fuzztest.generator {
          */
         public static HasElement(key : string) : boolean {
             let ret : boolean;
-            TRepository._CreateRepository();
-            ret = TRepository.gRepository._HasElement(key);
+            ret = TRepository.gRepository_$LI$()._HasElement(key);
             return ret;
-        }
-
-        /**
-         * Creates a new repository (singleton) if none existed before.
-         */
-        private static _CreateRepository() {
-            if(TRepository.gRepository == null) {
-                TRepository.gRepository = new TRepository();
-            }
         }
 
         private fRepository : fuzztest.utils.storage.TArrayMap<fuzztest.generator.VBrowseable>;
@@ -2995,6 +2980,8 @@ fuzztest.generator.rule.VNode.gClass_$LI$();
 fuzztest.utils.gen.TGenData.gRndGen_$LI$();
 
 fuzztest.generator.VBrowseable.gClass_$LI$();
+
+fuzztest.generator.TRepository.gRepository_$LI$();
 
 fuzztest.utils.gen.TRndMT.kDiv_$LI$();
 

@@ -26,12 +26,14 @@ import fuzztest.utils.storage.TArrayMap;
  * Each object is identified by key and by index. Indices are zero based and follow 
  * append order, i.e. the object appended first has index zero, next object has index one etc. 
  * 
- * TODO Implement clear() method
  * @author peter
  */
 public class TRepository
 {
-    private static TRepository              gRepository = null;
+    /**
+     * The repository singleton.
+     */
+    private static TRepository gRepository = new TRepository ();
     
     /**
      * Adds an object to the repository. The object must have it's key property set prior to adding.
@@ -45,7 +47,6 @@ public class TRepository
     {
         String ret;
         
-        _CreateRepository ();
         ret = gRepository._Add (b);
         
         return ret;
@@ -53,7 +54,6 @@ public class TRepository
     
     public static void Clear ()
     {
-        _CreateRepository ();
         gRepository._Clear ();
     }
     
@@ -68,7 +68,6 @@ public class TRepository
     {
         VBrowseable ret;
         
-        _CreateRepository ();
         ret = gRepository._GetElement (i);
         
         return ret;
@@ -86,7 +85,6 @@ public class TRepository
     {
         VBrowseable ret;
         
-        _CreateRepository ();
         ret = gRepository._GetElement (key);
         
         return ret;
@@ -102,7 +100,6 @@ public class TRepository
     {
         TArrayList<String>       ret;
         
-        _CreateRepository ();
         ret = gRepository._GetKeys (c, true);
         
         return ret;
@@ -122,7 +119,6 @@ public class TRepository
     {
         TArrayList<String>       ret;
         
-        _CreateRepository ();
         ret = gRepository._GetKeys (c, isStrict);
         
         return ret;
@@ -135,7 +131,6 @@ public class TRepository
     {
         int ret;
         
-        _CreateRepository ();
         ret = gRepository._GetNumElements ();
         
         return ret;
@@ -152,22 +147,11 @@ public class TRepository
     {
         boolean ret;
         
-        _CreateRepository ();
         ret = gRepository._HasElement (key);
         
         return ret;
     }
     
-    /**
-     * Creates a new repository (singleton) if none existed before. 
-     */
-    private static void _CreateRepository ()
-    {
-        if (gRepository == null)
-        {
-            gRepository = new TRepository ();
-        }
-    }
     private TArrayMap<VBrowseable>          fRepository;
     
     private TRepository ()
