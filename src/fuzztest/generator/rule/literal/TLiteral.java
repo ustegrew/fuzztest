@@ -15,9 +15,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.literal;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.model.abstracts.TClass;
+import fuzztest.utils.storage.TOnceAssignable;
 
 /**
  * 
@@ -41,35 +43,41 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  *
  */
-public class TLiteral extends VNode
+public class TLiteral extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TLiteral (null)).GetClass ();
+    public  static final TClass gkClass = (new TLiteral (TAttributeSet.GetNullSet ())).GetClass ();
 
-    private String          fLiteral;
+    private TOnceAssignable<String>     fLiteral;
     
     /**
      * 
      */
-    public TLiteral (String literal)
+    public TLiteral (TAttributeSet attributes)
     {
-        super ();
-        fLiteral = literal;
+        super (attributes);
+    }
+    
+    public void SetLiteral (String literal)
+    {
+        fLiteral.Set (literal);
     }
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
+        TAttributeSet           as;
         boolean                 doFollow;
         TLiteral                lit;
         String                  ret;
         
-        doFollow = VNode.DoesFollowRule (s);
+        as       = _GetAttributes ();
+        doFollow = VNode.DoesFollowRule (as);
         if (doFollow)
         {
             lit = this;
@@ -79,7 +87,7 @@ public class TLiteral extends VNode
             lit = (TLiteral) _GetFromOppositeSet ();
         }
         
-        ret = head + lit.fLiteral;
+        ret = head + lit.fLiteral.Get ();
         
         return ret;
     }

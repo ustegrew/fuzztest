@@ -15,8 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.any;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 
@@ -39,18 +39,26 @@ import fuzztest.utils.gen.TGenData;
  * 
  * @author peter
  */
-public class TAny extends VNode
+public class TAny extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public static final TClass gClass = (new TAny ()).GetClass ();;
+    public static final TClass gkClass = (new TAny (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param attributes
+     */
+    protected TAny (TAttributeSet attributes)
+    {
+        super (attributes);
+    };
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
         String          ret;
         

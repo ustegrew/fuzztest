@@ -13,32 +13,38 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule.expression;
+package fuzztest.generator.rule._common;
 
-import fuzztest.generator.rule._common.TAttributeSet;
-import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.model.abstracts.TClass;
 
 /**
- * Corresponding PEGjs rule:
- * <pre>
- * Expression
- *     = ChoiceExpression
- * </pre>
  * @author peter
+ *
  */
-public class TExpression extends VNodePassthrough
+public abstract class VNodePassthrough extends VNode
 {
-    /**
-     * The {@link TClass} of this class for type information. 
-     */
-    public static final TClass gkClass = (new TExpression (TAttributeSet.GetNullSet ())).GetClass ();
-
+    private static class VNodePassthroughT extends VNodePassthrough
+    {
+        protected VNodePassthroughT () {super (TAttributeSet.GetNullSet ());}
+    }
+    public static final TClass gkClass = new VNodePassthroughT ().GetClass ().GetParent ();
+    
     /**
      * @param s
      */
-    protected TExpression (TAttributeSet attributes)
+    protected VNodePassthrough (TAttributeSet attributes)
     {
         super (attributes);
+    }
+
+    protected final String _CreateData (String head)
+    {
+        VNode  ex;
+        String ret;
+        
+        ex  = _GetExpression ();
+        ret = ex.CreateData (head);
+        
+        return ret;
     }
 }

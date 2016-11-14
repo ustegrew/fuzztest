@@ -15,8 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.rule;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.generator.rule.named.TNamed;
 import fuzztest.model.abstracts.TClass;
 
@@ -59,30 +60,32 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  * @see    {@link TNamed}
  */
-public class TRule extends VNode
+public class TRule extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TRule (null)).GetClass ();
+    public  static final TClass gkClass = (new TRule (TAttributeSet.GetNullSet ())).GetClass ();
 
-    public TRule (String key)
+    public TRule (TAttributeSet attributes)
     {
-        super (key);
+        super (attributes);
     }
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#CreateData(fuzztest.generator.rule.VNode.EStrategy)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
-        boolean     doFollow;
-        TRule       ref;
-        VNode       expr;
-        String      ret;
+        TAttributeSet   as;
+        boolean         doFollow;
+        TRule           ref;
+        VNode           expr;
+        String          ret;
         
-        doFollow    = VNode.DoesFollowRule (s);
+        as          = _GetAttributes ();
+        doFollow    = VNode.DoesFollowRule (as);
         if (doFollow)
         {
             ref = this;
@@ -93,7 +96,7 @@ public class TRule extends VNode
         }
         
         expr        = ref._GetExpression ();
-        ret         = expr.CreateData (s, head);
+        ret         = expr.CreateData (head);
         
         return ret;
     }

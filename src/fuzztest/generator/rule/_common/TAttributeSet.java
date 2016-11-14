@@ -13,35 +13,53 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule;
+package fuzztest.generator.rule._common;
 
+import jsweet.lang.Error;
 import jsweet.lang.RangeError;
+import jsweet.lang.RegExp;
 
 /**
  * @author peter
  *
  */
-public class TStrategy
+public class TAttributeSet
 {
+    public static TAttributeSet GetNullSet ()
+    {
+        TAttributeSet ret;
+        
+        ret = new TAttributeSet (null, 0, null, 0, true);
+        
+        return ret;
+    }
+    
     public static final int         kRecursionLimit     = 15;
     public static final int         kRepeatLimit        = 100;
+    public static final RegExp      kReValidKey         = new RegExp ("^[a-zA-Z0-9_]+$");
     
+    private boolean                 fDoNotRegister;
+    private String                  fKey;
     private int                     fRecursionCounter;
     private int                     fRecursionMax;
-    private ERuleAdhesion           fRuleAdhesion;
     private int                     fRepeatMax;
+    private ERuleAdhesion           fRuleAdhesion;
     
-    public TStrategy 
+    public TAttributeSet 
     (
+        String          key,
         int             recursionMax, 
         ERuleAdhesion   ruleAdhesion,
-        int             repeatMax
+        int             repeatMax,
+        boolean         doNotRegister
     )
     {
-        _AssertParamsOK (recursionMax, ruleAdhesion, repeatMax);
+        _AssertParamsOK (key, recursionMax, ruleAdhesion, repeatMax);
+        fKey                = key;
         fRecursionMax       = recursionMax;
         fRuleAdhesion       = ruleAdhesion;
         fRepeatMax          = repeatMax;
+        fDoNotRegister      = doNotRegister;
     }
     
     /**
@@ -56,9 +74,14 @@ public class TStrategy
         return ret;
     }
     
-    public ERuleAdhesion GetRuleAdhesion ()
+    public boolean DoNotRegister ()
     {
-        return fRuleAdhesion;
+        return fDoNotRegister;
+    }
+    
+    public String GetKey ()
+    {
+        return fKey;
     }
     
     public int GetNumRepeatsMax ()
@@ -71,13 +94,24 @@ public class TStrategy
         return fRecursionMax;
     }
     
+    public ERuleAdhesion GetRuleAdhesion ()
+    {
+        return fRuleAdhesion;
+    }
+    
     private void _AssertParamsOK
     (
+        String          key,
         int             recursionMax, 
         ERuleAdhesion   ruleAdhesion,
         int             repeatMax
     )
     {
+        if (! (kReValidKey.test (key)))
+        {
+            throw new Error ("Given key must match: '" + kReValidKey + "'. Given:" + key);
+        }
+        
         if (recursionMax <= 0  || recursionMax > kRecursionLimit)
         {
             throw new RangeError ("recursionMax out of range. Allowed: [1, " + kRecursionLimit + "], Given:" + recursionMax);

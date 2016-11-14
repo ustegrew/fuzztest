@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.action;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.model.abstracts.TClass;
 
 /**
@@ -46,10 +47,19 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  *
  */
-public class TAction extends VNode
+public class TAction extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public static final TClass gClass = (new TAction ()).GetClass ();
+    public static final TClass gkClass = (new TAction (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param key
+     * @param s
+     */
+    protected TAction (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }

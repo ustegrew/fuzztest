@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest.generator.rule.grammar;
 
 import fuzztest.generator.TRepository;
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.generator.rule.rule.TRule;
 import fuzztest.model.abstracts.TClass;
 
@@ -60,26 +60,34 @@ import fuzztest.model.abstracts.TClass;
  * 
  * @author peter
  */
-public class TGrammar extends VNode
+public class TGrammar extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TGrammar ()).GetClass ();
+    public  static final TClass gkClass = (new TGrammar (TAttributeSet.GetNullSet ())).GetClass ();
 
     private static final String         kKeyStart   = "start";
+
+    /**
+     * @param s
+     */
+    public TGrammar (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
     
     /* (non-Javadoc)
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
         TRule           rStart;
         String          ret;
         
         rStart  = (TRule) TRepository.Get (kKeyStart);
-        ret     = rStart.CreateData (s, head);
+        ret     = rStart.CreateData (head);
         
         return ret;
     }

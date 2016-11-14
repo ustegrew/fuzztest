@@ -15,8 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.sequence;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.storage.TArrayList;
 
@@ -61,17 +62,18 @@ import fuzztest.utils.storage.TArrayList;
  * 
  * @author peter
  */
-public class TSequence extends VNode
+public class TSequence extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TSequence ()).GetClass ();
+    public  static final TClass gkClass = (new TSequence (TAttributeSet.GetNullSet ())).GetClass ();
     
     private TArrayList<VNode>        fElements;
     
-    public TSequence ()
+    public TSequence (TAttributeSet attributes)
     {
+        super (attributes);
         fElements = new TArrayList<> ();
     }
     
@@ -84,7 +86,7 @@ public class TSequence extends VNode
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
         int     i;
         int     n;
@@ -98,7 +100,7 @@ public class TSequence extends VNode
             for (i = 0; i < n; i++)
             {
                 e   = fElements.Get (i);
-                ret = ret + e.CreateData (s, "");
+                ret = ret + e.CreateData ("");
             }
         }
         

@@ -15,7 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.semanticPredicate.semantic_and;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
+import fuzztest.generator.rule.semanticPredicate.semantic_not.TSemanticNot;
 import fuzztest.model.abstracts.TClass;
 
 /**
@@ -54,10 +56,18 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  * @see    {@link TSemanticNot}
  */
-public class TSemanticAnd extends VNode
+public class TSemanticAnd extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TSemanticAnd ()).GetClass ();
+    public  static final TClass gkClass = (new TSemanticAnd (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param s
+     */
+    protected TSemanticAnd (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }

@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.labelled;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.generator.rule.prefixed.simple_and.TSimpleAnd;
 import fuzztest.generator.rule.prefixed.simple_not.TSimpleNot;
 import fuzztest.generator.rule.prefixed.text.TText;
@@ -44,18 +45,18 @@ import fuzztest.utils.storage.TOnceAssignable;
  * @author peter
  * @see    {@link TText}, {@link TSimpleAnd}, {@link TSimpleNot}
  */
-public class TLabelled extends VNode
+public class TLabelled extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TLabelled ()).GetClass ();
+    public  static final TClass gkClass = (new TLabelled (TAttributeSet.GetNullSet ())).GetClass ();
 
     private TOnceAssignable<String> fLabel;
     
-    public TLabelled ()
+    public TLabelled (TAttributeSet attributes)
     {
-        super ();
+        super (attributes);
         fLabel          = new TOnceAssignable<> ();
     }
     

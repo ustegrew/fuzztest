@@ -18,7 +18,8 @@ package fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01;
 import static jsweet.dom.Globals.console;
 
 import fuzztest.generator.TRepository;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.storage.TArrayList;
 
@@ -42,7 +43,7 @@ public class TDevQueryObject_01
         
         n1      = new VNodeType01 ();
         n2      = new VNodeType02 ();
-        nc0     = VNode.gClass;
+        nc0     = VNode.gkClass;
         nc1     = n1.GetClass ();
         nc2     = n2.GetClass ();
         
@@ -58,8 +59,17 @@ public class TDevQueryObject_01
         DumpKeys ("keys-VNodeType01",   keys1);
         DumpKeys ("keys-VNodeType02",   keys2);
     }
-    private static class VNodeType01    extends VNode {}
-    private static class VNodeType02    extends VNode {}
+    private static class VNodeType01 extends VNode 
+    {
+        protected VNodeType01 () {super (TAttributeSet.GetNullSet ());}
+        protected String _CreateData (String head){return null;}
+    }
+    
+    private static class VNodeType02 extends VNode 
+    {
+        protected VNodeType02 (){super (TAttributeSet.GetNullSet ());}
+        protected String _CreateData (String head){return null;}
+    }
     
     private static void DumpKeys (String header, TArrayList<String> keys)
     {

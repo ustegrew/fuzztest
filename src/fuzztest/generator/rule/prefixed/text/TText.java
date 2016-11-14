@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.prefixed.text;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.generator.rule.prefixed.simple_not.TSimpleNot;
 import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
 import fuzztest.model.abstracts.TClass;
@@ -51,10 +52,18 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  * @see    {@link TSemanticAnd}, {@link TSimpleNot}
  */
-public class TText extends VNode
+public class TText extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TText ()).GetClass ();
+    public  static final TClass gkClass = (new TText (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param s
+     */
+    protected TText (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }

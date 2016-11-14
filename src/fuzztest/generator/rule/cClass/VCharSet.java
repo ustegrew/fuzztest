@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.cClass;
 
-import fuzztest.generator.rule.TStrategy;
+import fuzztest.generator.rule._common.TAttributeSet;
 
 /**
  * @author peter
@@ -23,5 +23,5 @@ import fuzztest.generator.rule.TStrategy;
  */
 abstract class VCharSet
 {
-    public abstract char GetChar (TStrategy s);
+    public abstract char GetChar (TAttributeSet s);
 }

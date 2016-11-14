@@ -13,7 +13,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ----------------------------------------------------------------------------- */
 
-package fuzztest.generator.rule;
+package fuzztest.generator.rule._common;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
@@ -33,11 +33,15 @@ public abstract class VNode extends VBrowseable
      * A dummy class to provide a concrete derivative from the hosting abstract class.
      * Purely needed so we have something to instantiate (TClass cTor needs an object). 
      */
-    private static class VNodeT extends VNode{}
+    private static class VNodeT extends VNode 
+    {
+        public VNodeT ()                            {super (new TAttributeSet (null, 0, null, 0, true));}
+        protected String _CreateData (String head)  {return null;}
+    }
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new VNodeT ()).GetClass ().GetParent ();
+    public  static final TClass gkClass = (new VNodeT ()).GetClass ().GetParent ();
 
     public static void ClearVisitCounters ()
     {
@@ -48,7 +52,7 @@ public abstract class VNode extends VBrowseable
         TClass              clVNode;
         TArrayList<String>  keys;
         
-        clVNode = gClass;
+        clVNode = gkClass;
         keys    = TRepository.GetKeys (clVNode, false);
         n       = keys.GetNumElements ();
         if (n >= 1)
@@ -62,7 +66,7 @@ public abstract class VNode extends VBrowseable
         }
     } 
     
-    public static boolean DoesFollowRule (TStrategy s)
+    public static boolean DoesFollowRule (TAttributeSet s)
     {
         ERuleAdhesion       r;
         boolean             ret;
@@ -86,15 +90,11 @@ public abstract class VNode extends VBrowseable
 
     private TOnceAssignable<VNode>      fExpression;
     private int                         fNumVisits;
+    private TAttributeSet               fAttributes;
     
-    public VNode ()
+    protected VNode (TAttributeSet attributes)
     {
-        _Init (null);
-    }
-    
-    public VNode (String key)
-    {
-        _Init (key);
+        _Init (attributes);
     }
     
     public void ClearVisitCounter ()
@@ -116,16 +116,16 @@ public abstract class VNode extends VBrowseable
      *                      created fragment.
      * @return      The newly assembled source code fragment.
      */
-    public String CreateData (TStrategy s, String head)
+    public String CreateData (String head)
     {
         int     nVisitsMax;
         String  ret;
         
-        nVisitsMax = s.GetNumVisitsMax ();
+        nVisitsMax = fAttributes.GetNumVisitsMax ();
         if (fNumVisits <= nVisitsMax)
         {
             fNumVisits++;
-            ret = _CreateData (s, head);
+            ret = _CreateData (head);
         }
         else
         {
@@ -149,21 +149,12 @@ public abstract class VNode extends VBrowseable
      * this method.
      *  
      * Concrete implementations of this class should not call this 
-     * method directly, but should call {@link #CreateData(TStrategy, String)}.
+     * method directly, but should call {@link #CreateData(TAttributeSet, String)}.
      * 
      * @param       s       The fragment creation strategy.
      * @return              The data fragment for a particular test case.
      */
-    protected String _CreateData (TStrategy s, String head)
-    {
-        VNode  ex;
-        String ret;
-        
-        ex  = fExpression.Get ();
-        ret = ex.CreateData (s, head);
-        
-        return ret;
-    }
+    protected abstract String _CreateData (String head);
     
     protected VNode _GetExpression ()
     {
@@ -185,7 +176,7 @@ public abstract class VNode extends VBrowseable
      * of the same kind.   
      * 
      * @param       s       The generating strategy. If it's  
-     *                      {@link TStrategy#GetRuleAdhesion()} method
+     *                      {@link TAttributeSet#GetRuleAdhesion()} method
      *                      returns {@link ERuleAdhesion#kFollowRule} then
      *                      we will return this node. If the method 
      *                      returns {@link ERuleAdhesion#kInjectInvalids} then
@@ -230,18 +221,32 @@ public abstract class VNode extends VBrowseable
         
         return ret;
     }
-
-    private void _Init (String key)
+    
+    protected TAttributeSet _GetAttributes ()
     {
-        fNumVisits  = 0;
-        fExpression = new TOnceAssignable<> ();
-        if (key == null)
+        return fAttributes;
+    }
+
+    private void _Init (TAttributeSet attributes)
+    {
+        boolean doNotRegister;
+        String  key;
+        
+        fAttributes         = attributes;
+        fNumVisits          = 0;
+        fExpression         = new TOnceAssignable<> ();
+        doNotRegister       = fAttributes.DoNotRegister ();
+        key                 = fAttributes.GetKey ();
+        if (! doNotRegister)
         {
-            _Register ();
-        }
-        else
-        {
-            _Register (key);
+            if (key == null)
+            {
+                _Register ();
+            }
+            else
+            {
+                _Register (key);
+            }
         }
     }
 }

@@ -19,7 +19,8 @@ import static jsweet.dom.Globals.console;
 import static jsweet.util.Globals.typeof;
 
 import fuzztest.generator.TRepository;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
 
 /**
  * @author peter
@@ -45,5 +46,9 @@ public class TDevRepoDel_01
          * it's preserved in variable n1 in this method until the method goes out of scope.
          * This is the behaviour we intended. */
     }
-    private static class VNodeType extends VNode {}
+    private static class VNodeType extends VNode 
+    {
+        protected VNodeType () {super (TAttributeSet.GetNullSet ());}
+        protected String _CreateData (String head) {return null;}
+    }
 }

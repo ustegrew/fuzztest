@@ -15,8 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.cClass;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
 import fuzztest.utils.gen.TGenData;
 
 /**
@@ -37,7 +37,7 @@ class TCharacterPoint extends VCharSet
      * @see fuzztest.generator.rule.cClass.VCharSet#GetChar()
      */
     @Override
-    public char GetChar (TStrategy s)
+    public char GetChar (TAttributeSet s)
     {
         boolean             doFollow;
         boolean             doHead;

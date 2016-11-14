@@ -15,8 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.suffixed.zero_or_more;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
 import fuzztest.generator.rule.suffixed.VSuffixed;
+import fuzztest.generator.rule.suffixed.one_or_more.TOneOrMore;
 import fuzztest.generator.rule.suffixed.optional.TOptional;
 import fuzztest.model.abstracts.TClass;
 
@@ -54,10 +55,10 @@ public class TZeroOrMore extends VSuffixed
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TZeroOrMore ()).GetClass ();
+    public  static final TClass gkClass = (new TZeroOrMore (TAttributeSet.GetNullSet ())).GetClass ();
 
-    public TZeroOrMore ()
+    public TZeroOrMore (TAttributeSet attributes)
     {
-        super (true, true);
+        super (true, true, attributes);
     }
 }

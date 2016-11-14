@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.rule_ref;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.model.abstracts.TClass;
 
 /**
@@ -37,12 +38,20 @@ import fuzztest.model.abstracts.TClass;
  * 
  * @author peter
  */
-public class TReference extends VNode
+public class TReference extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TReference ()).GetClass ();
+    public  static final TClass gkClass = (new TReference (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param s
+     */
+    protected TReference (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }
 
 

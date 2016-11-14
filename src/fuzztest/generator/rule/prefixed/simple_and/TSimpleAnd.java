@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.prefixed.simple_and;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.model.abstracts.TClass;
 
 /**
@@ -47,10 +48,18 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  *
  */
-public class TSimpleAnd extends VNode
+public class TSimpleAnd extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TSimpleAnd ()).GetClass ();
+    public  static final TClass gkClass = (new TSimpleAnd (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param s
+     */
+    protected TSimpleAnd (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }

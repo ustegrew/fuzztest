@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.initializer;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.model.abstracts.TClass;
 
 /**
@@ -35,10 +36,18 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  *
  */
-public class TInitializer extends VNode
+public class TInitializer extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TInitializer ()).GetClass ();
+    public  static final TClass gkClass = (new TInitializer (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param s
+     */
+    protected TInitializer (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }

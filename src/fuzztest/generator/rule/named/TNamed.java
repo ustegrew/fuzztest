@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.named;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.generator.rule.rule.TRule;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.storage.TOnceAssignable;
@@ -59,19 +60,19 @@ import fuzztest.utils.storage.TOnceAssignable;
  * @author peter
  * @see    {@link TRule}
  */
-public class TNamed extends VNode
+public class TNamed extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TNamed ()).GetClass ();
+    public  static final TClass gkClass = (new TNamed (TAttributeSet.GetNullSet ())).GetClass ();
 
     private TOnceAssignable<String> fName;
     
-    public TNamed ()
+    public TNamed (TAttributeSet attributes)
     {
-        super ();
-        fName          = new TOnceAssignable<> ();
+        super (attributes);
+        fName = new TOnceAssignable<> ();
     }
     
     public String GetName ()

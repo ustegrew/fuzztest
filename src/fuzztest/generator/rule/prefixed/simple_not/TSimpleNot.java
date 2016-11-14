@@ -15,7 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.prefixed.simple_not;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodePassthrough;
 import fuzztest.generator.rule.prefixed.text.TText;
 import fuzztest.generator.rule.semanticPredicate.semantic_and.TSemanticAnd;
 import fuzztest.model.abstracts.TClass;
@@ -49,10 +50,18 @@ import fuzztest.model.abstracts.TClass;
  * @author peter
  * @see    {@link TSemanticAnd}, {@link TText}
  */
-public class TSimpleNot extends VNode
+public class TSimpleNot extends VNodePassthrough
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TSimpleNot ()).GetClass ();
+    public  static final TClass gkClass = (new TSimpleNot (TAttributeSet.GetNullSet ())).GetClass ();
+
+    /**
+     * @param s
+     */
+    protected TSimpleNot (TAttributeSet attributes)
+    {
+        super (attributes);
+    }
 }

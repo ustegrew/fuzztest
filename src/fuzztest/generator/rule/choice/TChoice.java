@@ -15,8 +15,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.choice;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 import fuzztest.utils.storage.TArrayList;
@@ -62,21 +63,21 @@ import fuzztest.utils.storage.TArrayList;
  * @author peter
  *
  */
-public class TChoice extends VNode
+public class TChoice extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TChoice ()).GetClass ();
+    public  static final TClass gkClass = (new TChoice (TAttributeSet.GetNullSet ())).GetClass ();
 
     private TArrayList<VNode>        fBranches;
     
     /**
      * 
      */
-    public TChoice ()
+    public TChoice (TAttributeSet attributes)
     {
-        super ();
+        super (attributes);
         fBranches = new TArrayList<> ();
     }
     
@@ -89,7 +90,7 @@ public class TChoice extends VNode
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
         int     i;
         int     n;
@@ -101,7 +102,7 @@ public class TChoice extends VNode
         {
             i       = TGenData.GetIntUpTo (n);
             node    = fBranches.Get (i);
-            ret     = node.CreateData (s, head); 
+            ret     = node.CreateData (head); 
         }
         else
         {

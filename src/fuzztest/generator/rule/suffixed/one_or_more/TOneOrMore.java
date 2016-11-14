@@ -15,6 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.suffixed.one_or_more;
 
+import fuzztest.generator.rule._common.TAttributeSet;
 import fuzztest.generator.rule.suffixed.VSuffixed;
 import fuzztest.generator.rule.suffixed.optional.TOptional;
 import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
@@ -48,10 +49,10 @@ public class TOneOrMore extends VSuffixed
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TOneOrMore ()).GetClass ();
+    public  static final TClass gkClass = (new TOneOrMore (TAttributeSet.GetNullSet ())).GetClass ();
 
-    public TOneOrMore ()
+    public TOneOrMore (TAttributeSet attributes)
     {
-        super (false, true);
+        super (false, true, attributes);
     }
 }

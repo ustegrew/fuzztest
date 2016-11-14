@@ -33,7 +33,7 @@ public abstract class VBrowseable
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public static final TClass gClass = (new VBrowseableT ()).GetClass ().GetParent ();
+    public static final TClass gkClass = (new VBrowseableT ()).GetClass ().GetParent ();
 
     private static int      gCounter = -1;
     

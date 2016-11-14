@@ -15,9 +15,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.suffixed;
 
-import fuzztest.generator.rule.ERuleAdhesion;
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.ERuleAdhesion;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 
@@ -25,17 +26,20 @@ import fuzztest.utils.gen.TGenData;
  * @author peter
  *
  */
-public abstract class VSuffixed extends VNode
+public abstract class VSuffixed extends VNodeProcessor
 {
     /**
      * A dummy class to provide a concrete derivative from the hosting abstract class.
      * Purely needed so we have something to instantiate (TClass cTor needs an object). 
      */
-    private static class VSuffixedT extends VSuffixed {public VSuffixedT (){super (false,false);}}
+    private static class VSuffixedT extends VSuffixed 
+    {
+        protected VSuffixedT () {super (false, false, TAttributeSet.GetNullSet ());}
+    }
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new VSuffixedT()).GetClass ().GetParent ();
+    public  static final TClass gkClass = (new VSuffixedT()).GetClass ().GetParent ();
 
     private boolean     fIsNMinZero;
     private boolean     fIsNMaxInfinite;
@@ -51,8 +55,9 @@ public abstract class VSuffixed extends VNode
      * @param isNMinZero            Allow minimum of zero characters?
      * @param isNMaxInfinite        Allow for infinite number of characters?
      */
-    public VSuffixed (boolean isNMinZero, boolean isNMaxInfinite)
+    protected VSuffixed (boolean isNMinZero, boolean isNMaxInfinite, TAttributeSet attributes)
     {
+        super (attributes);
         fIsNMinZero     = isNMinZero;
         fIsNMaxInfinite = isNMaxInfinite;
     }
@@ -61,8 +66,9 @@ public abstract class VSuffixed extends VNode
      * @see fuzztest.generator.rule.VNode#_CreateData(fuzztest.generator.rule.TStrategy, java.lang.String)
      */
     @Override
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
+        TAttributeSet   as;
         ERuleAdhesion   r;
         VNode           ex;
         boolean         doBreakRule;
@@ -72,8 +78,9 @@ public abstract class VSuffixed extends VNode
         int             i;
         String          ret;
         
+        as          = _GetAttributes ();
         doBreakRule = true;
-        r           = s.GetRuleAdhesion ();
+        r           = as.GetRuleAdhesion ();
         if (r == ERuleAdhesion.kFollowRule)
         {
             doBreakRule = false;
@@ -98,7 +105,7 @@ public abstract class VSuffixed extends VNode
             }
             else if (fIsNMinZero    && fIsNMaxInfinite)
             {
-                nMax = s.GetNumRepeatsMax ();
+                nMax = as.GetNumRepeatsMax ();
             }
             
             if (nMax >= 1)
@@ -109,7 +116,7 @@ public abstract class VSuffixed extends VNode
         else
         {
             nMin = fIsNMinZero          ?  0                     : 1;
-            nMax = fIsNMaxInfinite      ?  s.GetNumRepeatsMax () : 1;
+            nMax = fIsNMaxInfinite      ?  as.GetNumRepeatsMax () : 1;
             n    = TGenData.GetIntBetween (nMin, nMax);
         }
         
@@ -119,7 +126,7 @@ public abstract class VSuffixed extends VNode
             ex = _GetExpression ();
             for (i = 1; i <= n; i++)
             {
-                ret = ret + ex.CreateData (s, "");
+                ret = ret + ex.CreateData ("");
             }
         }
 

@@ -19,9 +19,9 @@ import static jsweet.dom.Globals.console;
 import static jsweet.lang.Globals.eval;
 
 import fuzztest.generator.TRepository;
-import fuzztest.generator.rule.ERuleAdhesion;
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.ERuleAdhesion;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
 import fuzztest.generator.rule.cClass.TCharacterClass;
 import jsweet.dom.Globals;
 import jsweet.lang.Math;
@@ -37,31 +37,31 @@ public class TDevBuildGrammar_01
     
     public static void TestTree01 ()
     {
-      TStrategy           s;
+      TAttributeSet       s;
       TCharacterClass     cc;
       jsweet.lang.String  ch;
       jsweet.lang.String  chx;
       String              s0;
       String              s1;
       
-      TRepository.Clear ();
-      
       console.log ();
       console.log ("=========================================================");
       console.log ("TDevBuildGrammar_01");
       console.log ("=========================================================");
-      cc = new TCharacterClass ();
+
+      TRepository.Clear ();
+      cc = new TCharacterClass 
+      (
+          new TAttributeSet (null, 9, ERuleAdhesion.kFollowRule, 9, false)
+      );
       cc.AddRange ("a", "z");
       cc.AddRange ("0", "9");
       cc.AddPoint ("_");
-      
-      VNode.ClearVisitCounters ();
-      s   = new TStrategy (9, ERuleAdhesion.kFollowRule, kNChars);
       s0  = "";
       s1  = "";
       for (int i = 1; i <= kNChars + 2; i++)
       {
-          ch        = (jsweet.lang.String) (Object) cc.CreateData (s, "");
+          ch        = (jsweet.lang.String) (Object) cc.CreateData ("");
           chx       = (jsweet.lang.String) (Object) (new jsweet.lang.Number (ch.charCodeAt (0))).toString (16);
           s0       += ch;
           s1       += chx + " ";
@@ -70,13 +70,19 @@ public class TDevBuildGrammar_01
       console.log (s1);
       console.log ();
 
-      VNode.ClearVisitCounters ();
-      s   = new TStrategy (9, ERuleAdhesion.kInjectInvalids, kNChars);
+      TRepository.Clear ();
+      cc = new TCharacterClass 
+      (
+          new TAttributeSet (null, 9, ERuleAdhesion.kInjectInvalids, 9, false)
+      );
+      cc.AddRange ("a", "z");
+      cc.AddRange ("0", "9");
+      cc.AddPoint ("_");
       s0  = "";
       s1  = "";
       for (int i = 1; i <= kNChars + 2; i++)
       {
-          ch        = (jsweet.lang.String) (Object) cc.CreateData (s, "");
+          ch        = (jsweet.lang.String) (Object) cc.CreateData ("");
           chx       = (jsweet.lang.String) (Object) (new jsweet.lang.Number (ch.charCodeAt (0))).toString (16);
           s0       += ch;
           s1       += chx + " ";

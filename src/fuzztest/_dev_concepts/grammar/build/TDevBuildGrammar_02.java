@@ -18,9 +18,9 @@ package fuzztest._dev_concepts.grammar.build;
 import static jsweet.dom.Globals.console;
 
 import fuzztest.generator.TRepository;
-import fuzztest.generator.rule.ERuleAdhesion;
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.ERuleAdhesion;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
 import fuzztest.generator.rule.cClass.TCharacterClass;
 import fuzztest.generator.rule.grammar.TGrammar;
 import fuzztest.generator.rule.literal.TLiteral;
@@ -39,7 +39,7 @@ public class TDevBuildGrammar_02
     
     public static void TestBuild ()
     {
-        TStrategy       str;
+        TAttributeSet       str;
         TGrammar        g;
         TRule           r;
         TSequence       s;
@@ -53,54 +53,61 @@ public class TDevBuildGrammar_02
         
         TRepository.Clear ();
         
-        g  = new TGrammar           ();
-        r  = new TRule              ("start");
-        c0 = new TCharacterClass    ();
-        c0.AddPoint                 ("*");
-        c0.AddRange                 ("0", "9");
-        c0.AddRange                 ("a", "f");
-        l0 = new TLiteral           ("hello");
-        l1 = new TLiteral           ("-");
-        l2 = new TLiteral           ("world");
-        l3 = new TLiteral           ("=");
-        s  = new TSequence          ();
+        g  = new TGrammar           
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
+             );
+        r  = new TRule
+             (
+                 new TAttributeSet ("start", kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
+             );
+        c0 = new TCharacterClass    
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
+             );
+        c0.AddPoint ("*");
+        c0.AddRange ("0", "9");
+        c0.AddRange ("a", "f");
+        l0 = new TLiteral           
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
+             );
+        l0.SetLiteral ("hello");
+        l1 = new TLiteral           
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
+             );
+        l1.SetLiteral ("-");
+        l2 = new TLiteral           
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
+             );
+        l2.SetLiteral ("world");
+        l3 = new TLiteral           
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats, false)
+             );
+        l3.SetLiteral ("=");
+        s  = new TSequence          
+             (
+                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats, false)
+             );
         s.Add (l0);
         s.Add (l1);
         s.Add (l2);
         s.Add (l3);
         s.Add (c0);
-        
         r.SetExpression (s);
-        
         g.SetExpression (r);
         
         console.log ();
         console.log ("=========================================================");
         console.log ("TDevBuildGrammar_02");
         console.log ("=========================================================");
-        str = new TStrategy (kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats);
         for (i = 0; i < kNumCases; i++)
         {
             VNode.ClearVisitCounters ();
-            x = g.CreateData (str, "");
-            console.log (x);
-        }
-        
-        console.log ("--------------------------------------------------");
-        str = new TStrategy (kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats);
-        for (i = 0; i < kNumCases; i++)
-        {
-            VNode.ClearVisitCounters ();
-            x = g.CreateData (str, "");
-            console.log (x);
-        }
-        
-        console.log ("--------------------------------------------------");
-        str = new TStrategy (kRecursionMax, ERuleAdhesion.kFollowOpposite, kNumRepeats);
-        for (i = 0; i < kNumCases; i++)
-        {
-            VNode.ClearVisitCounters ();
-            x = g.CreateData (str, "");
+            x = g.CreateData ("");
             console.log (x);
         }
     }

@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.suffixed.optional;
 
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
 import fuzztest.generator.rule.suffixed.VSuffixed;
 import fuzztest.generator.rule.suffixed.one_or_more.TOneOrMore;
 import fuzztest.generator.rule.suffixed.zero_or_more.TZeroOrMore;
@@ -55,10 +55,10 @@ public class TOptional extends VSuffixed
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TOptional ()).GetClass ();
+    public  static final TClass gkClass = (new TOptional (TAttributeSet.GetNullSet ())).GetClass ();
     
-    public TOptional ()
+    public TOptional (TAttributeSet attributes)
     {
-        super (true, false);
+        super (true, false, attributes);
     }
 }

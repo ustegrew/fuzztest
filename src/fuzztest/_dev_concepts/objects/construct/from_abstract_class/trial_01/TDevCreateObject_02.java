@@ -19,7 +19,8 @@ import static jsweet.dom.Globals.console;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.VBrowseable;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNode;
 import fuzztest.model.abstracts.TClass;
 
 /**
@@ -43,11 +44,11 @@ public class TDevCreateObject_02
         console.log ("Legend: x'  means \"a type derived from x\" (as in calculus).");
         console.log ("      : x'^ means \"a parent of a type derived from x\" (i.e. x).");
         console.log ();
-        c  = VBrowseable.gClass;
+        c  = VBrowseable.gkClass;
         console.log ("VBrowseable       => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable       => Canonical path:    " + c.GetCanonicalPath ());
 
-        c  = VNode.gClass;
+        c  = VNode.gkClass;
         console.log ("VBrowseable'      => Inheritence chain: " + c.GetInheritPath ());
         console.log ("VBrowseable'      => Canonical path:    " + c.GetCanonicalPath ());
         
@@ -68,5 +69,9 @@ public class TDevCreateObject_02
         console.log ("VBrowseable''^    => Canonical path:    " + c.GetCanonicalPath ());
     }
     private static class VDeriv_01 extends VBrowseable {}
-    private static class VDeriv_02 extends VNode {}
+    private static class VDeriv_02 extends VNode 
+    {
+        protected VDeriv_02 () {super (TAttributeSet.GetNullSet ());}
+        protected String _CreateData (String head){return null;}
+    }
 }

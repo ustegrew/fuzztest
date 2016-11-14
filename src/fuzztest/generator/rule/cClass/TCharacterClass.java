@@ -15,8 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.generator.rule.cClass;
 
-import fuzztest.generator.rule.TStrategy;
-import fuzztest.generator.rule.VNode;
+import fuzztest.generator.rule._common.TAttributeSet;
+import fuzztest.generator.rule._common.VNodeProcessor;
 import fuzztest.model.abstracts.TClass;
 import fuzztest.utils.gen.TGenData;
 import fuzztest.utils.storage.TArrayList;
@@ -83,21 +83,21 @@ import fuzztest.utils.storage.TArrayList;
  * 
  * @author peter
  */
-public class TCharacterClass extends VNode
+public class TCharacterClass extends VNodeProcessor
 {
     /**
      * The {@link TClass} of this class for type information. 
      */
-    public  static final TClass gClass = (new TCharacterClass ()).GetClass ();
+    public static final TClass gkClass = (new TCharacterClass (TAttributeSet.GetNullSet ())).GetClass ();
 
     private TArrayList<VCharSet>        fSets;
     
     /**
      * cTor. 
      */
-    public TCharacterClass ()
+    public TCharacterClass (TAttributeSet attributes)
     {
-        super ();
+        super (attributes);
         fSets = new TArrayList<> ();
     }
     
@@ -121,19 +121,21 @@ public class TCharacterClass extends VNode
         fSets.Add (set);
     }
     
-    protected String _CreateData (TStrategy s, String head)
+    protected String _CreateData (String head)
     {
-        int         n;
-        VCharSet    cs;
-        int         x;
-        String      ret;
+        TAttributeSet   as;
+        int             n;
+        VCharSet        cs;
+        int             x;
+        String          ret;
 
         n   = fSets.GetNumElements ();
         if (n >= 1)
         {
+            as      = _GetAttributes ();
             x       = TGenData.GetIntUpTo (n);
             cs      = fSets.Get (x);
-            ret     = head + cs.GetChar (s);
+            ret     = head + cs.GetChar (as);
         }
         else
         {
