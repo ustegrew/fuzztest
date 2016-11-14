@@ -30,6 +30,12 @@ import jsweet.lang.Math;
  * Concept test: Build grammar tree
  * 
  * @author peter
+ * 
+ * Output was:
+ * w9f_5_n9x0
+ * 77 39 66 5f 35 5f 6e 39 78 30 NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 
+ * ˄_s⼴5#7tlo
+ * 2c4 5f 73 2f34 35 23 37 74 6c 6f NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN  
  */
 public class TDevBuildGrammar_01
 {
@@ -37,7 +43,6 @@ public class TDevBuildGrammar_01
     
     public static void TestTree01 ()
     {
-      TAttributeSet       s;
       TCharacterClass     cc;
       jsweet.lang.String  ch;
       jsweet.lang.String  chx;

@@ -35,7 +35,7 @@ public abstract class VNode extends VBrowseable
      */
     private static class VNodeT extends VNode 
     {
-        public VNodeT ()                            {super (new TAttributeSet (null, 0, null, 0, true));}
+        public VNodeT ()                            {super (TAttributeSet.GetNullSet ());}
         protected String _CreateData (String head)  {return null;}
     }
     /**

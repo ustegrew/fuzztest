@@ -29,11 +29,50 @@ import fuzztest.generator.rule.sequence.TSequence;
 
 /**
  * @author peter
- *
+ * 
+ * Output was:
+ * 
+ * =========================================================
+ * TDevBuildGrammar_02
+ * =========================================================
+ * hello-==2
+ * hello-world=c
+ * hello-==a
+ * hello-==3
+ * hello-world=*
+ * hello-worldworld7
+ * hello-world=9
+ * hello--world4
+ * hello--world2
+ * hello--=c
+ * hello-worldhello*
+ * hello--=5
+ * hello-==*
+ * hello-hello=*
+ * hello-hello-d
+ * hello-worldhello*
+ * hello-worldworld9
+ * hello-worldhello*
+ * hello-world=*
+ * hello-==e
+ * hello-hellohello*
+ * hello-world=4
+ * hello-hello=9
+ * hello-=helloc
+ * hello-world=b
+ * hello---*
+ * hello-hello-*
+ * hello-worldworldd
+ * hello-=world0
+ * hello-world=*
+ * hello-world=8
+ * hello-world=f
+ * hello--hello*
+ * hello-hello=7
  */
 public class TDevBuildGrammar_02
 {
-    private static final int        kNumCases           = 10;
+    private static final int        kNumCases           = 1000;
     private static final int        kRecursionMax       = 5;
     private static final int        kNumRepeats         = 10;
     
@@ -53,50 +92,33 @@ public class TDevBuildGrammar_02
         
         TRepository.Clear ();
         
-        g  = new TGrammar           
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
-             );
-        r  = new TRule
-             (
-                 new TAttributeSet ("start", kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
-             );
-        c0 = new TCharacterClass    
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
-             );
+        g  = new TGrammar (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false));
+        r  = new TRule (new TAttributeSet ("start", kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false));
+        
+        l0 = new TLiteral           (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule,     kNumRepeats, false));
+        l0.SetLiteral ("hello");
+        
+        l1 = new TLiteral           (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule,     kNumRepeats, false));
+        l1.SetLiteral ("-");
+        
+        l2 = new TLiteral           (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats, false));
+        l2.SetLiteral ("world");
+        
+        l3 = new TLiteral           (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats, false));
+        l3.SetLiteral ("=");
+        
+        c0 = new TCharacterClass    (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule,     kNumRepeats, false));
         c0.AddPoint ("*");
         c0.AddRange ("0", "9");
         c0.AddRange ("a", "f");
-        l0 = new TLiteral           
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
-             );
-        l0.SetLiteral ("hello");
-        l1 = new TLiteral           
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
-             );
-        l1.SetLiteral ("-");
-        l2 = new TLiteral           
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule, kNumRepeats, false)
-             );
-        l2.SetLiteral ("world");
-        l3 = new TLiteral           
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats, false)
-             );
-        l3.SetLiteral ("=");
-        s  = new TSequence          
-             (
-                 new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kInjectInvalids, kNumRepeats, false)
-             );
+        
+        s  = new TSequence          (new TAttributeSet (null, kRecursionMax, ERuleAdhesion.kFollowRule,     kNumRepeats, false));
         s.Add (l0);
         s.Add (l1);
         s.Add (l2);
         s.Add (l3);
         s.Add (c0);
+        
         r.SetExpression (s);
         g.SetExpression (r);
         

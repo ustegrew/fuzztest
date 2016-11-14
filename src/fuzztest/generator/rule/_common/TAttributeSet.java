@@ -29,7 +29,7 @@ public class TAttributeSet
     {
         TAttributeSet ret;
         
-        ret = new TAttributeSet (null, 0, null, 0, true);
+        ret = new TAttributeSet (null, 1, null, 0, true);
         
         return ret;
     }

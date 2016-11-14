@@ -174,12 +174,91 @@ console.log(s1);         }     }     TDevBuildGrammar_01["__classname"] = "fuzzt
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * @author peter
+ * 
+ * Output was:
+ * 
+ * =========================================================
+ * TDevBuildGrammar_02
+ * =========================================================
+ * hello-==2
+ * hello-world=c
+ * hello-==a
+ * hello-==3
+ * hello-world=*
+ * hello-worldworld7
+ * hello-world=9
+ * hello--world4
+ * hello--world2
+ * hello--=c
+ * hello-worldhello*
+ * hello--=5
+ * hello-==*
+ * hello-hello=*
+ * hello-hello-d
+ * hello-worldhello*
+ * hello-worldworld9
+ * hello-worldhello*
+ * hello-world=*
+ * hello-==e
+ * hello-hellohello*
+ * hello-world=4
+ * hello-hello=9
+ * hello-=helloc
+ * hello-world=b
+ * hello---*
+ * hello-hello-*
+ * hello-worldworldd
+ * hello-=world0
+ * hello-world=*
+ * hello-world=8
+ * hello-world=f
+ * hello--hello*
+ * hello-hello=7
  */
 export class TDevBuildGrammar_02 {         
 
-static kNumCases : number = 10;          
+static kNumCases : number = 1000;          
 static kRecursionMax : number = 5;          
 static kNumRepeats : number = 10;          
 
@@ -199,50 +278,33 @@ let x : string;
 
 fuzztest.generator.TRepository.Clear();             
 
-g = new fuzztest.generator.rule.grammar.TGrammar(
+g = new fuzztest.generator.rule.grammar.TGrammar(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
+r = new fuzztest.generator.rule.rule.TRule(new fuzztest.generator.rule._common.TAttributeSet("start", TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
 
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
+l0 = new fuzztest.generator.rule.literal.TLiteral(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
+l0.SetLiteral("hello");             
 
-r = new fuzztest.generator.rule.rule.TRule(
+l1 = new fuzztest.generator.rule.literal.TLiteral(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
+l1.SetLiteral("-");             
 
-new fuzztest.generator.rule._common.TAttributeSet("start", TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
+l2 = new fuzztest.generator.rule.literal.TLiteral(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kInjectInvalids, TDevBuildGrammar_02.kNumRepeats, false));             
+l2.SetLiteral("world");             
 
-c0 = new fuzztest.generator.rule.cClass.TCharacterClass(
+l3 = new fuzztest.generator.rule.literal.TLiteral(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kInjectInvalids, TDevBuildGrammar_02.kNumRepeats, false));             
+l3.SetLiteral("=");             
 
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
-
+c0 = new fuzztest.generator.rule.cClass.TCharacterClass(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
 c0.AddPoint("*");             
 c0.AddRange("0", "9");             
 c0.AddRange("a", "f");             
-l0 = new fuzztest.generator.rule.literal.TLiteral(
 
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
-
-l0.SetLiteral("hello");             
-l1 = new fuzztest.generator.rule.literal.TLiteral(
-
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
-
-l1.SetLiteral("-");             
-l2 = new fuzztest.generator.rule.literal.TLiteral(
-
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
-
-l2.SetLiteral("world");             
-l3 = new fuzztest.generator.rule.literal.TLiteral(
-
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kInjectInvalids, TDevBuildGrammar_02.kNumRepeats, false));             
-
-l3.SetLiteral("=");             
-s = new fuzztest.generator.rule.sequence.TSequence(
-
-new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kInjectInvalids, TDevBuildGrammar_02.kNumRepeats, false));             
-
+s = new fuzztest.generator.rule.sequence.TSequence(new fuzztest.generator.rule._common.TAttributeSet(null, TDevBuildGrammar_02.kRecursionMax, fuzztest.generator.rule._common.ERuleAdhesion.kFollowRule, TDevBuildGrammar_02.kNumRepeats, false));             
 s.Add(l0);             
 s.Add(l1);             
 s.Add(l2);             
 s.Add(l3);             
 s.Add(c0);             
+
 r.SetExpression(s);             
 g.SetExpression(r);             
 
@@ -784,7 +846,7 @@ public static GetNullSet() : TAttributeSet {
 
 let ret : TAttributeSet;             
 
-ret = new TAttributeSet(null, 0, null, 0, true);             
+ret = new TAttributeSet(null, 1, null, 0, true);             
 
 return ret;         }          
 
@@ -2855,7 +2917,7 @@ this._Register();                 } else
 this._Register(key);                 }             }         }     }     VNode["__classname"] = "fuzztest.generator.rule._common.VNode";       export namespace VNode {          /**
  * A dummy class to provide a concrete derivative from the hosting abstract class.
  * Purely needed so we have something to instantiate (TClass cTor needs an object).
- */export class VNodeT extends fuzztest.generator.rule._common.VNode {             public constructor() {                 super(new fuzztest.generator.rule._common.TAttributeSet(null, 0, null, 0, true));             }              _CreateData(head : string) : string {                 return null;             }         }         VNodeT["__classname"] = "fuzztest.generator.rule._common.VNode.VNodeT";      }  } 
+ */export class VNodeT extends fuzztest.generator.rule._common.VNode {             public constructor() {                 super(fuzztest.generator.rule._common.TAttributeSet.GetNullSet());             }              _CreateData(head : string) : string {                 return null;             }         }         VNodeT["__classname"] = "fuzztest.generator.rule._common.VNode.VNodeT";      }  } 
 
 
 
@@ -5032,7 +5094,8 @@ private fLiteral : fuzztest.utils.storage.TOnceAssignable<string>;
  */
 public constructor(attributes : fuzztest.generator.rule._common.TAttributeSet) {             
 
-super(attributes);         }          
+super(attributes);             
+this.fLiteral = <any>(new fuzztest.utils.storage.TOnceAssignable<any>());         }          
 
 
 public SetLiteral(literal : string) {             

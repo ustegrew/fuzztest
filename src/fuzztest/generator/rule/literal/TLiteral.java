@@ -58,6 +58,7 @@ public class TLiteral extends VNodeProcessor
     public TLiteral (TAttributeSet attributes)
     {
         super (attributes);
+        fLiteral = new TOnceAssignable<> ();
     }
     
     public void SetLiteral (String literal)
