@@ -28,6 +28,26 @@ import fuzztest.model.abstracts.TClass;
  *               where we (currently) don't have abstract classes. 
  * 
  * @author peter
+ * 
+ * Output:
+ * 
+ * 2016-11-15 07:47:53.489 bundle.js:1838 =========================================================
+ * 2016-11-15 07:47:53.490 bundle.js:1839 TDevCreateObject_02
+ * 2016-11-15 07:47:53.490 bundle.js:1840 =========================================================
+ * 2016-11-15 07:47:53.490 bundle.js:1841 Legend: x'  means "a type derived from x" (as in calculus).
+ * 2016-11-15 07:47:53.491 bundle.js:1842       : x'^ means "a parent of a type derived from x" (i.e. x).
+ * 2016-11-15 07:47:53.491 bundle.js:1845 VBrowseable       => Inheritence chain: Object.VBrowseable
+ * 2016-11-15 07:47:53.492 bundle.js:1846 VBrowseable       => Canonical path:    fuzztest.generator.VBrowseable
+ * 2016-11-15 07:47:53.492 bundle.js:1848 VBrowseable'      => Inheritence chain: Object.VBrowseable.VNode
+ * 2016-11-15 07:47:53.492 bundle.js:1849 VBrowseable'      => Canonical path:    fuzztest.generator.rule._common.VNode
+ * 2016-11-15 07:47:53.493 bundle.js:1851 VBrowseable'      => Inheritence chain: Object.VBrowseable.VDeriv_01
+ * 2016-11-15 07:47:53.493 bundle.js:1852 VBrowseable'      => Canonical path:    fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_01
+ * 2016-11-15 07:47:53.494 bundle.js:1854 VBrowseable''     => Inheritence chain: Object.VBrowseable.VNode.VDeriv_02
+ * 2016-11-15 07:47:53.495 bundle.js:1855 VBrowseable''     => Canonical path:    fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01.TDevCreateObject_02.VDeriv_02
+ * 2016-11-15 07:47:53.495 bundle.js:1857 VBrowseable'^     => Inheritence chain: Object.VBrowseable
+ * 2016-11-15 07:47:53.496 bundle.js:1858 VBrowseable'^     => Canonical path:    fuzztest.generator.VBrowseable
+ * 2016-11-15 07:47:53.497 bundle.js:1860 VBrowseable''^    => Inheritence chain: Object.VBrowseable.VNode
+ * 2016-11-15 07:47:53.497 bundle.js:1861 VBrowseable''^    => Canonical path:    fuzztest.generator.rule._common.VNode
  */
 public class TDevCreateObject_02
 {

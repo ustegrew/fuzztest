@@ -25,6 +25,12 @@ import fuzztest.generator.rule._common.VNode;
 /**
  * @author peter
  *
+ * Output:
+ * 
+ * 2016-11-15 07:47:53.498 bundle.js:2010 =========================================================
+ * 2016-11-15 07:47:53.498 bundle.js:2011 TDevRepoDel_01::TRepoDelTest_01
+ * 2016-11-15 07:47:53.499 bundle.js:2012 =========================================================
+ * 2016-11-15 07:47:53.499 bundle.js:2013 object
  */
 public class TDevRepoDel_01
 {

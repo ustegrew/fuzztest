@@ -18,6 +18,7 @@ package fuzztest._dev_concepts.objects.construct.from_abstract_class.trial_01;
 import static jsweet.dom.Globals.console;
 
 import fuzztest.generator.TRepository;
+import fuzztest.generator.rule._common.ERuleAdhesion;
 import fuzztest.generator.rule._common.TAttributeSet;
 import fuzztest.generator.rule._common.VNode;
 import fuzztest.model.abstracts.TClass;
@@ -25,6 +26,24 @@ import fuzztest.utils.storage.TArrayList;
 
 /**
  * @author peter
+ * 
+ * Output:
+ * 
+ * 2016-11-15 08:07:38.358 bundle.js:2251 =========================================================
+ * 2016-11-15 08:07:38.358 bundle.js:2252 TDevQueryObject_01
+ * 2016-11-15 08:07:38.358 bundle.js:2253 =========================================================
+ * 2016-11-15 08:07:38.359 bundle.js:2264 keys-VNode
+ * 2016-11-15 08:07:38.359 bundle.js:2265 ---
+ * 2016-11-15 08:07:38.361 bundle.js:2270 Node_01
+ * 2016-11-15 08:07:38.361 bundle.js:2270 Node_02
+ * 2016-11-15 08:07:38.361 bundle.js:2255 ---------------------------------------------------------
+ * 2016-11-15 08:07:38.362 bundle.js:2264 keys-VNodeType01
+ * 2016-11-15 08:07:38.362 bundle.js:2265 ---
+ * 2016-11-15 08:07:38.362 bundle.js:2270 Node_01
+ * 2016-11-15 08:07:38.363 bundle.js:2257 ---------------------------------------------------------
+ * 2016-11-15 08:07:38.363 bundle.js:2264 keys-VNodeType02
+ * 2016-11-15 08:07:38.363 bundle.js:2265 ---
+ * 2016-11-15 08:07:38.364 bundle.js:2270 Node_02
  */
 public class TDevQueryObject_01
 {
@@ -56,18 +75,20 @@ public class TDevQueryObject_01
         console.log ("TDevQueryObject_01");
         console.log ("=========================================================");
         DumpKeys ("keys-VNode",         keys0);
+        console.log ("---------------------------------------------------------");
         DumpKeys ("keys-VNodeType01",   keys1);
+        console.log ("---------------------------------------------------------");
         DumpKeys ("keys-VNodeType02",   keys2);
     }
     private static class VNodeType01 extends VNode 
     {
-        protected VNodeType01 () {super (TAttributeSet.GetNullSet ());}
+        protected VNodeType01 () {super (new TAttributeSet ("Node_01", 1, ERuleAdhesion.kFollowRule, 10, false));}
         protected String _CreateData (String head){return null;}
     }
     
     private static class VNodeType02 extends VNode 
     {
-        protected VNodeType02 (){super (TAttributeSet.GetNullSet ());}
+        protected VNodeType02 (){super (new TAttributeSet ("Node_02", 1, ERuleAdhesion.kFollowRule, 10, false));}
         protected String _CreateData (String head){return null;}
     }
     

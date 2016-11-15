@@ -15,8 +15,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package fuzztest.model.abstracts;
 
-import static jsweet.dom.Globals.console;
-
 import fuzztest.utils.storage.TArrayMap;
 
 /**

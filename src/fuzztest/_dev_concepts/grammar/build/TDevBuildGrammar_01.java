@@ -16,30 +16,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package fuzztest._dev_concepts.grammar.build;
 
 import static jsweet.dom.Globals.console;
-import static jsweet.lang.Globals.eval;
 
 import fuzztest.generator.TRepository;
 import fuzztest.generator.rule._common.ERuleAdhesion;
 import fuzztest.generator.rule._common.TAttributeSet;
-import fuzztest.generator.rule._common.VNode;
 import fuzztest.generator.rule.cClass.TCharacterClass;
-import jsweet.dom.Globals;
-import jsweet.lang.Math;
 
 /**
  * Concept test: Build grammar tree
  * 
  * @author peter
  * 
- * Output was:
- * w9f_5_n9x0
- * 77 39 66 5f 35 5f 6e 39 78 30 NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 
- * ˄_s⼴5#7tlo
- * 2c4 5f 73 2f34 35 23 37 74 6c 6f NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN  
+ * Output:
+ * 
+ * 2016-11-15 08:07:38.365 bundle.js:770 =========================================================
+ * 2016-11-15 08:07:38.365 bundle.js:771 TDevBuildGrammar_01
+ * 2016-11-15 08:07:38.365 bundle.js:772 =========================================================
+ * 2016-11-15 08:07:38.371 bundle.js:786 w9f_5_n9x0
+ * 2016-11-15 08:07:38.372 bundle.js:787 77 39 66 5f 35 5f 6e 39 78 30 NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN 
+ * 2016-11-15 08:07:38.373 bundle.js:802 ˄_s⼴5#7tlo
+ * 2016-11-15 08:07:38.373 bundle.js:803 2c4 5f 73 2f34 35 23 37 74 6c 6f NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN
  */
 public class TDevBuildGrammar_01
 {
-    private static final int            kNChars = 40;
+    private static final int            kNChars = 20;
     
     public static void TestTree01 ()
     {
